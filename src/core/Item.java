@@ -20,7 +20,7 @@ public abstract class Item {
         _SubItems = new ArrayList<Item>();
     }
 
-    public abstract void Add(Item item);
+    public abstract void add(Item item);
     public abstract void Remove(Item item);
     public abstract void Rename(String newName);
     public abstract void Copy();
