@@ -35,15 +35,8 @@ public class File extends Item{
     }
 
     @Override
-    public void rename(String newName) {
-        java.io.File file = new java.io.File(_Path);
-        file.renameTo(new java.io.File(newName));
-    }
-
-    @Override
     public void delete() {
-        java.io.File file = new java.io.File(_Path);
-        file.delete();
+        _Item.delete();
 
         //TODO: check for file protection + deleted succeed or failed
     }

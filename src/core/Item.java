@@ -24,11 +24,25 @@ public abstract class Item {
      */
     protected ArrayList<Item> _SubItems;
 
+    /**
+     * Processor
+     */
+    protected java.io.File _Item;
+
+    /**
+     * Constructor
+     * @param path
+     */
     public Item(String path){
         _Path = path;
         _SubItems = new ArrayList<Item>();
+        _Item = new java.io.File(_Path);
     }
 
+    /**
+     * Get all sub items (folder only)
+     * @return
+     */
     public ArrayList<Item> getSubItems() {
         return _SubItems;
     }
@@ -49,7 +63,9 @@ public abstract class Item {
      * Rename an item
      * @param newName
      */
-    public abstract void rename(String newName);
+    public void rename(String newName) {
+        _Item.renameTo(new java.io.File(newName));
+    }
 
     /**
      * Copy an item

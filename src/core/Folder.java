@@ -5,8 +5,6 @@
 
 package core;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
@@ -30,9 +28,8 @@ public class Folder extends Item{
     @Override
     public void execute() {
         // open folder, go inside (one step)
-        java.io.File folder = new java.io.File(_Path);
-        if(folder.exists()) {
-            for(java.io.File item : folder.listFiles()) {
+        if(_Item.exists()) {
+            for(java.io.File item : _Item.listFiles()) {
                 if(item.isFile()) {
                     _SubItems.add(new File(item.getPath()));
                 }
@@ -45,17 +42,10 @@ public class Folder extends Item{
     }
 
     @Override
-    public void rename(String newName) {
-        java.io.File folder = new java.io.File(_Path);
-        folder.renameTo(new java.io.File(newName));
-    }
-
-    @Override
     public void delete() {
-        java.io.File folder = new java.io.File(_Path);
-        if(folder.exists()) {
-            deleteFiles(folder);  // delete all sub items
-            folder.delete();      // delete folder itself
+        if(_Item.exists()) {
+            deleteFiles(_Item);  // delete all sub items
+            _Item.delete();      // delete folder itself
         }
     }
     
