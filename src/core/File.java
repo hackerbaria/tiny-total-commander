@@ -28,12 +28,12 @@ public class File extends Item{
     }
 
     /**
-     * Create a new file
+     * create a new file
      * @param path
      * @return
      * @throws java.io.IOException
      */
-    public static File Create(String path) throws IOException {
+    public static File create(String path) throws IOException {
         // create a real file
         java.io.File file = new java.io.File(path);
         file.createNewFile();

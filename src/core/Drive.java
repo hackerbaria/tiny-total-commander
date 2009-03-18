@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public class Drive {
-    public static ArrayList<Folder> GetAllDrives() {
+    public static ArrayList<Folder> getAllDrives() {
         ArrayList<Folder> driveList = new ArrayList<Folder>();
 
         java.io.File[] drives = java.io.File.listRoots();

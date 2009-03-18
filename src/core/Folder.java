@@ -26,11 +26,11 @@ public class Folder extends Item{
     }
 
     /**
-     * Create a folder or multiple folders(sub folders)
+     * create a folder or multiple folders(sub folders)
      * @param path
      * @return
      */
-    public static Folder Create(String path){
+    public static Folder create(String path){
         // create folder
         java.io.File folder = new java.io.File(path);
         if(path.contains("/")) {   // folder and sub folders

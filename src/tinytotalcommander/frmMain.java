@@ -31,7 +31,7 @@ public class frmMain extends javax.swing.JFrame {
     }
 
     private void initDriveList() {
-        ArrayList<Folder> driveList = Drive.GetAllDrives();
+        ArrayList<Folder> driveList = Drive.getAllDrives();
         for(Folder drive : driveList) {
             logger.append(drive.toString());
             logger.append("\n");
@@ -139,7 +139,7 @@ public class frmMain extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-           File.Create(jTextField1.getText());
+           File.create(jTextField1.getText());
         } catch(Exception ex) {
 
         }
@@ -147,8 +147,8 @@ public class frmMain extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
-            Folder.Create(jTextField2.getText());
-            Folder.Create("F:/abc/def/gij");
+            Folder.create(jTextField2.getText());
+            Folder.create("F:/abc/def/gij");
         } catch(Exception ex) {
 
         }
@@ -156,7 +156,7 @@ public class frmMain extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
-            Folder.Create(jTextField3.getText());
+            Folder.create(jTextField3.getText());
         } catch(Exception ex) {
 
         }
