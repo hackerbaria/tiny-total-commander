@@ -5,6 +5,7 @@
 
 package core;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -26,6 +27,10 @@ public abstract class Item {
     public Item(String path){
         _Path = path;
         _SubItems = new ArrayList<Item>();
+    }
+
+    public ArrayList<Item> getSubItems() {
+        return _SubItems;
     }
 
     /**
@@ -65,7 +70,13 @@ public abstract class Item {
     /**
      * Execute an item (open if file, step inside if folder)
      */
-    public abstract void execute();
+    public abstract void execute() throws IOException;
+
+    /**
+     * Item has child or not
+     * @return
+     */
+    public abstract Boolean hasChild();
 
     /**
      * Override toString method

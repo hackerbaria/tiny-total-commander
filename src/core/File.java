@@ -28,9 +28,10 @@ public class File extends Item{
     }
 
     @Override
-    public void execute() {
-        //TODO: execute file
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void execute() throws IOException{
+        // ref: http://tinyurl.com/executefile
+        Runtime runner = Runtime.getRuntime();
+        runner.exec("cmd /c start " + _Path);
     }
 
     @Override
@@ -69,6 +70,11 @@ public class File extends Item{
         file.createNewFile();
 
         return new File(path);
+    }
+
+    @Override
+    public Boolean hasChild() {
+        return false;
     }
 
 }
