@@ -21,7 +21,7 @@ public abstract class Item {
     }
 
     public abstract void add(Item item);
-    public abstract void Remove(Item item);
+    public abstract void remove(Item item);
     public abstract void Rename(String newName);
     public abstract void Copy();
     public abstract void Move(String newPath);

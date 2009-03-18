@@ -16,12 +16,12 @@ public class Folder extends Item{
     }
 
     @Override
-    public void Add(Item item) {
+    public void add(Item item) {
         _SubItems.add(item);
     }
 
     @Override
-    public void Remove(Item item) {
+    public void remove(Item item) {
         _SubItems.remove(item);
     }
 

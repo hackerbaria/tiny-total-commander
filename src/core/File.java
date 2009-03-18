@@ -18,12 +18,12 @@ public class File extends Item{
     }
 
     @Override
-    public void Add(Item item) {
+    public void add(Item item) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void Remove(Item item) {
+    public void remove(Item item) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
