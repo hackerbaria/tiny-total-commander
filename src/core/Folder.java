@@ -31,17 +31,17 @@ public class Folder extends Item{
     public void execute() {
         // open folder, go inside (one step)
         java.io.File folder = new java.io.File(_Path);
-
-        for(java.io.File item : folder.listFiles()) {
-            if(item.isFile()) {
-                _SubItems.add(new File(item.getPath()));
+        if(folder.exists()) {
+            for(java.io.File item : folder.listFiles()) {
+                if(item.isFile()) {
+                    _SubItems.add(new File(item.getPath()));
+                }
+                else if(item.isDirectory()) {
+                    _SubItems.add(new Folder(item.getPath()));
+                    //getSubItems(list, item);
+                }
             }
-            else if(item.isDirectory()) {
-                _SubItems.add(new Folder(item.getPath()));
-                //getSubItems(list, item);
-            }
-        }
-                
+        }     
     }
 
     @Override
@@ -53,11 +53,12 @@ public class Folder extends Item{
     @Override
     public void delete() {
         java.io.File folder = new java.io.File(_Path);
-        folder.delete();
-
-        //TODO: delete non-emply folder
+        if(folder.exists()) {
+            deleteFiles(folder);  // delete all sub items
+            folder.delete();      // delete folder itself
+        }
     }
-
+    
     @Override
     public void copy() {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -90,6 +91,16 @@ public class Folder extends Item{
     @Override
     public Boolean hasChild() {
         return true;
+    }
+
+    private void deleteFiles(java.io.File folder) {
+        for (java.io.File item : folder.listFiles()) {
+            if(item.isDirectory()) {
+                deleteFiles(item);
+            }
+
+            item.delete();
+        }
     }
 
 }
