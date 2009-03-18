@@ -42,19 +42,19 @@ public class File extends Item{
     }
 
     @Override
-    public void Execute() {
+    public void execute() {
         //TODO: execute file
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void Rename(String newName) {
+    public void rename(String newName) {
         java.io.File file = new java.io.File(_Path);
         file.renameTo(new java.io.File(newName));
     }
 
     @Override
-    public void Delete() {
+    public void delete() {
         java.io.File file = new java.io.File(_Path);
         file.delete();
 
@@ -62,12 +62,12 @@ public class File extends Item{
     }
 
     @Override
-    public void Copy() {
+    public void copy() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void Move(String newPath) {
+    public void move(String newPath) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

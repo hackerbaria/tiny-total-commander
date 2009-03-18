@@ -22,12 +22,12 @@ public abstract class Item {
 
     public abstract void add(Item item);
     public abstract void remove(Item item);
-    public abstract void Rename(String newName);
-    public abstract void Copy();
-    public abstract void Move(String newPath);
-    public abstract void Delete();
+    public abstract void rename(String newName);
+    public abstract void copy();
+    public abstract void move(String newPath);
+    public abstract void delete();
 
-    public abstract void Execute();
+    public abstract void execute();
 
     @Override
     public String toString() {
