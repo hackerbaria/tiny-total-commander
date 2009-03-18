@@ -27,20 +27,6 @@ public class File extends Item{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    /**
-     * create a new file
-     * @param path
-     * @return
-     * @throws java.io.IOException
-     */
-    public static File create(String path) throws IOException {
-        // create a real file
-        java.io.File file = new java.io.File(path);
-        file.createNewFile();
-
-        return new File(path);
-    }
-
     @Override
     public void execute() {
         //TODO: execute file
@@ -69,6 +55,20 @@ public class File extends Item{
     @Override
     public void move(String newPath) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+   /**
+    * create a new file
+    * @param path
+    * @return
+    * @throws java.io.IOException
+    */
+    public static File create(String path) throws IOException {
+        // create a real file
+        java.io.File file = new java.io.File(path);
+        file.createNewFile();
+
+        return new File(path);
     }
 
 }

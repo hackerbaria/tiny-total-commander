@@ -12,6 +12,11 @@ import java.util.ArrayList;
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public class Drive {
+
+    /**
+     * Get all drives (hard drives + CD drive)
+     * @return
+     */
     public static ArrayList<Folder> getAllDrives() {
         ArrayList<Folder> driveList = new ArrayList<Folder>();
 

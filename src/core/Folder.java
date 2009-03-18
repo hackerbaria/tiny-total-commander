@@ -25,25 +25,6 @@ public class Folder extends Item{
         _SubItems.remove(item);
     }
 
-    /**
-     * create a folder or multiple folders(sub folders)
-     * @param path
-     * @return
-     */
-    public static Folder create(String path){
-        // create folder
-        java.io.File folder = new java.io.File(path);
-        if(path.contains("/")) {   // folder and sub folders
-            folder.mkdirs();
-        } else {                   // single folder
-            folder.mkdir();
-        }
-
-        //TODO: create multi folders, separator |
-
-        return new Folder(path);
-    }
-
     @Override
     public void execute() {
         //TODO: open folder, step inside
@@ -72,6 +53,25 @@ public class Folder extends Item{
     @Override
     public void move(String newPath) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * create a folder or multiple folders(sub folders)
+     * @param path
+     * @return
+     */
+    public static Folder create(String path){
+        // create folder
+        java.io.File folder = new java.io.File(path);
+        if(path.contains("/")) {   // folder and sub folders
+            folder.mkdirs();
+        } else {                   // single folder
+            folder.mkdir();
+        }
+
+        //TODO: create multi folders, separator |
+
+        return new Folder(path);
     }
 
 }
