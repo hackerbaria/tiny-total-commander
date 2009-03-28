@@ -5,7 +5,13 @@
 
 package core;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -38,36 +44,82 @@ public class File extends Item{
     public void delete() {
         _Item.delete();
 
-        //TODO: check for file protection + deleted succeed or failed
+        // TODO: check for file protection + deleted succeed or failed
     }
 
     @Override
-    public void copy() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void copy(String anotherLocation) throws IOException{
+        // create a new file
+        new File(anotherLocation).create();
+        
+        // read content from the old file and write to the new one
+        FileInputStream inStream = new FileInputStream(_Path);
+        FileOutputStream outStream = new FileOutputStream(anotherLocation);
+
+        int offset = 0;
+        int len = 1024;
+        byte[] buffer = new byte[len];
+        int numByteRead = 0;
+
+        while((numByteRead = inStream.read(buffer, offset, len)) != -1) {
+            outStream.write(buffer, offset, numByteRead);
+        }
+
+        inStream.close();
+        outStream.close();
     }
 
     @Override
-    public void move(String newPath) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    public void move(String newPath) throws IOException {
+        this.copy(newPath);
+        this.delete();
 
-   /**
-    * create a new file
-    * @param path
-    * @return
-    * @throws java.io.IOException
-    */
-    public static File create(String path) throws IOException {
-        // create a real file
-        java.io.File file = new java.io.File(path);
-        file.createNewFile();
-
-        return new File(path);
     }
 
     @Override
     public Boolean hasChild() {
         return false;
+    }
+
+    @Override
+    public void create() {
+        try {
+            _Item.createNewFile();
+        } catch (IOException ex) {
+            Logger.getLogger(File.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+
+    @Override
+    public String getContent() throws IOException{
+        StringBuilder builder = new StringBuilder();
+        
+        FileInputStream stream = new FileInputStream(_Path);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
+
+        int len = 1024;
+        int offset = 0;
+        char[] buffer = new char[len];
+        int numCharRead = 0;
+
+        do{
+            numCharRead = reader.read(buffer, offset, len);
+            builder.append(buffer);
+        }while(numCharRead >= len);
+        
+
+        return builder.toString();
+    }
+
+    @Override
+    public void zip() throws IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void unzip() throws IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

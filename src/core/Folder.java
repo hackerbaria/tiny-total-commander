@@ -5,6 +5,8 @@
 
 package core;
 
+import java.io.IOException;
+
 /**
  *
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
@@ -50,32 +52,22 @@ public class Folder extends Item{
     }
     
     @Override
-    public void copy() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void copy(String anotherLocation) throws IOException {
+        // TODO: copy folder
+
+        // create folders
+        // copy all files to new folder
+    }
+
+    private void copyInternal(java.io.File folder, String newLocation) throws IOException{
+        
     }
 
     @Override
-    public void move(String newPath) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * create a folder or multiple folders(sub folders)
-     * @param path
-     * @return
-     */
-    public static Folder create(String path){
-        // create folder
-        java.io.File folder = new java.io.File(path);
-        if(path.contains("/")) {   // folder and sub folders
-            folder.mkdirs();
-        } else {                   // single folder
-            folder.mkdir();
-        }
-
-        //TODO: create multi folders, separator |
-
-        return new Folder(path);
+    public void move(String newPath) throws IOException{
+        // make a copy then delete the old one
+        this.copy(newPath);
+        this.delete();
     }
 
     @Override
@@ -85,12 +77,40 @@ public class Folder extends Item{
 
     private void deleteFiles(java.io.File folder) {
         for (java.io.File item : folder.listFiles()) {
+            // item is folder
             if(item.isDirectory()) {
                 deleteFiles(item);
             }
-
+            // item is file
             item.delete();
         }
+    }
+
+    @Override
+    public void create() {
+        // create folder
+        if(_Path.contains("/")) {   // folder and sub folders
+            _Item.mkdirs();
+        } else {                    // single folder
+            _Item.mkdir();
+        }
+
+        // TODO: create multi folders, separator |
+    }
+
+    @Override
+    public String getContent() throws IOException {
+        throw new UnsupportedOperationException("File only.");
+    }
+
+    @Override
+    public void zip() throws IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void unzip() throws IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

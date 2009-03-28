@@ -60,23 +60,35 @@ public abstract class Item {
     public abstract void remove(Item item);
 
     /**
+     * Get content (file only)
+     * @return
+     */
+    public abstract String getContent() throws IOException;
+
+    /**
      * Rename an item
      * @param newName
      */
     public void rename(String newName) {
-        _Item.renameTo(new java.io.File(newName));
+        String partialPath = _Path.substring(0, _Path.lastIndexOf("/"));
+        _Item.renameTo(new java.io.File(partialPath + newName));
     }
+
+    /**
+     * Create an item
+     */
+    public abstract void create();
 
     /**
      * Copy an item
      */
-    public abstract void copy();
+    public abstract void copy(String anotherLocation) throws IOException;
 
     /**
      * Move an item to another place
      * @param newPath
      */
-    public abstract void move(String newPath);
+    public abstract void move(String newPath) throws IOException;
 
     /**
      * Delete item itself
@@ -87,6 +99,18 @@ public abstract class Item {
      * Execute an item (open if file, step inside if folder)
      */
     public abstract void execute() throws IOException;
+
+    /**
+     * Zip item
+     * @throws java.io.IOException
+     */
+    public abstract void zip() throws IOException;
+
+    /**
+     * Unzip item
+     * @throws java.io.IOException
+     */
+    public abstract void unzip() throws IOException;
 
     /**
      * Item has child or not
