@@ -24,7 +24,6 @@ public class Drive {
         for(java.io.File drive : drives) {
             driveList.add(new Folder(drive.getPath()));
         }
-
         return driveList;
     }
 }
