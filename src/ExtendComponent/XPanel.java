@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
@@ -50,6 +51,7 @@ public class XPanel extends JPanel{
     private JPanel containPane;
     private JTable dirTable;
     private DefaultTableModel model;
+    //AbstractTableModel absModel;
     private JScrollPane scrollpane;
 
     public void initlizeComponent()
