@@ -6,10 +6,13 @@
 package utils;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
-
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 
 
 /**
@@ -21,8 +24,9 @@ public class FileResource {
     {
         File f = new File(pathname);
         File[] files = f.listFiles();
-        int n = files.length;
-        Object[] rs = new Object[n];
+        int n = files.length;        
+        ArrayList<Object[]> dirArr = new ArrayList<Object[]>();
+        ArrayList<Object[]> firArr = new ArrayList<Object[]>();
         for(int i = 0; i < n; i++ )
         {
             Object[] item = new Object[5];
@@ -31,9 +35,26 @@ public class FileResource {
             item[2] = getSize(files[i]);
             item[3] = getDate(files[i]);
             item[4] = "";
-            rs[i] = item;
+            if(files[i].isDirectory())
+                dirArr.add(item);
+            else
+                firArr.add(item);            
         }
+        Collections.sort(dirArr, new Comparer()) ;
+        Collections.sort(firArr, new Comparer());
+        Iterator iterDir = dirArr.iterator();
+        Iterator iterFile = firArr.iterator();
+        Object[] rs = new Object[n];
+        int i = 0;
+        while(iterDir.hasNext())
+            rs[i++] = iterDir.next();
+        
+        while(iterFile.hasNext())
+            rs[i++] = iterFile.next();
+            
+        
         return rs;
+
     }
     public static String getName(File f)
     {
@@ -83,7 +104,8 @@ public class FileResource {
 	    int second = cal.get(Calendar.SECOND);
 
         String kq = "";
-        kq += date < 10 ? "0" + date :"" + date + "/";
+        kq += date < 10 ? "0" + date :"" + date;
+        kq += "/";
 	    kq += month < 10 ? "0" + month:"" + month;
 	    kq += "/" + year + " ";
 

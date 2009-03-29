@@ -21,10 +21,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
-import javax.swing.text.TableView.TableRow;
 import utils.FileResource;
 
 /**
@@ -97,8 +95,8 @@ public class XPanel extends JPanel{
         model = new DefaultTableModel(obj, columnName);
         dirTable = new JTable(model);
         dirTable.setShowGrid(false);
-        dirTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        //dirTable.setCellSelectionEnabled(false);
+        dirTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);        
+       
         dirTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e){
