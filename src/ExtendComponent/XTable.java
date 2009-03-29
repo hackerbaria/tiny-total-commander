@@ -6,10 +6,8 @@
 package ExtendComponent;
 
 import java.awt.Component;
-import java.util.Vector;
 import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 
 /**

@@ -14,7 +14,6 @@ import javax.swing.ImageIcon;
  */
 public class TextImageObj {
 
-
     private String text;
     public String getText()
     {
@@ -33,7 +32,7 @@ public class TextImageObj {
     }
     public static TextImageObj createEmptyObj()
     {
-        Icon icon = new ImageIcon("../Resource/up.gif");
+        Icon icon = new ImageIcon("Resource/up.gif");
         return new TextImageObj("[...]",icon);
     }
 }
