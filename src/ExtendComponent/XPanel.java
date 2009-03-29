@@ -17,10 +17,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
@@ -49,9 +49,8 @@ public class XPanel extends JPanel{
     private JPanel currentPathPanel;
     private JLabel currentPathLabel;
     private JPanel containPane;
-    private JTable dirTable;
-    private DefaultTableModel model;
-    //AbstractTableModel absModel;
+    private XTable dirTable;
+    private XTableModel model;
     private JScrollPane scrollpane;
 
     public void initlizeComponent()
@@ -92,10 +91,12 @@ public class XPanel extends JPanel{
         containPane.add(currentPathPanel, BorderLayout.NORTH);
 
         String[] columnName = {"Name","Ext","Size","Date","Attr"};
-        Object[][] obj = {{"1","2","3","4","5"}};
-        
-        model = new DefaultTableModel(obj, columnName);
-        dirTable = new JTable(model);
+        Object[] obj = {new TextImageObj("", null),"2","3","4","5"};
+        Vector temp = new Vector();
+        temp.add(obj);
+        model = new XTableModel(temp, columnName);
+        dirTable = new XTable(model);
+        dirTable.setRowHeight(20);
         dirTable.setShowGrid(false);
         dirTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);        
        
@@ -142,25 +143,15 @@ public class XPanel extends JPanel{
     }
     private void refreshTable(String pathname)
     {
-        removeAllRow();
-        File f = new File(pathname);
-        if(f.getParent() != null)
-        {
-            Object[] emptyRow = {"...","","","",""};
-            model.addRow(emptyRow);
-        }
-        Object[] listItem = FileResource.listFile(pathname);
-        for(int i = 0; i < listItem.length; i++)
-        {
-            Object[] item = (Object[]) listItem[i];
-            model.addRow(item);
-        }
+        removeAllRow();        
+        Vector v = FileResource.listFile(pathname);        
+        model.fillData(v);
     }
     
     private void removeAllRow()
     {
         while(model.getRowCount() > 0)
-            model.removeRow(0);
+           model.delRow(0);
     }
 
     private void dirTableRowClicked(MouseEvent e) {
@@ -168,10 +159,10 @@ public class XPanel extends JPanel{
            {
                // get Selected Row
                int rowSelectedIndex = dirTable.getSelectedRow();
-               TableModel tmodel = dirTable.getModel();
-               String name = (String) tmodel.getValueAt(rowSelectedIndex, 0);
+               TextImageObj tmodel = (TextImageObj) model.getValueAt(rowSelectedIndex, 0);
+               String name = (String) tmodel.getText();
                String fullpath = currentPathLabel.getText() ;
-               if(name.equals("..."))
+               if(name.equals("[...]"))
                {
                    int u = fullpath.lastIndexOf("\\\\");
                    String parent = fullpath.substring(0,u);
@@ -180,7 +171,7 @@ public class XPanel extends JPanel{
                }
                else {
                    fullpath = fullpath + "\\" + name;
-                   String extention = (String) tmodel.getValueAt(rowSelectedIndex, 1);
+                   String extention = (String) model.getValueAt(rowSelectedIndex, 1);
                    if(extention.length() > 1)
                        fullpath = fullpath + "." + extention;
                    File fileSelected = new File(fullpath);
