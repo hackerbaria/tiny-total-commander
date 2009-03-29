@@ -155,7 +155,7 @@ public class XPanel extends JPanel{
     }
 
     private void dirTableRowClicked(MouseEvent e) {
-           if(e.getClickCount() == 1)
+           if(e.getClickCount() == 2)
            {
                // get Selected Row
                int rowSelectedIndex = dirTable.getSelectedRow();
