@@ -33,8 +33,7 @@ public class TextImageObj {
     }
     public static TextImageObj createEmptyObj()
     {
-        Icon icon = new ImageIcon("/Resource/up.gif");
+        Icon icon = new ImageIcon("../Resource/up.gif");
         return new TextImageObj("[...]",icon);
     }
-
 }
