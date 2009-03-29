@@ -9,7 +9,7 @@ package tinytotalcommander;
  *
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
-public class Main {
+public class xMain {
 
     /**
      * @param args the command line arguments
