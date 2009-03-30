@@ -21,10 +21,9 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
 import utils.FileResource;
+import utils.Misc;
 
 /**
  *
@@ -124,14 +123,40 @@ public class XPanel extends JPanel{
     private void diskSelectedChange(ActionEvent e)
     {
         // get path
-        String selectedDisk = (String) diskList.getSelectedItem();
+        String selectedDisk = (String) diskList.getSelectedItem();        
         int u = selectedDisk.indexOf("[-");
         int v = selectedDisk.indexOf("-]");
-        String path = selectedDisk.substring(u+2, v) + ":\\";
-        diskInfo.setText(DiskResource.getInfo(path));
+        String path = selectedDisk.substring(u+2, v) + ":\\"; 
         //currentPathLabel.setText(" " + path + "*.*");
-        currentPathLabel.setText(path);
-        refreshTable(path);
+        try{
+
+             refreshTable(path);
+             // lấy thông tin của ổ đĩa vừa chọn
+             diskInfo.setText(DiskResource.getInfo(path));
+             // set lại đường dẫn hiện hành trong tab pane
+             currentPathLabel.setText(path);
+        }
+        catch(Exception ex)
+        {
+            // lấy ổ đĩa trong đường dẫn hiện hành ở label màu xanh trong tabpane
+            String s =currentPathLabel.getText().substring(0, 1);
+            // nếu drive không đọc được thì gán tên ổ đĩa đang được select lại
+            // thành ổ đĩa trước khi select change
+            diskList.setSelectedIndex(findIndex(s));
+            // xuất thông báo lỗi không đọc được ổ đĩa
+            Misc.showErrorMessageBox("Drive not found!");
+        }
+    }
+    // tìm chỉ số của ổ đĩa trong danh sách ổ đĩa trong combobox dirList
+    private int findIndex(String text)
+    {
+        for(int i = 0; i < diskList.getItemCount(); i++)
+        {
+            String item = (String)diskList.getItemAt(i);
+            if(item.indexOf(text) > 0)
+                return i;
+        }
+        return 0;
     }
     private void readDiskList()
     {
@@ -142,10 +167,12 @@ public class XPanel extends JPanel{
         diskList.setSelectedIndex(0);
     }
     private void refreshTable(String pathname)
-    {
-        removeAllRow();        
-        Vector v = FileResource.listFile(pathname);        
-        model.fillData(v);
+    {       
+        Vector v = FileResource.listFile(pathname);
+        if(v.size() > 0)
+        {        removeAllRow();
+                 model.fillData(v);
+        }        
     }
     
     private void removeAllRow()
@@ -161,7 +188,7 @@ public class XPanel extends JPanel{
                int rowSelectedIndex = dirTable.getSelectedRow();
                TextImageObj tmodel = (TextImageObj) model.getValueAt(rowSelectedIndex, 0);
                String name = (String) tmodel.getText();
-               String fullpath = currentPathLabel.getText() ;
+               String fullpath = currentPathLabel.getText();
                if(name.equals("[...]"))
                {
                    int u = fullpath.lastIndexOf("\\\\");

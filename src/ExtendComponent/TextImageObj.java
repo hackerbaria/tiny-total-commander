@@ -12,6 +12,8 @@ import javax.swing.ImageIcon;
  *
  * @author pmchanh
  */
+// đây là đối tượng sẽ được add vào cell(0) của table danh sách tập tin
+// vì ô này cần hiển thị icon của tập tin và tên của tập tin
 public class TextImageObj {
 
     private String text;
