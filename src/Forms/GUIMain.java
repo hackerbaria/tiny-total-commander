@@ -20,5 +20,4 @@ public class GUIMain {
        form.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        form.setVisible(true);
     }
-
 }

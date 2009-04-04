@@ -13,6 +13,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -29,12 +31,13 @@ import utils.Misc;
  *
  * @author pmchanh
  */
-public class XPanel extends JPanel{
+public class XPanel extends JPanel implements FocusListener{
     public XPanel()
     {
         super();
         initlizeComponent();
         readDiskList();
+        setFocusable(false);
     }
 
     private JPanel head;
@@ -51,7 +54,18 @@ public class XPanel extends JPanel{
     private XTable dirTable;
     private XTableModel model;
     private JScrollPane scrollpane;
+    private Color focusColor = Color.BLUE;
+    private Color lostfocusColor = Color.decode("#66CCFF");
 
+    public void focusGained(FocusEvent e) {
+       // displayMessage("Focus gained", e);
+        currentPathPanel.setBackground(focusColor);
+    }
+
+    public void focusLost(FocusEvent e) {
+       // displayMessage("Focus lost", e);
+        currentPathPanel.setBackground(lostfocusColor);
+    }
     public void initlizeComponent()
     {
         this.setLayout(new BorderLayout());
@@ -66,6 +80,7 @@ public class XPanel extends JPanel{
 
           diskList = new JComboBox();
           diskList.setFont(new Font("Arial", Font.PLAIN,10));
+          diskList.addFocusListener(this);
           diskList.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
@@ -79,15 +94,18 @@ public class XPanel extends JPanel{
         tabPane = new JTabbedPane();
         tabPane.setLayout(new BorderLayout());
         tabPane.setBackground(Color.WHITE);
+        tabPane.addFocusListener(this);
         
         containPane = new JPanel(new BorderLayout());
 
         currentPathPanel = new JPanel(new BorderLayout());
-        currentPathPanel.setBackground(Color.BLUE);
+        currentPathPanel.setBackground(lostfocusColor);
         currentPathLabel = new JLabel("C");
         currentPathLabel.setForeground(Color.WHITE);
-        currentPathPanel.add(currentPathLabel, BorderLayout.CENTER);
+        currentPathPanel.add(currentPathLabel, BorderLayout.CENTER);       
+        
         containPane.add(currentPathPanel, BorderLayout.NORTH);
+        
 
         String[] columnName = {"Name","Ext","Size","Date","Attr"};
         Object[] obj = {new TextImageObj("", null),"2","3","4","5"};
@@ -98,7 +116,8 @@ public class XPanel extends JPanel{
         dirTable.setRowHeight(20);
         dirTable.setShowGrid(false);
         dirTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);        
-       
+        dirTable.addFocusListener(this);
+        
         dirTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e){

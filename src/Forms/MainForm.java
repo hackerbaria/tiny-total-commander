@@ -14,7 +14,10 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.*;
 /**
  *
@@ -43,7 +46,6 @@ public class MainForm extends JFrame implements ActionListener{
     // <editor-fold defaultstate="collapsed" desc="Initialize component">
     private void InitializeComponent()
     {
-
         this.setLocation((d.width-width)/2, (d.height-height)/2);
         this.setSize(width, height);
         this.setTitle("Tiny Total Commander");
@@ -61,6 +63,13 @@ public class MainForm extends JFrame implements ActionListener{
        footPanel = createFootPanel();
        container.add(footPanel, BorderLayout.SOUTH);
 
+     /*  addWindowListener(new WindowAdapter() {
+            @Override
+           public void windowOpened(WindowEvent e)
+           {
+                leftPanel.requestFocus();
+           }
+       });*/
     }
 
     //</editor-fold>
@@ -203,21 +212,22 @@ public class MainForm extends JFrame implements ActionListener{
     private JSplitPane splitPane;
     private XPanel leftPanel;
     private XPanel rightPanel;
+    private XPanel focusPanel;
     private JPanel createMainPanel()
     {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
-        leftPanel = new ExtendComponent.XPanel();
-        leftPanel.setFocusable(true);
+        leftPanel = new ExtendComponent.XPanel();        
         rightPanel = new ExtendComponent.XPanel();       
+        
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
         splitPane.setResizeWeight(0.5);
         splitPane.setContinuousLayout(true);
         splitPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         panel.add(splitPane, BorderLayout.CENTER);
-        return panel;
+        return panel;        
     }    
 
     // <editor-fold defaultstate="collapsed" desc="Create footpanel">
