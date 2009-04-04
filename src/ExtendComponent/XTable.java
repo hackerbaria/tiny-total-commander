@@ -18,7 +18,7 @@ public class XTable extends  JTable{
     
     public XTable (XTableModel model)
     {
-        super(model);
+        super(model);      
         // render cell 0 để có thể hiển thị được đối tượng TextImageObj trong cell này
         getColumn(this.getColumnName(0)).setCellRenderer(new TableCellRenderer() {
 

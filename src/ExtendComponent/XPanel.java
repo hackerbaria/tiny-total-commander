@@ -60,11 +60,13 @@ public class XPanel extends JPanel implements FocusListener{
     public void focusGained(FocusEvent e) {
        // displayMessage("Focus gained", e);
         currentPathPanel.setBackground(focusColor);
+        dirTable.setRowSelectionAllowed(true);
     }
 
     public void focusLost(FocusEvent e) {
        // displayMessage("Focus lost", e);
         currentPathPanel.setBackground(lostfocusColor);
+        dirTable.setRowSelectionAllowed(false);
     }
     public void initlizeComponent()
     {

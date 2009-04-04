@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.*;
@@ -96,6 +97,7 @@ public class MainForm extends JFrame implements ActionListener{
 
         // menu file
         fileMenu = new JMenu("File");
+        
         fileMenu.setMnemonic(KeyEvent.VK_F);
         menuBar.add(fileMenu);
         fileMenu.add(createMenuItem("Change Attributes", "Change_Attribute"));
@@ -218,13 +220,16 @@ public class MainForm extends JFrame implements ActionListener{
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
-        leftPanel = new ExtendComponent.XPanel();        
+        leftPanel = new ExtendComponent.XPanel();
+        leftPanel.requestFocusInWindow();
         rightPanel = new ExtendComponent.XPanel();       
         
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
+        
         splitPane.setResizeWeight(0.5);
         splitPane.setContinuousLayout(true);
         splitPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        splitPane.setOneTouchExpandable( true );        
 
         panel.add(splitPane, BorderLayout.CENTER);
         return panel;        
@@ -290,6 +295,8 @@ public class MainForm extends JFrame implements ActionListener{
             System.exit(0);
         }
     }
+
+    
     
     //</editor-fold>
 }
