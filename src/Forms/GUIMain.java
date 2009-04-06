@@ -16,7 +16,7 @@ public class GUIMain {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-       frmMove form = new frmMove();
+       frmNewFile form = new frmNewFile();
        form.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        form.setVisible(true);
     }
