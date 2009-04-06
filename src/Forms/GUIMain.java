@@ -19,5 +19,6 @@ public class GUIMain {
        frmNewFile form = new frmNewFile();
        form.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        form.setVisible(true);
+       //form.show();
     }
 }

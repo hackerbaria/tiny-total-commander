@@ -29,15 +29,6 @@ public class frmNewFile extends javax.swing.JFrame {
     private static String[] FileType = {"txt", "php", "ini", "lng", "htm", "html", "bat", "reg"};
     Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
-    private void ChangeItemsComboBox(String[] Items)
-    {
-        cbType.removeAllItems();
-
-        for(String ite : Items)
-        {
-            cbType.addItem(ite);
-        }
-    }
     /** Creates new form frmNewFile */
     public frmNewFile() {
         setLocation((d.width - WIDTH)/2, (d.height - HEIGHT)/2);
@@ -77,6 +68,11 @@ public class frmNewFile extends javax.swing.JFrame {
         btnOK.setMinimumSize(new java.awt.Dimension(67, 23));
         btnOK.setName("btnOK"); // NOI18N
         btnOK.setPreferredSize(new java.awt.Dimension(67, 23));
+        btnOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOKActionPerformed(evt);
+            }
+        });
 
         btnCancel.setText("Cancel");
         btnCancel.setName("btnCancel"); // NOI18N
@@ -184,6 +180,13 @@ public class frmNewFile extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
+        // TODO add your handling code here:
+        MainForm form = new MainForm();
+        form.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        form.show();
+    }//GEN-LAST:event_btnOKActionPerformed
 
     /**
     * @param args the command line arguments

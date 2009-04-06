@@ -263,6 +263,12 @@ public class MainForm extends JFrame implements ActionListener{
         c.gridx = 4;
        JButton btn5 = createButton("F7 New Folder",KeyEvent.VK_F7);
        panel.add(btn5,c);
+       btn5.addActionListener(new java.awt.event.ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                btn5ActionPerformed(e);
+            }
+       });
 
         c.gridx = 5;
        JButton btn6 = createButton("F8 Delete",KeyEvent.VK_F8);
@@ -296,6 +302,11 @@ public class MainForm extends JFrame implements ActionListener{
         }
     }
 
+    public void btn5ActionPerformed(ActionEvent evt){
+        frmNewFile frmNew = new frmNewFile();
+        frmNew.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frmNew.show();
+    }
     
     
     //</editor-fold>
