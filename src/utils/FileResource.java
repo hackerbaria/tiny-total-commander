@@ -28,8 +28,7 @@ import sun.awt.shell.ShellFolder;
  * @author pmchanh
  */
 public class FileResource {
-    public static Vector listFile(String pathname)
-    {
+    public static Vector listFiles(String pathname) {
         File f = new File(pathname);
         File[] files = f.listFiles();
         int n = files.length;        
@@ -57,6 +56,7 @@ public class FileResource {
             else
                 firArr.add(item);            
         }
+        
         Collections.sort(dirArr, new Comparer());
         Collections.sort(firArr, new Comparer());
         Iterator iterDir = dirArr.iterator();
@@ -77,8 +77,8 @@ public class FileResource {
         return rs;
 
     }
-    public static String getName(File f)
-    {
+
+    public static String getName(File f) {
         String name = f.getName();
         if(!f.isDirectory())
         {
@@ -100,8 +100,8 @@ public class FileResource {
         }
         return extension;
     }
-    public static String getSize(File f)
-    {
+
+    public static String getSize(File f) {
 
         String rs = "<DIR>";
         if(!f.isDirectory())
@@ -109,8 +109,7 @@ public class FileResource {
         return rs;
     }
 
-    public static String getDate(File f)
-    {
+    public static String getDate(File f){
         long d = f.lastModified();
         Date datetime = new Date(d);
         TimeZone zone = TimeZone.getTimeZone("GMT+07:00");

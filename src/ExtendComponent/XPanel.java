@@ -181,7 +181,7 @@ public class XPanel extends JPanel implements FocusListener{
     
     private void refreshTable(String pathname)
     {       
-        Vector v = FileResource.listFile(pathname);
+        Vector v = FileResource.listFiles(pathname);
         if(v.size() > 0)
         {        removeAllRow();
                  model.fillData(v);
