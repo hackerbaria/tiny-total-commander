@@ -16,7 +16,7 @@ import javax.swing.table.TableCellRenderer;
  */
 public class XTable extends  JTable{
     
-    public XTable (XTableModel model)
+    public XTable (ExtendComponent.XTableModel model)
     {
         super(model);      
         // render cell 0 để có thể hiển thị được đối tượng TextImageObj trong cell này
