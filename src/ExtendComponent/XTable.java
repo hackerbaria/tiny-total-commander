@@ -37,6 +37,5 @@ public class XTable extends  JTable{
                return label;
             }
         });        
-    }
-    
+    }  
 }

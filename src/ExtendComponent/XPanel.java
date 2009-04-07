@@ -5,18 +5,9 @@
 
 package ExtendComponent;
 
-import utils.DiskResource;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Desktop;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import utils.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
@@ -24,8 +15,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.TableColumn;
-import utils.FileResource;
-import utils.Misc;
 
 /**
  *
@@ -68,8 +57,8 @@ public class XPanel extends JPanel implements FocusListener{
         currentPathPanel.setBackground(lostfocusColor);
         dirTable.setRowSelectionAllowed(false);
     }
-    public void initlizeComponent()
-    {
+    
+    public void initlizeComponent() {
         this.setLayout(new BorderLayout());
 
         head = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -89,6 +78,7 @@ public class XPanel extends JPanel implements FocusListener{
                 diskSelectedChange(e);
             }
         });
+        
         diskInfo = new JLabel("label");
         head.add(diskList);
         head.add(diskInfo);
@@ -136,20 +126,20 @@ public class XPanel extends JPanel implements FocusListener{
 
       //  foot.setBackground(Color.gray);
     }
-    private void setColumnWidth(int index, int width)
-    {
+
+    private void setColumnWidth(int index, int width) {
         TableColumn col = dirTable.getColumnModel().getColumn(index);
         col.setPreferredWidth(width);
     }
-    private void diskSelectedChange(ActionEvent e)
-    {
+
+    private void diskSelectedChange(ActionEvent e) {
         // get path
         String selectedDisk = (String) diskList.getSelectedItem();        
         int u = selectedDisk.indexOf("[-");
         int v = selectedDisk.indexOf("-]");
         String path = selectedDisk.substring(u+2, v) + ":\\"; 
         //currentPathLabel.setText(" " + path + "*.*");
-        try{
+        try {
 
              refreshTable(path);
              // lấy thông tin của ổ đĩa vừa chọn
@@ -157,17 +147,17 @@ public class XPanel extends JPanel implements FocusListener{
              // set lại đường dẫn hiện hành trong tab pane
              currentPathLabel.setText(path);
         }
-        catch(Exception ex)
-        {
+        catch(Exception ex) {
             // lấy ổ đĩa trong đường dẫn hiện hành ở label màu xanh trong tabpane
             String s =currentPathLabel.getText().substring(0, 1);
             // nếu drive không đọc được thì gán tên ổ đĩa đang được select lại
             // thành ổ đĩa trước khi select change
             diskList.setSelectedIndex(findIndex(s));
             // xuất thông báo lỗi không đọc được ổ đĩa
-            Misc.showErrorMessageBox("Drive not found!");
+            MsgboxHelper.showError("Drive not found!");
         }
     }
+
     // tìm chỉ số của ổ đĩa trong danh sách ổ đĩa trong combobox dirList
     private int findIndex(String text)
     {
@@ -179,6 +169,7 @@ public class XPanel extends JPanel implements FocusListener{
         }
         return 0;
     }
+
     private void readDiskList()
     {
         String[] disks = DiskResource.getAll();
@@ -187,6 +178,7 @@ public class XPanel extends JPanel implements FocusListener{
             diskList.insertItemAt(disks[i], i);
         diskList.setSelectedIndex(0);
     }
+    
     private void refreshTable(String pathname)
     {       
         Vector v = FileResource.listFile(pathname);

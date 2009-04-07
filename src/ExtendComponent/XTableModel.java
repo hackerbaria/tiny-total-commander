@@ -14,42 +14,44 @@ import javax.swing.table.AbstractTableModel;
  * @ref: http://www.coderanch.com/t/333947/Swing-AWT-SWT-JFace/java/Add-Row-with-AbstractTableModel
  */
 public class XTableModel extends AbstractTableModel{
-    private Vector data;
-    private String[] column;
-    public XTableModel(Vector _data, String[] _column)
-    {
-        data = _data;
-        column = _column;
+    private Vector _data;
+    private String[] _column;
+    
+    public XTableModel(Vector data, String[] column){
+        _data = data;
+        _column = column;
     }
+
     public int getRowCount() {
-                return data.size();
-            }
+        return _data.size();
+    }
 
-            public int getColumnCount() {
-                return column.length;
-            }
+    public int getColumnCount() {
+        return _column.length;
+    }
 
-            public Object getValueAt(int rowIndex, int columnIndex) {
-                return ((Object[])data.get(rowIndex))[columnIndex];
-            }
-            @Override
-            public String getColumnName(int col) {
-                return column[col];
-            }
-            public void addRow(Vector row){
-                data.addElement(row);
-                this.fireTableDataChanged();
-               
-            }
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        return ((Object[])_data.get(rowIndex))[columnIndex];
+    }
 
-            public void delRow(int numrow){
-                data.remove(numrow);
-                this.fireTableDataChanged();
-            }
-            public void fillData(Vector v)
-            {
-                data = v;
-                this.fireTableDataChanged();
-            }
+    @Override
+    public String getColumnName(int col) {
+        return _column[col];
+    }
+    
+    public void addRow(Vector row){
+        _data.addElement(row);
+        this.fireTableDataChanged();
+    }
 
+    public void delRow(int numrow){
+        _data.remove(numrow);
+        this.fireTableDataChanged();
+    }
+    
+    public void fillData(Vector v)
+    {
+        _data = v;
+        this.fireTableDataChanged();
+    }
 }
