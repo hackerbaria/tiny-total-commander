@@ -4,10 +4,7 @@
  */
 
 package Forms;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
-import utils.ThemeManager;
 /**
  *
  * @author pmchanh
@@ -21,8 +18,6 @@ public class Main {
        MainForm form = new MainForm();
        form.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        form.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-       ThemeManager.setSystemDefault(form);
 
        //form.pack();
        form.setVisible(true);

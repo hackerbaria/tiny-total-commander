@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import javax.swing.*;
+import utils.MsgboxHelper;
 /**
  *
  * @author pmchanh
@@ -96,6 +97,8 @@ public class MainForm extends JFrame implements ActionListener{
         
         fileMenu.setMnemonic(KeyEvent.VK_F);
         menuBar.add(fileMenu);
+
+        fileMenu.add(createMenuItem("New", "New_File"));
         fileMenu.add(createMenuItem("Change Attributes", "Change_Attribute"));
         fileMenu.add(createMenuItem("Properties", "Properties",KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, ActionEvent.ALT_MASK)));
         fileMenu.add(new JSeparator());
@@ -180,29 +183,30 @@ public class MainForm extends JFrame implements ActionListener{
         
         return panel;
     }
-    private JMenuItem createMenuItem(String text,String commandText, KeyStroke stroke)
-    {
+
+    private JMenuItem createMenuItem(String text,String commandText, KeyStroke stroke) {
         JMenuItem item = new JMenuItem(text);
         item.setActionCommand(commandText);
         item.setAccelerator(stroke);
         item.addActionListener(this);
         return item;
     }
-    private JMenuItem createMenuItem(String text,String commandText, int hotKey)
-    {
+
+    private JMenuItem createMenuItem(String text,String commandText, int hotKey) {
         JMenuItem item = new JMenuItem(text);
         item.setActionCommand(commandText);
         item.setMnemonic(hotKey);
         item.addActionListener(this);
         return item;
     }
-    private JMenuItem createMenuItem(String text,String commandText)
-    {
+
+    private JMenuItem createMenuItem(String text,String commandText) {
         JMenuItem item = new JMenuItem(text);
         item.setActionCommand(commandText);
         item.addActionListener(this);
         return item;
     }
+    
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Create mainpanel">
@@ -292,8 +296,13 @@ public class MainForm extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent event)
     {
         String command = event.getActionCommand();
-        if(command.equals("Exit"))
-        {
+        if(command.equals("New_File")) {
+            frmNewFile frm = new frmNewFile();
+            frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frm.setVisible(true);
+        }
+        
+        if(command.equals("Exit")) {
             System.exit(0);
         }
     }
