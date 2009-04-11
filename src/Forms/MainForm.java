@@ -6,6 +6,8 @@
 package Forms;
 
 import ExtendComponent.XPanel;
+import ExtendComponent.XPanelEvent;
+import ExtendComponent.XPanelEventListener;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -16,7 +18,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import javax.swing.*;
-import utils.MsgboxHelper;
 /**
  *
  * @author pmchanh
@@ -67,7 +68,7 @@ public class MainForm extends JFrame implements ActionListener{
            {
                 leftPanel.requestFocus();
            }
-       });*/
+       });*/        
     }
 
     //</editor-fold>
@@ -221,8 +222,22 @@ public class MainForm extends JFrame implements ActionListener{
         panel.setLayout(new BorderLayout());
 
         leftPanel = new ExtendComponent.XPanel();
-        leftPanel.requestFocusInWindow();
-        rightPanel = new ExtendComponent.XPanel();       
+        leftPanel.focusRender();
+        focusPanel = leftPanel;
+
+        leftPanel.addFocusListener(new XPanelEventListener() {
+            public void myEventOccurred(XPanelEvent evt) {
+                XuLyFocusXPanel(evt);
+            }
+        });
+        
+        rightPanel = new ExtendComponent.XPanel();
+        rightPanel.addFocusListener(new XPanelEventListener() {
+
+            public void myEventOccurred(XPanelEvent evt) {
+                XuLyFocusXPanel(evt);
+            }
+        });
         
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
         
@@ -232,9 +247,24 @@ public class MainForm extends JFrame implements ActionListener{
         splitPane.setOneTouchExpandable( true );        
 
         panel.add(splitPane, BorderLayout.CENTER);
-        return panel;        
+        return panel;
     }    
 
+    public void XuLyFocusXPanel(XPanelEvent evt)
+    {
+        if(evt.get_isFocus() == true)
+        {
+            focusPanel.lostfocusRender();
+            focusPanel = evt.get_obj();
+            focusPanel.focusRender();
+        }
+        else if (evt.get_isFocus() == false)
+        {
+            //if(this.getFocusOwner())
+            //utils.MsgboxHelper.confirm(this.getT);
+            evt.get_obj().lostfocusRender();
+        }
+    }
     // <editor-fold defaultstate="collapsed" desc="Create footpanel">
     private JPanel createFootPanel()
     {

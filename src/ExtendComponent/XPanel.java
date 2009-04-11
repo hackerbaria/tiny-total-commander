@@ -20,7 +20,7 @@ import javax.swing.table.TableColumn;
  *
  * @author pmchanh
  */
-public class XPanel extends JPanel implements FocusListener{
+public class XPanel extends JPanel implements FocusListener {
     public XPanel()
     {
         super();
@@ -45,19 +45,102 @@ public class XPanel extends JPanel implements FocusListener{
     private JScrollPane scrollpane;
     private Color focusColor = Color.BLUE;
     private Color lostfocusColor = Color.decode("#66CCFF");
+    
+ // <editor-fold defaultstate="collapsed" desc="Properties">
+    public JPanel getBody() {
+        return body;
+    }
 
+    public JPanel getContainPane() {
+        return containPane;
+    }
+
+    public JLabel getCurrentPathLabel() {
+        return currentPathLabel;
+    }
+
+    public JPanel getCurrentPathPanel() {
+        return currentPathPanel;
+    }
+
+    public XTable getDirTable() {
+        return dirTable;
+    }
+
+    public JLabel getDiskInfo() {
+        return diskInfo;
+    }
+
+    public JComboBox getDiskList() {
+        return diskList;
+    }
+
+    public Color getFocusColor() {
+        return focusColor;
+    }
+
+    public JPanel getFoot() {
+        return foot;
+    }
+
+    public JPanel getHead() {
+        return head;
+    }
+
+    public Color getLostfocusColor() {
+        return lostfocusColor;
+    }
+
+    public XTableModel getModel() {
+        return model;
+    }
+
+    public JScrollPane getScrollpane() {
+        return scrollpane;
+    }
+
+    public JTabbedPane getTabPane() {
+        return tabPane;
+    }  
+    
+    // </editor-fold>
+
+    public void addFocusListener(XPanelEventListener pel)
+    {
+        this.listenerList.add(XPanelEventListener.class, pel);
+    }
+
+    private void addGlobalFocusEvent(XPanelEvent pe)
+    {
+        Object[] listeners = this.listenerList.getListenerList();
+        for(int i = 0; i < listeners.length; i+= 2)
+            if(listeners[i] == XPanelEventListener.class)
+                ((XPanelEventListener)listeners[i+1]).myEventOccurred(pe);
+    }
     public void focusGained(FocusEvent e) {
-       // displayMessage("Focus gained", e);
+       // displayMessage("Focus gained", e);       
+        addGlobalFocusEvent(new XPanelEvent(this, true));
+
+    }
+    public void focusLost(FocusEvent e) {
+       // displayMessage("Focus lost", e);        
+        addGlobalFocusEvent(new XPanelEvent(this, false));
+    }  
+
+    // to^ background cho biet component nay dang duoc focus
+    public void focusRender()
+    {
         currentPathPanel.setBackground(focusColor);
         dirTable.setRowSelectionAllowed(true);
     }
 
-    public void focusLost(FocusEvent e) {
-       // displayMessage("Focus lost", e);
+    // to^ lai mau background cho biet component mat focus
+    public void lostfocusRender()
+    {
         currentPathPanel.setBackground(lostfocusColor);
         dirTable.setRowSelectionAllowed(false);
     }
-    
+
     public void initlizeComponent() {
         this.setLayout(new BorderLayout());
 
@@ -87,6 +170,7 @@ public class XPanel extends JPanel implements FocusListener{
         tabPane.setLayout(new BorderLayout());
         tabPane.setBackground(Color.WHITE);
         tabPane.addFocusListener(this);
+
         
         containPane = new JPanel(new BorderLayout());
 
@@ -169,7 +253,7 @@ public class XPanel extends JPanel implements FocusListener{
         }
         return 0;
     }
-
+// doc danh sach drive trong may tinh
     private void readDiskList()
     {
         String[] disks = DiskResource.getAll();
@@ -178,7 +262,8 @@ public class XPanel extends JPanel implements FocusListener{
             diskList.insertItemAt(disks[i], i);
         diskList.setSelectedIndex(0);
     }
-    
+
+    // refresh lai table hien danh sach file sau moi lan chon item
     private void refreshTable(String pathname)
     {       
         Vector v = FileResource.listFiles(pathname);
@@ -187,13 +272,14 @@ public class XPanel extends JPanel implements FocusListener{
                  model.fillData(v);
         }        
     }
-    
+
+    // xoa tat ca cac row trong table hien danh sach file
     private void removeAllRow()
     {
         while(model.getRowCount() > 0)
            model.delRow(0);
     }
-
+// xu ly su kien click vao mot dong trong table hien danh sach file
     private void dirTableRowClicked(MouseEvent e) {
            if(e.getClickCount() == 2)
            {
@@ -232,4 +318,6 @@ public class XPanel extends JPanel implements FocusListener{
 
            }
     }
+
+    
 }
