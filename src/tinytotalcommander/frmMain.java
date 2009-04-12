@@ -32,19 +32,6 @@ public class frmMain extends javax.swing.JFrame {
 
         //initDriveList();
 
-        _SelectedFile = new File(jTextField1.getText());
-        _SelectedFolder = new Folder(jTextField2.getText());
-    }
-
-    private Item _SelectedFile;
-    private Item _SelectedFolder;
-
-    private void initDriveList() {
-        ArrayList<Folder> driveList = Drive.getAllDrives();
-        for(Folder drive : driveList) {
-            logger.append(drive.toString());
-            logger.append("\n");
-        }
     }
 
     /** This method is called from within the constructor to
@@ -276,30 +263,15 @@ public class frmMain extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-           File file = new File(jTextField1.getText());
-           file.create();
-        } catch(Exception ex) {
 
-        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        try {
-            Folder folder = new Folder(jTextField2.getText());
-            folder.create();
-        } catch(Exception ex) {
 
-        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        try {
-            Folder folder = new Folder(jTextField3.getText());
-            folder.create();
-        } catch(Exception ex) {
 
-        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     // TODO: unify code File and Folder
@@ -310,95 +282,48 @@ public class frmMain extends javax.swing.JFrame {
     // }
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        try {
-            _SelectedFile.execute();
-        } catch (IOException ex) {
-            Logger.getLogger(frmMain.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        logger.removeAll();
-        
-        try {
-            _SelectedFolder.execute();
-            if(_SelectedFolder.hasChild() == true) {
-                ArrayList<Item> subItems = _SelectedFolder.getSubItems();
-                for(Item item : subItems) {
-                    logger.append(item.toString());
-                    logger.append("\n");
-                }
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(frmMain.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    // TODO: unify File and Folder
-    // _SelectedItem.delete();
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // Delete file
-        _SelectedFile.delete();
+
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // Delete folder
-        _SelectedFolder.delete();
+
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        try {
-            // View file
-            logger.setText(_SelectedFile.getContent());
-        } catch (IOException ex) {
-            Logger.getLogger(frmMain.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // Rename file
-        _SelectedFile.rename("RenamedFile.txt");
+
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        try {
-            // View folder
-            _SelectedFolder.getContent();
-        } catch (IOException ex) {
-            Logger.getLogger(frmMain.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // Rename folder
-        _SelectedFolder.rename("RenamedFolder");
+
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        try {
-            _SelectedFile.copy("F:/Copy of File.txt");
-        } catch (IOException ex) {
-            Logger.getLogger(frmMain.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        try {
-            _SelectedFile.move("C:/MovedFile.txt");
-        } catch (IOException ex) {
-            Logger.getLogger(frmMain.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        try {
-            // edit file
-            _SelectedFile.execute();
-        } catch (IOException ex) {
-            Logger.getLogger(frmMain.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
     }//GEN-LAST:event_jButton14ActionPerformed
 
     /**

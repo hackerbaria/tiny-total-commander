@@ -9,31 +9,28 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 /**
- *
+ * Đây là đối tượng sẽ được add vào cell(0) của table danh sách tập tin
+ * vì ô này cần hiển thị icon của tập tin và tên của tập tin
  * @author pmchanh
  */
-// đây là đối tượng sẽ được add vào cell(0) của table danh sách tập tin
-// vì ô này cần hiển thị icon của tập tin và tên của tập tin
 public class TextImageObj {
-
-    private String text;
-    public String getText()
-    {
-        return text;
-    }
-    private Icon icon;
-    public Icon getIcon()
-    {
-        return icon;
+    private String _text;
+    private Icon _icon;
+    
+    public String getText() {
+        return _text;
     }
 
-    public TextImageObj(String Text, Icon IconData)
-    {
-        text = Text;
-        icon = IconData;
+    public Icon getIcon() {
+        return _icon;
     }
-    public static TextImageObj createEmptyObj()
-    {
+
+    public TextImageObj(String text, Icon iconData) {
+        _text = text;
+        _icon = iconData;
+    }
+
+    public static TextImageObj createEmptyObj() {
         Icon icon = new ImageIcon("Resource/up.gif");
         return new TextImageObj("[...]",icon);
     }

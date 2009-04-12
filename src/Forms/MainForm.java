@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import javax.swing.*;
+import utils.MsgboxHelper;
 /**
  *
  * @author pmchanh
@@ -248,12 +249,18 @@ public class MainForm extends JFrame implements ActionListener{
 
         panel.add(splitPane, BorderLayout.CENTER);
         return panel;
-    }    
+    }
 
-    public void XuLyFocusXPanel(XPanelEvent evt)
-    {
-        if(evt.get_isFocus() == true)
-        {
+    /**
+     * Get current path in main form
+     * @return
+     */
+    public String getCurrentPath() {
+        return focusPanel.getCurrentPathLabel().getText();
+    }
+
+    public void XuLyFocusXPanel(XPanelEvent evt) {
+        if(evt.get_isFocus() == true) {
             focusPanel.lostfocusRender();
             focusPanel = evt.get_obj();
             focusPanel.focusRender();
@@ -296,7 +303,7 @@ public class MainForm extends JFrame implements ActionListener{
        btn5.addActionListener(new java.awt.event.ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                btn5ActionPerformed(e);
+                //btn5ActionPerformed(e);
             }
        });
 
@@ -327,7 +334,8 @@ public class MainForm extends JFrame implements ActionListener{
     {
         String command = event.getActionCommand();
         if(command.equals("New_File")) {
-            frmNewFile frm = new frmNewFile();
+            //MsgboxHelper.inform(focusPanel.getCurrentPathLabel().getText());
+            frmNewFile frm = new frmNewFile(this);
             frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frm.setVisible(true);
         }
@@ -335,14 +343,7 @@ public class MainForm extends JFrame implements ActionListener{
         if(command.equals("Exit")) {
             System.exit(0);
         }
-    }
-
-    public void btn5ActionPerformed(ActionEvent evt){
-        frmNewFile frmNew = new frmNewFile();
-        frmNew.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frmNew.show();
-    }
-    
+    }    
     
     //</editor-fold>
 }

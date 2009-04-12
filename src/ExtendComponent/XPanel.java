@@ -233,7 +233,7 @@ public class XPanel extends JPanel implements FocusListener {
         }
         catch(Exception ex) {
             // lấy ổ đĩa trong đường dẫn hiện hành ở label màu xanh trong tabpane
-            String s =currentPathLabel.getText().substring(0, 1);
+            String s = currentPathLabel.getText().substring(0, 1);
             // nếu drive không đọc được thì gán tên ổ đĩa đang được select lại
             // thành ổ đĩa trước khi select change
             diskList.setSelectedIndex(findIndex(s));
@@ -263,61 +263,68 @@ public class XPanel extends JPanel implements FocusListener {
         diskList.setSelectedIndex(0);
     }
 
-    // refresh lai table hien danh sach file sau moi lan chon item
-    private void refreshTable(String pathname)
-    {       
+    /**
+     * Refresh lai table hien danh sach file sau moi lan chon item
+     * @param pathname
+     */
+    private void refreshTable(String pathname) {
         Vector v = FileResource.listFiles(pathname);
-        if(v.size() > 0)
-        {        removeAllRow();
-                 model.fillData(v);
+        if(v.size() > 0) {
+            removeAllRow();
+            model.fillData(v);
         }        
     }
 
-    // xoa tat ca cac row trong table hien danh sach file
-    private void removeAllRow()
-    {
-        while(model.getRowCount() > 0)
+    /**
+     * Xoa tat ca cac row trong table hien danh sach file
+     */
+    private void removeAllRow() {
+        while(model.getRowCount() > 0) {
            model.delRow(0);
+        }
     }
-// xu ly su kien click vao mot dong trong table hien danh sach file
-    private void dirTableRowClicked(MouseEvent e) {
-           if(e.getClickCount() == 2)
-           {
-               // get Selected Row
-               int rowSelectedIndex = dirTable.getSelectedRow();
-               TextImageObj tmodel = (TextImageObj) model.getValueAt(rowSelectedIndex, 0);
-               String name = (String) tmodel.getText();
-               String fullpath = currentPathLabel.getText();
-               if(name.equals("[...]"))
-               {
-                   int u = fullpath.lastIndexOf("\\\\");
-                   String parent = fullpath.substring(0,u);
-                   refreshTable(parent);
-                   currentPathLabel.setText(parent + "\\");
-               }
-               else {
-                   fullpath = fullpath + "\\" + name;
-                   String extention = (String) model.getValueAt(rowSelectedIndex, 1);
-                   if(extention.length() > 1)
-                       fullpath = fullpath + "." + extention;
-                   File fileSelected = new File(fullpath);
-                   if(fileSelected.isDirectory())
-                   {
-                       refreshTable(fullpath);
-                       currentPathLabel.setText(fullpath + "\\");
-                   }
-                   else
-                   {
-                    try {
-                        Desktop.getDesktop().open(fileSelected);
-                    } catch (IOException ex) {
-                        Logger.getLogger(XPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                   }
-               }
-
-           }
-    }
-
     
+    /**
+     * Xu ly su kien click vao mot dong trong table hien danh sach file
+     * @param e
+     */
+    private void dirTableRowClicked(MouseEvent e) {
+        if(e.getClickCount() == 1) {        // single click
+            // ignore :)
+            
+        } else if(e.getClickCount() == 2) { // double click
+
+           // get selected row
+           int rowSelectedIndex = dirTable.getSelectedRow();
+           TextImageObj tmodel = (TextImageObj) model.getValueAt(rowSelectedIndex, 0);
+           String name = (String) tmodel.getText();
+           String fullpath = currentPathLabel.getText();
+
+           if(name.equals("[...]")) {
+               int u = fullpath.lastIndexOf("\\\\");
+               String parent = fullpath.substring(0,u);
+               refreshTable(parent);
+               currentPathLabel.setText(parent + "\\");
+           } else {
+               fullpath = fullpath + "\\" + name;
+               String extention = (String) model.getValueAt(rowSelectedIndex, 1);
+
+               if(extention.length() > 1) {
+                   fullpath = fullpath + "." + extention;
+               }
+               
+               File fileSelected = new File(fullpath);
+               if(fileSelected.isDirectory()) {
+                   refreshTable(fullpath);
+                   currentPathLabel.setText(fullpath + "\\");
+               } else {
+                   try {
+                       Desktop.getDesktop().open(fileSelected);
+                   } catch (IOException ex) {
+                       Logger.getLogger(XPanel.class.getName()).log(Level.SEVERE, null, ex);
+                   }
+               }
+           }
+        }
+    } 
 }

@@ -113,7 +113,7 @@ public class frmCopy extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        // TODO add your handling code here:
+        // close the form
         System.exit(0);
     }//GEN-LAST:event_jButton2MouseClicked
 

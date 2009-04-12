@@ -11,10 +11,10 @@
 
 package Forms;
 
+import core.*;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import javax.swing.DefaultComboBoxModel;
-
+import java.io.IOException;
 
 /**
  *
@@ -22,15 +22,15 @@ import javax.swing.DefaultComboBoxModel;
  */
 public class frmNewFile extends javax.swing.JFrame {
 
-    private static String[] DirType = {"Normal", "Hidden"};
-    private static String[] FileType = {"txt", "php", "ini", "lng", "htm", "html", "bat", "reg"};
     Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+    private MainForm _frmMain;
 
     /** Creates new form frmNewFile */
-    public frmNewFile() {
+    public frmNewFile(MainForm frmMain) {
         setLocation((d.width - WIDTH)/2, (d.height - HEIGHT)/2);
-        initComponents();
+        _frmMain = frmMain;
         
+        initComponents(); 
     }
 
     /** This method is called from within the constructor to
@@ -43,22 +43,16 @@ public class frmNewFile extends javax.swing.JFrame {
     private void initComponents() {
 
         txtFileLink = new javax.swing.JTextField();
-        cbType = new javax.swing.JComboBox();
         btnOK = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
-        tbtnDirectory = new javax.swing.JToggleButton();
-        tbtnFile = new javax.swing.JToggleButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Create New Folder");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
 
-        txtFileLink.setText("New Directory");
         txtFileLink.setName("txtFileName"); // NOI18N
-
-        cbType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Normal", "Hidden" }));
-        cbType.setName("cbFileExt"); // NOI18N
 
         btnOK.setLabel("OK");
         btnOK.setMaximumSize(new java.awt.Dimension(67, 23));
@@ -79,20 +73,7 @@ public class frmNewFile extends javax.swing.JFrame {
             }
         });
 
-        tbtnDirectory.setSelected(true);
-        tbtnDirectory.setText("Directory");
-        tbtnDirectory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tbtnDirectoryActionPerformed(evt);
-            }
-        });
-
-        tbtnFile.setText("File");
-        tbtnFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tbtnFileActionPerformed(evt);
-            }
-        });
+        jLabel1.setText("New File");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -100,108 +81,52 @@ public class frmNewFile extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tbtnDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(tbtnFile, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(160, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(txtFileLink, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(174, Short.MAX_VALUE)
-                .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtFileLink, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(5, 5, 5)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtFileLink, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tbtnDirectory)
-                    .addComponent(tbtnFile))
-                .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtFileLink, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tbtnDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbtnDirectoryActionPerformed
-        // TODO add your handling code here:
-        if(tbtnDirectory.isSelected() == true){
-            //jToggleButton1.setSelected(true);
-            tbtnFile.setSelected(false);
-
-            txtFileLink.setText("New Directory");
-
-            cbType.setEditable(false);
-            cbType.setModel(new DefaultComboBoxModel(DirType));
-
-            //ChangeItemsComboBox(DirType);
-        }
-        else{
-            tbtnDirectory.setSelected(true);
-        }
-}//GEN-LAST:event_tbtnDirectoryActionPerformed
-
-    private void tbtnFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbtnFileActionPerformed
-        // TODO add your handling code here:
-        if(tbtnFile.isSelected() == true){
-            //jToggleButton2.setSelected(true);
-            tbtnDirectory.setSelected(false);
-
-            txtFileLink.setText("New File");
-
-            cbType.setEditable(true);
-            cbType.setModel(new DefaultComboBoxModel(FileType));
-            //ChangeItemsComboBox(FileType);
-        }
-        else {
-            tbtnFile.setSelected(true);
-        }
-}//GEN-LAST:event_tbtnFileActionPerformed
-
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
-        System.exit(0);
+        // close form
+        this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
-        // TODO add your handling code here:
-        MainForm form = new MainForm();
-        form.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        form.show();
+        try {
+            // create file then close form
+            XFile.create(_frmMain.getCurrentPath() + txtFileLink.getText());
+            this.dispose();
+        } catch(IOException ex) {
+            // ignore
+        }
     }//GEN-LAST:event_btnOKActionPerformed
 
-    /**
-    * @param args the command line arguments
-    */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new frmNewFile().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnOK;
-    private javax.swing.JComboBox cbType;
-    private javax.swing.JToggleButton tbtnDirectory;
-    private javax.swing.JToggleButton tbtnFile;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField txtFileLink;
     // End of variables declaration//GEN-END:variables
 
