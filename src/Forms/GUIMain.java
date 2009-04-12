@@ -4,6 +4,8 @@
  */
 
 package Forms;
+
+import javax.swing.*;
 /**
  *
  * @author Spazee
@@ -14,9 +16,9 @@ public class GUIMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-       //frmNewFile form = new frmNewFile();
-       //form.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       //form.setVisible(true);
+       frmCopy form = new frmCopy();
+       form.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       form.setVisible(true);
        //form.show();
     }
 }
