@@ -7,7 +7,7 @@ package utils;
 import javax.swing.*;
 /**
  *
- * @author pmchanh
+ * @author @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public class MsgboxHelper
 {

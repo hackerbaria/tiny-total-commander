@@ -105,18 +105,17 @@ public class XPanel extends JPanel implements FocusListener {
     
     // </editor-fold>
 
-    public void addFocusListener(XPanelEventListener pel)
-    {
+    public void addFocusListener(XPanelEventListener pel) {
         this.listenerList.add(XPanelEventListener.class, pel);
     }
 
-    private void addGlobalFocusEvent(XPanelEvent pe)
-    {
+    private void addGlobalFocusEvent(XPanelEvent pe) {
         Object[] listeners = this.listenerList.getListenerList();
         for(int i = 0; i < listeners.length; i+= 2)
             if(listeners[i] == XPanelEventListener.class)
                 ((XPanelEventListener)listeners[i+1]).myEventOccurred(pe);
     }
+    
     public void focusGained(FocusEvent e) {
        // displayMessage("Focus gained", e);       
         addGlobalFocusEvent(new XPanelEvent(this, true));
@@ -267,7 +266,7 @@ public class XPanel extends JPanel implements FocusListener {
      * Refresh lai table hien danh sach file sau moi lan chon item
      * @param pathname
      */
-    private void refreshTable(String pathname) {
+    public void refreshTable(String pathname) {
         Vector v = FileResource.listFiles(pathname);
         if(v.size() > 0) {
             removeAllRow();

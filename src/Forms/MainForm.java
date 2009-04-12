@@ -8,6 +8,7 @@ package Forms;
 import ExtendComponent.XPanel;
 import ExtendComponent.XPanelEvent;
 import ExtendComponent.XPanelEventListener;
+import core.XFile;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -17,8 +18,13 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import utils.MsgboxHelper;
+import utils.MyEvent;
+import utils.MyEventListener;
 /**
  *
  * @author pmchanh
@@ -82,7 +88,7 @@ public class MainForm extends JFrame implements ActionListener{
     private JMenu showMenu;
     private JMenu configMenu;
     private JMenu helpMenu;
-    private JMenuItem menuItem;
+    private JMenu temporaryMenu;
     private JToolBar mainToolbar;
     
     private JPanel createHeadPanel()
@@ -100,7 +106,6 @@ public class MainForm extends JFrame implements ActionListener{
         fileMenu.setMnemonic(KeyEvent.VK_F);
         menuBar.add(fileMenu);
 
-        fileMenu.add(createMenuItem("New", "New_File"));
         fileMenu.add(createMenuItem("Change Attributes", "Change_Attribute"));
         fileMenu.add(createMenuItem("Properties", "Properties",KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, ActionEvent.ALT_MASK)));
         fileMenu.add(new JSeparator());
@@ -165,6 +170,15 @@ public class MainForm extends JFrame implements ActionListener{
         helpMenu.add(new JSeparator());
         helpMenu.add(createMenuItem("About", "about"));
         // ~help menu
+
+        // temporary menu
+        temporaryMenu = new JMenu("Temporary");
+        menuBar.add(temporaryMenu);
+
+        temporaryMenu.add(createMenuItem("New File", "New_File"));
+
+
+
         //~setup menu
 
         //setup toolbar
@@ -259,6 +273,19 @@ public class MainForm extends JFrame implements ActionListener{
         return focusPanel.getCurrentPathLabel().getText();
     }
 
+    private void refresh(String path) {
+
+        if(leftPanel.getCurrentPathLabel().getText().equals(
+                                  rightPanel.getCurrentPathLabel().getText())) {
+            leftPanel.refreshTable(path);
+            rightPanel.refreshTable(path);
+        } else {
+            focusPanel.refreshTable(path);
+        }
+
+        
+    }
+
     public void XuLyFocusXPanel(XPanelEvent evt) {
         if(evt.get_isFocus() == true) {
             focusPanel.lostfocusRender();
@@ -330,14 +357,26 @@ public class MainForm extends JFrame implements ActionListener{
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Event Processing">
-    public void actionPerformed(ActionEvent event)
-    {
+    public void actionPerformed(ActionEvent event) {
         String command = event.getActionCommand();
         if(command.equals("New_File")) {
             //MsgboxHelper.inform(focusPanel.getCurrentPathLabel().getText());
             frmNewFile frm = new frmNewFile(this);
             frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frm.setVisible(true);
+            frm.addMyEventListener(new MyEventListener() {
+                
+                public void myEventOccurred(MyEvent evt) {
+                    String fullPath = getCurrentPath() + evt.getData();
+                    try {
+                        XFile.create(fullPath);
+                    } catch (IOException ex) {
+                        Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    refresh(getCurrentPath());
+
+                }
+            });
         }
         
         if(command.equals("Exit")) {

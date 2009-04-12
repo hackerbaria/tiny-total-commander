@@ -11,7 +11,7 @@ import java.util.EventListener;
  *
  * @author pmchanh
  */
-public interface XPanelEventListener extends   EventListener{
+public interface XPanelEventListener extends EventListener {
     public void myEventOccurred(XPanelEvent evt);
 }
 
