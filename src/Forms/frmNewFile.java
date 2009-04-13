@@ -29,11 +29,11 @@ public class frmNewFile extends javax.swing.JFrame {
         listenerList.remove(MyEventListener.class, evt);
     }
 
-    public frmNewFile(MainForm frmMain) {
+    public frmNewFile() {
         initComponents();
         
-        getRootPane().setDefaultButton(btnOK);
-        setLocationRelativeTo(this);
+        getRootPane().setDefaultButton(btnOK);  // set default button
+        setLocationRelativeTo(this);            // center the form
     }
 
     /** This method is called from within the constructor to

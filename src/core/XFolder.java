@@ -15,7 +15,7 @@ public class XFolder {
     /**
      * Create a new folder
      */
-    public static void create(String path) {
+    public static void create(String path) throws IOException {
         java.io.File file = new java.io.File(path);
 
         // create folder

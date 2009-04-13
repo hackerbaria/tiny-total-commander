@@ -9,6 +9,7 @@ import ExtendComponent.XPanel;
 import ExtendComponent.XPanelEvent;
 import ExtendComponent.XPanelEventListener;
 import core.XFile;
+import core.XFolder;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -176,6 +177,7 @@ public class MainForm extends JFrame implements ActionListener{
         menuBar.add(temporaryMenu);
 
         temporaryMenu.add(createMenuItem("New File", "New_File"));
+        temporaryMenu.add(createMenuItem("New Folder", "New_Folder"));
 
 
 
@@ -360,29 +362,57 @@ public class MainForm extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent event) {
         String command = event.getActionCommand();
         if(command.equals("New_File")) {
-            //MsgboxHelper.inform(focusPanel.getCurrentPathLabel().getText());
-            frmNewFile frm = new frmNewFile(this);
-            frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frm.setVisible(true);
-            frm.addMyEventListener(new MyEventListener() {
-                
-                public void myEventOccurred(MyEvent evt) {
-                    String fullPath = getCurrentPath() + evt.getData();
-                    try {
-                        XFile.create(fullPath);
-                    } catch (IOException ex) {
-                        Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    refresh(getCurrentPath());
+            newFile();
+        }
 
-                }
-            });
+        if(command.equals("New_Folder")) {
+            newFolder();
         }
         
         if(command.equals("Exit")) {
             System.exit(0);
         }
-    }    
+    }
     
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Functions">
+    private void newFile() {
+        frmNewFile frm = new frmNewFile();
+        frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frm.setVisible(true);
+        frm.addMyEventListener(new MyEventListener() {
+
+            public void myEventOccurred(MyEvent evt) {
+                String fullPath = getCurrentPath() + evt.getData();
+                try {
+                    XFile.create(fullPath);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                refresh(getCurrentPath());
+
+            }
+        });
+    }
+
+    private void newFolder() {
+        frmNewFolder frm = new frmNewFolder();
+        frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frm.setVisible(true);
+        frm.addMyEventListener(new MyEventListener() {
+
+            public void myEventOccurred(MyEvent evt) {
+                String fullPath = getCurrentPath() + evt.getData();
+                try {
+                    XFolder.create(fullPath);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                refresh(getCurrentPath());
+
+            }
+        });
+    }
     //</editor-fold>
 }
