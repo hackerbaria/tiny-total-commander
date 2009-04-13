@@ -427,8 +427,8 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void viewFile() {
-        frmViewFile frm = new frmViewFile(this);
-        frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frmViewFile frm = new frmViewFile(getSelectedItemPath());
+        frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setVisible(true);
     }
     //</editor-fold>

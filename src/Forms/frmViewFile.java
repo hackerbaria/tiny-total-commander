@@ -21,24 +21,18 @@ import java.util.logging.Logger;
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public class frmViewFile extends javax.swing.JFrame {
-    private MainForm _frmMain;
     
     /** Creates new form frmViewFile */
-    public frmViewFile(MainForm frmMain){
+    public frmViewFile(String path){
         initComponents();
         setLocationRelativeTo(this);            // center the form
-
-        _frmMain = frmMain;
+        
         try {
-            readFile();
+            setTitle(getTitle() + " - [" + path + "]");
+            txtContent.setText(XFile.getContent(path));
         } catch (IOException ex) {
             Logger.getLogger(frmViewFile.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    private void readFile() throws IOException {
-        setTitle(getTitle() + " - [" + _frmMain.getSelectedItemPath() + "]");
-        txtContent.setText(XFile.getContent(_frmMain.getSelectedItemPath()));
     }
 
     /** This method is called from within the constructor to
