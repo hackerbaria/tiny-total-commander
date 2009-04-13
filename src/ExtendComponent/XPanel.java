@@ -191,7 +191,7 @@ public class XPanel extends JPanel implements FocusListener {
         _dirTable = new XTable(_model);
         _dirTable.setRowHeight(20);
         _dirTable.setShowGrid(false);
-        _dirTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        _dirTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         _dirTable.addFocusListener(this);
         
         _dirTable.addMouseListener(new MouseAdapter() {
