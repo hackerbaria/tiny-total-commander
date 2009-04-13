@@ -20,9 +20,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import utils.FileHelper;
+import utils.MsgboxHelper;
 import utils.MyEvent;
 import utils.MyEventListener;
 /**
@@ -337,6 +340,7 @@ public class MainForm extends JFrame implements ActionListener{
             evt.get_obj().lostfocusRender();
         }
     }
+    
     // <editor-fold defaultstate="collapsed" desc="Create footpanel">
     private JPanel createFootPanel()
     {
@@ -405,6 +409,8 @@ public class MainForm extends JFrame implements ActionListener{
             viewFile();
         } else if(command.equals("Rename_File")) {
             renameFile();
+        } else if(command.equals("Delete_File")) {
+            deleteFile();
         } else if(command.equals("Copy_File")) {
             copyFile();
         } else if(command.equals("Exit")) {
@@ -478,7 +484,22 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void deleteFile() {
-        // TODO: delete file(s)
+        ArrayList<String> selectedItems = focusPanel.getSelectedItems();
+        for(String item : selectedItems) {
+            MsgboxHelper.inform(item);
+            if(FileHelper.isFile(item)) {
+                try {
+                    XFile.delete(item);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            else if(FileHelper.isFolder(item)) {
+                XFolder.delete(item);
+            }
+        }
+
+        refresh();
     }
 
     private void copyFile() {

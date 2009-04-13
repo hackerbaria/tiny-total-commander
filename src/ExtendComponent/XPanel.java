@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -193,7 +194,6 @@ public class XPanel extends JPanel implements FocusListener {
         _dirTable.setShowGrid(false);
         _dirTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         _dirTable.addFocusListener(this);
-        
         _dirTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e){
@@ -294,6 +294,24 @@ public class XPanel extends JPanel implements FocusListener {
         while(_model.getRowCount() > 0) {
            _model.delRow(0);
         }
+    }
+
+    public ArrayList<String> getSelectedItems() {
+        ArrayList<String> selectedItems = new ArrayList<String>();
+        
+        int[] selectedRows = _dirTable.getSelectedRows();
+        for(int row : selectedRows) {
+            TextImageObj tmodel = (TextImageObj) _model.getValueAt(row, 0);
+            String name = (String) tmodel.getText();
+            String ext = (String) _model.getValueAt(row, 1);
+            if(ext.length() > 1) {
+                selectedItems.add(_currentPathLabel.getText() + name + "." + ext);
+            } else {
+                selectedItems.add(_currentPathLabel.getText() + name);
+            }
+        }
+
+        return selectedItems;
     }
 
     public String getSelectedItemPath() {
