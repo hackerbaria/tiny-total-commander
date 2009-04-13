@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import utils.MsgboxHelper;
 import utils.MyEvent;
 import utils.MyEventListener;
 /**
@@ -179,6 +178,8 @@ public class MainForm extends JFrame implements ActionListener{
         temporaryMenu.add(createMenuItem("New File", "New_File"));
         temporaryMenu.add(createMenuItem("View File", "View_File"));
         temporaryMenu.add(createMenuItem("Rename File", "Rename_File"));
+        temporaryMenu.add(createMenuItem("Delete File", "Delete_File"));
+        temporaryMenu.add(createMenuItem("Copy File", "Copy_File"));
         temporaryMenu.add(new JSeparator());
         temporaryMenu.add(createMenuItem("New Folder", "New_Folder"));
 
@@ -298,17 +299,29 @@ public class MainForm extends JFrame implements ActionListener{
      * Refresh 
      * @param path
      */
-    private void refresh(String path) {
+    private void refresh() {
 
         if(leftPanel.getCurrentPathLabel().getText().equals(
-                                  rightPanel.getCurrentPathLabel().getText())) {
-            leftPanel.refreshTable(path);
-            rightPanel.refreshTable(path);
+                                  focusPanel.getCurrentPathLabel().getText())) {
+            focusPanel.refreshTable(getCurrentPath());
+            rightPanel.refreshTable(getLostFocusPath());
         } else {
-            focusPanel.refreshTable(path);
+            focusPanel.refreshTable(getCurrentPath());
+            leftPanel.refreshTable(getLostFocusPath());
         }
+    }
 
-        
+    /**
+     * Get item path on lost focus panel
+     * @return
+     */
+    private String getLostFocusPath() {
+        if(leftPanel.getCurrentPathLabel().getText().equals(
+                                focusPanel.getCurrentPathLabel().getText())) {
+            return rightPanel.getCurrentPathLabel().getText();
+
+        }
+        return leftPanel.getCurrentPathLabel().getText();
     }
 
     public void XuLyFocusXPanel(XPanelEvent evt) {
@@ -392,6 +405,8 @@ public class MainForm extends JFrame implements ActionListener{
             viewFile();
         } else if(command.equals("Rename_File")) {
             renameFile();
+        } else if(command.equals("Copy_File")) {
+            copyFile();
         } else if(command.equals("Exit")) {
             System.exit(0);
         }
@@ -413,7 +428,7 @@ public class MainForm extends JFrame implements ActionListener{
                 } catch (IOException ex) {
                     Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                refresh(getCurrentPath());
+                refresh();
 
             }
         });
@@ -432,7 +447,7 @@ public class MainForm extends JFrame implements ActionListener{
                 } catch (IOException ex) {
                     Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                refresh(getCurrentPath());
+                refresh();
 
             }
         });
@@ -457,7 +472,29 @@ public class MainForm extends JFrame implements ActionListener{
                 } catch (IOException ex) {
                     Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                refresh(getCurrentPath());
+                refresh();
+            }
+        });
+    }
+
+    private void deleteFile() {
+        // TODO: delete file(s)
+    }
+
+    private void copyFile() {
+        frmCopy frm = new frmCopy(getLostFocusPath() + getSelectedItemFileName(true));
+        frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frm.setVisible(true);
+        frm.addMyEventListener(new MyEventListener() {
+
+            public void myEventOccurred(MyEvent evt) {
+                String fullPath = evt.getData();
+                try {
+                    XFile.copy(getSelectedItemPath(), fullPath);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                refresh();
 
             }
         });
