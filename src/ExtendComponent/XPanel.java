@@ -295,6 +295,18 @@ public class XPanel extends JPanel implements FocusListener {
            _model.delRow(0);
         }
     }
+
+    public String getSelectedItemPath() {
+       int rowSelectedIndex = _dirTable.getSelectedRow();
+       TextImageObj tmodel = (TextImageObj) _model.getValueAt(rowSelectedIndex, 0);
+       String name = (String) tmodel.getText();
+       String extention = (String) _model.getValueAt(rowSelectedIndex, 1);
+       if(extention.length() > 1) {
+           return _currentPathLabel.getText() + name + "." + extention;
+       }
+       
+       return _currentPathLabel.getText() + name;
+    }
     
     /**
      * Xu ly su kien click vao mot dong trong table hien danh sach file

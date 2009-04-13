@@ -178,6 +178,7 @@ public class MainForm extends JFrame implements ActionListener{
 
         temporaryMenu.add(createMenuItem("New File", "New_File"));
         temporaryMenu.add(createMenuItem("New Folder", "New_Folder"));
+        temporaryMenu.add(createMenuItem("View File", "View_File"));
 
 
 
@@ -275,6 +276,18 @@ public class MainForm extends JFrame implements ActionListener{
         return focusPanel.getCurrentPathLabel().getText();
     }
 
+    /**
+     * Get selected item's path
+     * @return
+     */
+    public String getSelectedItemPath() {
+        return focusPanel.getSelectedItemPath();
+    }
+
+    /**
+     * Refresh 
+     * @param path
+     */
     private void refresh(String path) {
 
         if(leftPanel.getCurrentPathLabel().getText().equals(
@@ -363,13 +376,11 @@ public class MainForm extends JFrame implements ActionListener{
         String command = event.getActionCommand();
         if(command.equals("New_File")) {
             newFile();
-        }
-
-        if(command.equals("New_Folder")) {
+        } else if(command.equals("New_Folder")) {
             newFolder();
-        }
-        
-        if(command.equals("Exit")) {
+        } else if(command.equals("View_File")) {
+            viewFile();
+        } else if(command.equals("Exit")) {
             System.exit(0);
         }
     }
@@ -413,6 +424,12 @@ public class MainForm extends JFrame implements ActionListener{
 
             }
         });
+    }
+
+    private void viewFile() {
+        frmViewFile frm = new frmViewFile(this);
+        frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frm.setVisible(true);
     }
     //</editor-fold>
 }

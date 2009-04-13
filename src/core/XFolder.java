@@ -19,13 +19,11 @@ public class XFolder {
         java.io.File file = new java.io.File(path);
 
         // create folder
-        if(path.contains("/")) {   // folder and sub folders
+        if(path.contains("\\")) {   // folder and sub folders
             file.mkdirs();
-        } else {                   // single folder
+        } else {                    // single folder
             file.mkdir();
         }
-
-        // TODO: create multi folders, separator |
     }
 
      /**

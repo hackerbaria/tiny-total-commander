@@ -11,15 +11,34 @@
 
 package Forms;
 
+import core.XFile;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public class frmViewFile extends javax.swing.JFrame {
-
+    private MainForm _frmMain;
+    
     /** Creates new form frmViewFile */
-    public frmViewFile() {
+    public frmViewFile(MainForm frmMain){
         initComponents();
+        setLocationRelativeTo(this);            // center the form
+
+        _frmMain = frmMain;
+        try {
+            readFile();
+        } catch (IOException ex) {
+            Logger.getLogger(frmViewFile.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void readFile() throws IOException {
+        setTitle(getTitle() + " - [" + _frmMain.getSelectedItemPath() + "]");
+        txtContent.setText(XFile.getContent(_frmMain.getSelectedItemPath()));
     }
 
     /** This method is called from within the constructor to
@@ -32,14 +51,15 @@ public class frmViewFile extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtContent = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("View File");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtContent.setColumns(20);
+        txtContent.setEditable(false);
+        txtContent.setRows(5);
+        jScrollPane1.setViewportView(txtContent);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -47,34 +67,23 @@ public class frmViewFile extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-    * @param args the command line arguments
-    */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new frmViewFile().setVisible(true);
-            }
-        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea txtContent;
     // End of variables declaration//GEN-END:variables
 
 }

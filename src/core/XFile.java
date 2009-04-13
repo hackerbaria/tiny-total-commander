@@ -76,20 +76,17 @@ public class XFile {
     public static String getContent(String filePath) throws IOException{
         StringBuilder builder = new StringBuilder();
 
-        FileInputStream stream = new FileInputStream(filePath);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
+        BufferedReader reader = new BufferedReader(new FileReader(filePath));
+        try {
+            String line = null;
 
-        int len = 1024;
-        int offset = 0;
-        char[] buffer = new char[len];
-        int numCharRead = 0;
-
-        // TODO: buffer (trash content)
-        
-        do{
-            numCharRead = reader.read(buffer, offset, len);
-            builder.append(buffer);
-        }while(numCharRead >= len);
+            while((line = reader.readLine()) != null) {
+                builder.append(line);
+                builder.append(System.getProperty("line.separator"));
+            }
+        } catch(Exception ex) {
+            // ignore :)
+        }
 
         return builder.toString();
     }
