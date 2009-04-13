@@ -177,9 +177,10 @@ public class MainForm extends JFrame implements ActionListener{
         menuBar.add(temporaryMenu);
 
         temporaryMenu.add(createMenuItem("New File", "New_File"));
-        temporaryMenu.add(createMenuItem("New Folder", "New_Folder"));
         temporaryMenu.add(createMenuItem("View File", "View_File"));
-
+        temporaryMenu.add(createMenuItem("Rename File", "Rename_File"));
+        temporaryMenu.add(new JSeparator());
+        temporaryMenu.add(createMenuItem("New Folder", "New_Folder"));
 
 
         //~setup menu
@@ -285,6 +286,15 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     /**
+     * Get selected item file name (with or without extension)
+     * @param withExt
+     * @return
+     */
+    public String getSelectedItemFileName(Boolean withExt) {
+        return focusPanel.getSelectedItemFileName(withExt);
+    }
+
+    /**
      * Refresh 
      * @param path
      */
@@ -380,6 +390,8 @@ public class MainForm extends JFrame implements ActionListener{
             newFolder();
         } else if(command.equals("View_File")) {
             viewFile();
+        } else if(command.equals("Rename_File")) {
+            renameFile();
         } else if(command.equals("Exit")) {
             System.exit(0);
         }
@@ -431,5 +443,25 @@ public class MainForm extends JFrame implements ActionListener{
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setVisible(true);
     }
+
+    private void renameFile() {
+        frmRenameFile frm = new frmRenameFile(getSelectedItemFileName(true));
+        frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frm.setVisible(true);
+        frm.addMyEventListener(new MyEventListener() {
+
+            public void myEventOccurred(MyEvent evt) {
+                String fullPath = getCurrentPath() + evt.getData();
+                try {
+                    XFile.rename(getSelectedItemPath(), fullPath);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                refresh(getCurrentPath());
+
+            }
+        });
+    }
+
     //</editor-fold>
 }

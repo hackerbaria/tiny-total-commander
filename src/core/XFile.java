@@ -94,14 +94,9 @@ public class XFile {
     /**
      * Rename a file
      */
-    public static void rename(String oldName, String newName) {
-        java.io.File file = new java.io.File(oldName);
-
-        // get partial path (parent folder)
-        String partialPath = oldName.substring(0, oldName.lastIndexOf("/"));
-
-        // rename
-        file.renameTo(new java.io.File(partialPath + newName));
+    public static void rename(String oldPath, String newPath) throws IOException {
+        java.io.File file = new java.io.File(oldPath);
+        file.renameTo(new java.io.File(newPath));
     }
 
     /**

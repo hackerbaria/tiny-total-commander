@@ -307,6 +307,17 @@ public class XPanel extends JPanel implements FocusListener {
        
        return _currentPathLabel.getText() + name;
     }
+
+    public String getSelectedItemFileName(Boolean withExtension) {
+        int rowSelectedIndex = _dirTable.getSelectedRow();
+        TextImageObj tmodel = (TextImageObj) _model.getValueAt(rowSelectedIndex, 0);
+        String name = (String) tmodel.getText();
+        String ext = (String) _model.getValueAt(rowSelectedIndex, 1);
+        if(ext.length() > 1 && withExtension == true) {
+           return name + "." + ext;
+        }
+        return name; // without extension
+    }
     
     /**
      * Xu ly su kien click vao mot dong trong table hien danh sach file
