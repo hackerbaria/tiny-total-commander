@@ -627,6 +627,11 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void editFile() {
+        if(FileHelper.isFolder(getSelectedItemPath())) {
+            MsgboxHelper.inform("No files selected.");
+            return;
+        }
+
         try {
             XFile.execute(getSelectedItemPath());
         } catch (IOException ex) {
