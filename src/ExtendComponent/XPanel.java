@@ -221,6 +221,10 @@ public class XPanel extends JPanel implements FocusListener {
       //  foot.setBackground(Color.gray);
     }
 
+    // TODO: multiple tabs - Chánh
+
+    // TODO: support rename on panel - Chánh
+
     /**
      *
      * @param index

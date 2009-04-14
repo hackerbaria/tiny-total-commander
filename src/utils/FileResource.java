@@ -35,7 +35,7 @@ public class FileResource {
             Icon icon = null;
             try {
 
-                // TODO: bug
+                // TODO: bug - Chánh
                 // nếu folder có chứa file .svn thì khi bấm [...] bị die
 
                 sf = ShellFolder.getShellFolder(files[i]);
