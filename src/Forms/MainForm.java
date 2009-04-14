@@ -188,6 +188,7 @@ public class MainForm extends JFrame implements ActionListener{
         temporaryMenu.add(new JSeparator());
         temporaryMenu.add(createMenuItem("New Folder", "New_Folder"));
         temporaryMenu.add(new JSeparator());
+        temporaryMenu.add(createMenuItem("Zip file", "Zip_File"));
         
 
         //~setup menu
@@ -415,6 +416,8 @@ public class MainForm extends JFrame implements ActionListener{
             deleteFilesFolders();
         } else if(command.equals("Copy_File")) {
             copyFilesFolders();
+        } else if(command.equals("Zip_File")) {
+            zipFile();
         } else if(command.equals("Exit")) {
             System.exit(0);
         } else if(command.equals("ftp")) {
@@ -427,9 +430,6 @@ public class MainForm extends JFrame implements ActionListener{
 
     //<editor-fold defaultstate="collapsed" desc="Functions">
 
-    /**
-     * New file
-     */
     private void newFile() {
         frmNewFile frm = new frmNewFile();
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -476,9 +476,6 @@ public class MainForm extends JFrame implements ActionListener{
         });
     }
 
-    /**
-     * View file
-     */
     private void viewFile() {
         frmViewFile frm = new frmViewFile(getSelectedItemPath());
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -507,9 +504,6 @@ public class MainForm extends JFrame implements ActionListener{
         });
     }
 
-    /**
-     * Delete file(s) and Folder(s)
-     */
     private void deleteFilesFolders() {
         ArrayList<String> selectedItems = focusPanel.getSelectedItems();
         for(String item : selectedItems) {
@@ -532,9 +526,6 @@ public class MainForm extends JFrame implements ActionListener{
         refresh();
     }
 
-    /**
-     * Copy file(s) and folder(s)
-     */
     private void copyFilesFolders() {
         frmCopy frm = new frmCopy(getLostFocusPath());
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -563,6 +554,29 @@ public class MainForm extends JFrame implements ActionListener{
                 
                 refresh();
 
+            }
+
+            public void mySEventOccurred(MySEvent evt) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
+    }
+
+    private void zipFile() {
+        frmZip frm = new frmZip(getLostFocusPath() + getSelectedItemFileName(false));
+        frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frm.setVisible(true);
+
+        frm.addMyEventListener(new MyEventListener() {
+
+            public void myEventOccurred(MyEvent evt) {
+                String fullPath = evt.getData();
+                try {
+                    XFile.zip(getSelectedItemPath(), fullPath);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                refresh();
             }
 
             public void mySEventOccurred(MySEvent evt) {

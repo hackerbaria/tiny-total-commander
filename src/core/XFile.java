@@ -6,6 +6,8 @@
 package core;
 
 import java.io.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * File
@@ -100,8 +102,22 @@ public class XFile {
     /**
      * Zip a file
      */
-    public static void zip(String filePath) throws IOException {
+    public static void zip(String filename, String zipfilename) throws IOException {
         // TODO: zip file
+
+        InputStream input = new FileInputStream(filename);
+        ZipOutputStream zipoutput = new ZipOutputStream(new FileOutputStream(zipfilename));
+
+        zipoutput.putNextEntry(new ZipEntry(filename));
+        byte[] buf = new byte[1024];
+        int len = 0;
+        while((len = input.read(buf)) > 0) {
+            zipoutput.write(buf, 0, len);
+        }
+        zipoutput.closeEntry();
+
+        input.close();
+        zipoutput.close();
     }
 
     /**
