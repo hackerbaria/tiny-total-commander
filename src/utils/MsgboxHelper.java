@@ -12,8 +12,7 @@ import javax.swing.*;
 public class MsgboxHelper
 {
     /**
-     * Show error to user
-     * @param msg
+     * Show an error msg to user
      */
     public static void showError(String msg){
         JOptionPane.showMessageDialog(null, msg, "Tiny Total Commander", JOptionPane.ERROR_MESSAGE);
@@ -21,16 +20,17 @@ public class MsgboxHelper
 
     /**
      * Cofirm user choice
-     * @param msg
-     * @return
      */
-    public static int confirm(String msg) {
-        return JOptionPane.showConfirmDialog(null, msg);
+    public static Boolean confirm(String msg) {
+        int option = JOptionPane.showConfirmDialog(null, msg, "Tiny Total Commander", JOptionPane.YES_NO_CANCEL_OPTION);
+        if(option == JOptionPane.YES_OPTION)
+            return true;
+
+        return false; // NO_OPTION or CANCEL_OPTION
     }
 
     /**
      * Inform a msg to user
-     * @param msg
      */
     public static void inform(String msg) {
         JOptionPane.showMessageDialog(null, msg, "Tiny Total Commander", JOptionPane.INFORMATION_MESSAGE);

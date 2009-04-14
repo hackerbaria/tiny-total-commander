@@ -183,7 +183,7 @@ public class MainForm extends JFrame implements ActionListener{
         temporaryMenu.add(createMenuItem("New File", "New_File"));
         temporaryMenu.add(createMenuItem("View File", "View_File"));
         temporaryMenu.add(createMenuItem("Rename File", "Rename_File"));
-        temporaryMenu.add(createMenuItem("Delete File", "Delete_File"));
+        temporaryMenu.add(createMenuItem("Delete File(s)/Folder(s)", "Delete_File"));
         temporaryMenu.add(createMenuItem("Copy File", "Copy_File"));
         temporaryMenu.add(new JSeparator());
         temporaryMenu.add(createMenuItem("New Folder", "New_Folder"));
@@ -511,24 +511,35 @@ public class MainForm extends JFrame implements ActionListener{
 
     private void deleteFilesFolders() {
         ArrayList<String> selectedItems = focusPanel.getSelectedItems();
-        for(String item : selectedItems) {
-            MsgboxHelper.inform(item);
-            // TODO: confirm before delete
-            if(FileHelper.isFile(item)) {
-                try {
-                    XFile.delete(item);
-                } catch (IOException ex) {
-                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else if(FileHelper.isFolder(item)) {
-                try {
-                    XFolder.delete(item);
-                } catch (IOException ex) {
-                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-                }
+
+        String msg = "Do you really want to delete the " + selectedItems.size() + " selected item(s) \n";
+        for(int i = 0; i < selectedItems.size(); ++i) {
+            msg += FileHelper.getFileName(selectedItems.get(i)) + "\n";
+            if(i >= 4) {       // so many items (>5 items) then ...
+                msg += "...";  // truncate the rest of them
+                break;
             }
         }
-        refresh();
+
+        if(MsgboxHelper.confirm(msg) == true) {
+            for(String item : selectedItems) {
+                if(FileHelper.isFile(item)) {
+                    try {
+                        XFile.delete(item);
+                    } catch (IOException ex) {
+                        Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else if(FileHelper.isFolder(item)) {
+                    try {
+                        XFolder.delete(item);
+                    } catch (IOException ex) {
+                        Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+            refresh();
+        }
+        
     }
 
     private void copyFilesFolders() {
