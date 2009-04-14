@@ -432,7 +432,7 @@ public class MainForm extends JFrame implements ActionListener{
      */
     private void newFile() {
         frmNewFile frm = new frmNewFile();
-        frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setVisible(true);
         
         frm.addMyEventListener(new MyEventListener() {
@@ -455,7 +455,7 @@ public class MainForm extends JFrame implements ActionListener{
 
     private void newFolder() {
         frmNewFolder frm = new frmNewFolder();
-        frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setVisible(true);
         frm.addMyEventListener(new MyEventListener() {
 
@@ -537,7 +537,7 @@ public class MainForm extends JFrame implements ActionListener{
      */
     private void copyFilesFolders() {
         frmCopy frm = new frmCopy(getLostFocusPath());
-        frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setVisible(true);
         frm.addMyEventListener(new MyEventListener() {
 
@@ -574,7 +574,7 @@ public class MainForm extends JFrame implements ActionListener{
     private void ftp()
     {
         frmFtpConnection frm = new frmFtpConnection();
-        frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setVisible(true);
         frm.addMySEventListener(new MyEventListener() {
 
