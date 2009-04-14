@@ -140,7 +140,7 @@ public class FtpResource {
 
     public static void main(String[] args)
     {
-        FtpResource ftp = new FtpResource("binhchanh.org", "bin76467", "binhchanh.org");
+        FtpResource ftp = new FtpResource("dsaf", "ádf", "dsafs");
         ftp.connect();
         Vector v = ftp.getAllFiles("wwwroot/");
         ftp.disConnect();
