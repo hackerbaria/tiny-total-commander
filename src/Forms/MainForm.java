@@ -439,7 +439,11 @@ public class MainForm extends JFrame implements ActionListener{
 
             public void myEventOccurred(MyEvent evt) {
                 String fullPath = getCurrentPath() + evt.getData();
-                XFile.create(fullPath); // create file
+                try {
+                    XFile.create(fullPath); // create file
+                } catch (IOException ex) {
+                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 refresh();
             }
 
@@ -512,9 +516,17 @@ public class MainForm extends JFrame implements ActionListener{
             MsgboxHelper.inform(item);
             // TODO: confirm before delete
             if(FileHelper.isFile(item)) {
-                XFile.delete(item);
+                try {
+                    XFile.delete(item);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else if(FileHelper.isFolder(item)) {
-                XFolder.delete(item);
+                try {
+                    XFolder.delete(item);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
         refresh();

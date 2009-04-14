@@ -8,7 +8,7 @@ package core;
 import java.io.*;
 
 /**
- *
+ * Folder
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public class XFolder {
@@ -29,7 +29,7 @@ public class XFolder {
      /**
      * Rename a folder
      */
-    public static void rename(String oldName, String newName) {
+    public static void rename(String oldName, String newName) throws IOException {
         java.io.File file = new java.io.File(oldName);
 
         // get partial path (parent folder)
@@ -43,7 +43,7 @@ public class XFolder {
      * Delete a folder
      * @param folderPath
      */
-    public static void delete(String folderPath) {
+    public static void delete(String folderPath) throws IOException {
         java.io.File folder = new java.io.File(folderPath);
 
         if(folder.exists()) {
@@ -52,29 +52,42 @@ public class XFolder {
         }
     }
 
-    /**
-     * Delete all files and sub folders in a folder
-     * @param folder
-     */
     private static void deleteFiles(java.io.File folder) {
         for (java.io.File item : folder.listFiles()) {
-            // item is folder
             if(item.isDirectory()) {
+                // item is folder
                 deleteFiles(item);
+            } else {
+                // item is file
+                item.delete();
             }
-            // item is file
-            item.delete();
         }
     }
 
     /**
      * Copy a folder
      */
-    public static void copy(String fromLocation, String toLocation) throws IOException {
-        // TODO: copy folder
+    public static void copy(String sourceDir, String destDir) throws IOException {
+        copyInternal(new File(sourceDir), new File(destDir));
+    }
 
-        // create folders
-        // copy all files to new folder
+    private static void copyInternal(File sourceDir, File destDir) throws IOException {
+        // create folder if not exist
+        if(!destDir.exists()) {
+            destDir.mkdir();
+        }
+
+        File[] children = sourceDir.listFiles();
+        for(File sourceChild : children) {
+            File destChild = new File(destDir, sourceChild.getName());
+            if(sourceChild.isDirectory()) {
+                // sub folders => recursion
+                copyInternal(sourceChild, destChild);
+            } else {
+                // file => copy
+                XFile.copy(sourceChild.getAbsolutePath(), destChild.getAbsolutePath());
+            }
+        }
     }
 
     /**

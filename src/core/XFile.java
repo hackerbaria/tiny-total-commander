@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * File
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public class XFile {
@@ -18,19 +18,15 @@ public class XFile {
     /**
      * Create a new file
      */
-    public static void create(String path){
+    public static void create(String path) throws IOException {
         java.io.File file = new java.io.File(path);
-        try {
-            file.createNewFile();
-        } catch (IOException ex) {
-            Logger.getLogger(XFile.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        file.createNewFile();
     }
 
     /**
      * Delete a file
      */
-    public static void delete(String path){
+    public static void delete(String path) throws IOException {
         java.io.File file = new java.io.File(path);
         file.delete();
     }
@@ -38,25 +34,26 @@ public class XFile {
     /**
      * Copy a file
      */
-    public static void copy(String fromLocation, String toLocation) throws IOException {
-        // create a new file
-        create(toLocation);
+    public static void copy(String source, String dest) throws IOException {
+        copyInternal(new File(source), new File(dest));
+    }
 
-        // read content from the old file and write to the new one
-        FileInputStream inStream = new FileInputStream(fromLocation);
-        FileOutputStream outStream = new FileOutputStream(toLocation);
-
-        int offset = 0;
-        int len = 1024;
-        byte[] buffer = new byte[len];
-        int numByteRead = 0;
-
-        while((numByteRead = inStream.read(buffer, offset, len)) != -1) {
-            outStream.write(buffer, offset, numByteRead);
+    private static void copyInternal(File source, File dest) throws IOException {
+        if(!dest.exists()) {
+            dest.createNewFile();
         }
 
-        inStream.close();
-        outStream.close();
+        InputStream in = new FileInputStream(source);
+        OutputStream out = new FileOutputStream(dest);
+
+        // Copy the bits from instream to outstream
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = in.read(buf)) > 0) {
+            out.write(buf, 0, len);
+        }
+        in.close();
+        out.close();
     }
 
     /**
@@ -71,13 +68,8 @@ public class XFile {
      * Execute a file
      * @ref http://tinyurl.com/executefile
      */
-    public static void execute(String filePath) {
-        try {
-            Runtime runner = Runtime.getRuntime();
-            runner.exec("cmd /c start " + filePath);
-        } catch (IOException ex) {
-            Logger.getLogger(XFile.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public static void execute(String filePath) throws IOException {
+        Runtime.getRuntime().exec("cmd /c start " + filePath);
     }
 
     /**
@@ -85,11 +77,9 @@ public class XFile {
      */
     public static String getContent(String filePath) throws IOException{
         StringBuilder builder = new StringBuilder();
-
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
         try {
             String line = null;
-
             while((line = reader.readLine()) != null) {
                 builder.append(line);
                 builder.append(System.getProperty("line.separator"));

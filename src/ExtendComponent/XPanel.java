@@ -383,8 +383,12 @@ public class XPanel extends JPanel implements FocusListener {
                    refreshTable(fullpath);
                    _currentPathLabel.setText(fullpath + "\\");
                } else {
-                   // double click on file => lauch file
-                   XFile.execute(fullpath);
+                    try {
+                        // double click on file => lauch file
+                        XFile.execute(fullpath);
+                    } catch (IOException ex) {
+                        Logger.getLogger(XPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                }
            }
         }

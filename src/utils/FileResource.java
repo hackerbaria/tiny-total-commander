@@ -40,6 +40,10 @@ public class FileResource {
             ShellFolder sf;
             Icon icon = null;
             try {
+
+                // TODO: bug
+                // nếu folder có chứa file .svn thì khi bấm [...] bị die
+
                 sf = ShellFolder.getShellFolder(files[i]);
                 icon = new ImageIcon(sf.getIcon(true).getScaledInstance(19, 19, Image.SCALE_SMOOTH));
             } catch (FileNotFoundException ex) {
