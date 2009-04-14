@@ -11,6 +11,7 @@
 
 package Forms;
 
+import java.util.*;
 import javax.swing.event.EventListenerList;
 import utils.MyEvent;
 import utils.MyEventListener;
@@ -20,6 +21,8 @@ import utils.MyEventListener;
  * @author Spazee
  */
 public class frmCopy extends javax.swing.JFrame {
+
+    enum Lang {English, French};
 
     protected javax.swing.event.EventListenerList listenerList = new EventListenerList();
 
@@ -38,6 +41,15 @@ public class frmCopy extends javax.swing.JFrame {
         setLocationRelativeTo(this);            // center the form
 
         txtPath.setText(path);
+
+        /*Locale[] supportedLocale = {
+                    Locale.ENGLISH,
+                    Locale.FRENCH
+        };*/
+
+        //  Thay doi ngon ngu
+        //
+        changeLanguage();
     }
 
     /** This method is called from within the constructor to
@@ -91,17 +103,13 @@ public class frmCopy extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(310, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnCancel))
-                            .addComponent(txtPath, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE))
-                        .addContainerGap())))
+                        .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCancel))
+                    .addComponent(txtPath, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,4 +155,15 @@ public class frmCopy extends javax.swing.JFrame {
     private javax.swing.JTextField txtPath;
     // End of variables declaration//GEN-END:variables
 
+    private void changeLanguage(){
+
+        Locale support = new  Locale("es", "ES");
+        ResourceBundle labels = ResourceBundle.getBundle("Languages\\LanguageSupport", support);
+
+
+        btnOK.setText(labels.getString("btnOK"));
+        btnCancel.setText(labels.getString("btnCancel"));
+        jLabel1.setText(labels.getString("label1_frmCopy"));
+
+    }
 }
