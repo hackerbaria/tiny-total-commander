@@ -184,7 +184,8 @@ public class MainForm extends JFrame implements ActionListener{
         temporaryMenu.add(createMenuItem("View File", "View_File"));
         temporaryMenu.add(createMenuItem("Rename File", "Rename_File"));
         temporaryMenu.add(createMenuItem("Delete File(s)/Folder(s)", "Delete_File"));
-        temporaryMenu.add(createMenuItem("Copy File", "Copy_File"));
+        temporaryMenu.add(createMenuItem("Copy File(s)/Folder(s)", "Copy_File"));
+        temporaryMenu.add(createMenuItem("Move File(s)/Folder(s)", "Move_File"));
         temporaryMenu.add(new JSeparator());
         temporaryMenu.add(createMenuItem("New Folder", "New_Folder"));
         temporaryMenu.add(new JSeparator());
@@ -416,6 +417,8 @@ public class MainForm extends JFrame implements ActionListener{
             deleteFilesFolders();
         } else if(command.equals("Copy_File")) {
             copyFilesFolders();
+        } else if(command.equals("Move_File")) {
+            moveFilesFolders();
         } else if(command.equals("Zip_File")) {
             zipFile();
         } else if(command.equals("Exit")) {
@@ -521,15 +524,18 @@ public class MainForm extends JFrame implements ActionListener{
             }
         }
 
+        // delete 'em all!
         if(MsgboxHelper.confirm(msg) == true) {
             for(String item : selectedItems) {
                 if(FileHelper.isFile(item)) {
+                    // delete file
                     try {
                         XFile.delete(item);
                     } catch (IOException ex) {
                         Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else if(FileHelper.isFolder(item)) {
+                    // delete folder
                     try {
                         XFolder.delete(item);
                     } catch (IOException ex) {
@@ -554,12 +560,14 @@ public class MainForm extends JFrame implements ActionListener{
                 ArrayList<String> selectedItems = focusPanel.getSelectedItems();
                 for(String item : selectedItems) {
                     if(FileHelper.isFile(item)) {
+                        // copy file
                         try {
                             XFile.copy(item, path + FileHelper.getFileName(item));
                         } catch (IOException ex) {
                             Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     } else if(FileHelper.isFolder(item)) {
+                        // copy folder
                         try {
                             XFolder.copy(item, path + FileHelper.getFileName(item));
                         } catch (IOException ex) {
@@ -568,6 +576,44 @@ public class MainForm extends JFrame implements ActionListener{
                     }
                 }
                 
+                refresh();
+
+            }
+
+            public void mySEventOccurred(MySEvent evt) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
+    }
+
+    private void moveFilesFolders() {
+        frmMove frm = new frmMove(getLostFocusPath());
+        frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frm.setVisible(true);
+        frm.addMyEventListener(new MyEventListener() {
+
+            public void myEventOccurred(MyEvent evt) {
+                String path = evt.getData();
+
+                ArrayList<String> selectedItems = focusPanel.getSelectedItems();
+                for(String item : selectedItems) {
+                    if(FileHelper.isFile(item)) {
+                        // move file
+                        try {
+                            XFile.move(item, path + FileHelper.getFileName(item));
+                        } catch (IOException ex) {
+                            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else if(FileHelper.isFolder(item)) {
+                        // move folder
+                        try {
+                            XFolder.move(item, path + FileHelper.getFileName(item));
+                        } catch (IOException ex) {
+                            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+
                 refresh();
 
             }

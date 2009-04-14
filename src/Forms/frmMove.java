@@ -11,15 +11,34 @@
 
 package Forms;
 
+import javax.swing.event.EventListenerList;
+import utils.MyEvent;
+import utils.MyEventListener;
+
 /**
  *
  * @author Spazee
  */
 public class frmMove extends javax.swing.JFrame {
 
+    protected javax.swing.event.EventListenerList listenerList = new EventListenerList();
+
+    public void addMyEventListener(MyEventListener evt) {
+        listenerList.add(MyEventListener.class, evt);
+    }
+
+    public void removeMyEventListener(MyEventListener evt) {
+        listenerList.remove(MyEventListener.class, evt);
+    }
+
     /** Creates new form frmMove */
-    public frmMove() {
+    public frmMove(String path) {
         initComponents();
+
+        getRootPane().setDefaultButton(btnOK);  // set default button
+        setLocationRelativeTo(this);            // center the form
+
+        txtPath.setText(path);
     }
 
     /** This method is called from within the constructor to
@@ -31,22 +50,17 @@ public class frmMove extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtPathFile = new javax.swing.JTextField();
+        txtPath = new javax.swing.JTextField();
         btnCancel = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         btnOK = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Move File");
+        setTitle("Tiny Total Commander");
         setResizable(false);
 
         btnCancel.setText("Cancel");
         btnCancel.setName("btnCancel"); // NOI18N
-        btnCancel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnCancelMouseClicked(evt);
-            }
-        });
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -61,6 +75,11 @@ public class frmMove extends javax.swing.JFrame {
         btnOK.setMinimumSize(new java.awt.Dimension(67, 23));
         btnOK.setName("btnOK"); // NOI18N
         btnOK.setPreferredSize(new java.awt.Dimension(67, 23));
+        btnOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOKActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -79,7 +98,7 @@ public class frmMove extends javax.swing.JFrame {
                                 .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnCancel))
-                            .addComponent(txtPathFile, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE))
+                            .addComponent(txtPath, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE))
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -88,7 +107,7 @@ public class frmMove extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtPathFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancel)
@@ -99,32 +118,31 @@ public class frmMove extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseClicked
-     
-        System.exit(0);
-}//GEN-LAST:event_btnCancelMouseClicked
-
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-       
-        System.exit(0);
+        this.dispose(); // close form
 }//GEN-LAST:event_btnCancelActionPerformed
 
-    /**
-    * @param args the command line arguments
-    */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new frmMove().setVisible(true);
+    private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
+        MyEvent ev = new MyEvent(txtPath.getText());
+        Object[] listeners = listenerList.getListenerList();
+
+        // Each listener occupies two elements - the first is the listener class
+        // and the second is the listener instance
+        for (int i = 0; i < listeners.length; i += 2) {
+            if (listeners[i] == MyEventListener.class) {
+                ((MyEventListener)listeners[i+1]).myEventOccurred(ev);
             }
-        });
-    }
+        }
+
+        this.dispose(); // close form
+    }//GEN-LAST:event_btnOKActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnOK;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField txtPathFile;
+    private javax.swing.JTextField txtPath;
     // End of variables declaration//GEN-END:variables
 
 }
