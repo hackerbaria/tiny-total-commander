@@ -186,6 +186,7 @@ public class MainForm extends JFrame implements ActionListener{
         temporaryMenu.add(createMenuItem("Delete File(s)/Folder(s)", "Delete_File"));
         temporaryMenu.add(createMenuItem("Copy File(s)/Folder(s)", "Copy_File"));
         temporaryMenu.add(createMenuItem("Move File(s)/Folder(s)", "Move_File"));
+        temporaryMenu.add(createMenuItem("Edit File", "Edit_File"));
         temporaryMenu.add(new JSeparator());
         temporaryMenu.add(createMenuItem("New Folder", "New_Folder"));
         temporaryMenu.add(new JSeparator());
@@ -419,6 +420,8 @@ public class MainForm extends JFrame implements ActionListener{
             copyFilesFolders();
         } else if(command.equals("Move_File")) {
             moveFilesFolders();
+        } else if(command.equals("Edit_File")) {
+            editFile();
         } else if(command.equals("Zip_File")) {
             zipFile();
         } else if(command.equals("Exit")) {
@@ -615,13 +618,20 @@ public class MainForm extends JFrame implements ActionListener{
                 }
 
                 refresh();
-
             }
 
             public void mySEventOccurred(MySEvent evt) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
         });
+    }
+
+    private void editFile() {
+        try {
+            XFile.execute(getSelectedItemPath());
+        } catch (IOException ex) {
+            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void zipFile() {
