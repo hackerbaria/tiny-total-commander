@@ -28,8 +28,8 @@ public class frmViewFile extends javax.swing.JFrame {
         setLocationRelativeTo(this);            // center the form
         
         try {
-            setTitle(getTitle() + " - [" + path + "]");
-            txtContent.setText(XFile.getContent(path));
+            setTitle(getTitle() + " - [" + path + "]");    // set title
+            txtContent.setText(XFile.getContent(path));    // show content
         } catch (IOException ex) {
             Logger.getLogger(frmViewFile.class.getName()).log(Level.SEVERE, null, ex);
         }

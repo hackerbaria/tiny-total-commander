@@ -24,7 +24,7 @@ public class XFile {
     /**
      * Delete a file
      */
-    public static void delete(String path) throws IOException {
+    public static void delete(String path){
         java.io.File file = new java.io.File(path);
         file.delete();
     }

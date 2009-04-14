@@ -15,10 +15,10 @@ package Forms;
  *
  * @author Spazee
  */
-public class frmDeleteFiles extends javax.swing.JFrame {
+public class frmDelete extends javax.swing.JFrame {
 
     /** Creates new form frmDeleteFiles */
-    public frmDeleteFiles() {
+    public frmDelete() {
         initComponents();
     }
 
@@ -81,7 +81,7 @@ public class frmDeleteFiles extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frmDeleteFiles().setVisible(true);
+                new frmDelete().setVisible(true);
             }
         });
     }
