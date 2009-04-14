@@ -28,6 +28,7 @@ import utils.FileHelper;
 import utils.MsgboxHelper;
 import utils.MyEvent;
 import utils.MyEventListener;
+import utils.MySEvent;
 /**
  *
  * @author pmchanh
@@ -107,6 +108,7 @@ public class MainForm extends JFrame implements ActionListener{
         fileMenu = new JMenu("File");
         
         fileMenu.setMnemonic(KeyEvent.VK_F);
+       
         menuBar.add(fileMenu);
 
         fileMenu.add(createMenuItem("Change Attributes", "Change_Attribute"));
@@ -185,7 +187,8 @@ public class MainForm extends JFrame implements ActionListener{
         temporaryMenu.add(createMenuItem("Copy File", "Copy_File"));
         temporaryMenu.add(new JSeparator());
         temporaryMenu.add(createMenuItem("New Folder", "New_Folder"));
-
+        temporaryMenu.add(new JSeparator());
+        
 
         //~setup menu
 
@@ -195,13 +198,15 @@ public class MainForm extends JFrame implements ActionListener{
         mainToolbar.setRollover(true);
         mainToolbar.setName("toolbar");
 
-        JButton btn = new JButton("Button");
+        JButton btn = new JButton("Ftp Connect");
         btn.setBorderPainted(false);
         btn.setFocusPainted(false);
+        btn.setActionCommand("ftp");
+        btn.addActionListener(this);
         JButton btn2 = new JButton("Button2");
         mainToolbar.add(btn);
         mainToolbar.add(btn2);
-
+       
         panel.add(mainToolbar, BorderLayout.SOUTH);
         //~setup toolbar
         
@@ -352,6 +357,7 @@ public class MainForm extends JFrame implements ActionListener{
        c.weightx = 0.5;
 
        JButton btn1 = createButton("F3 View",KeyEvent.VK_F3);
+
        panel.add(btn1,c);
 
        c.gridx = 1;
@@ -368,13 +374,9 @@ public class MainForm extends JFrame implements ActionListener{
 
         c.gridx = 4;
        JButton btn5 = createButton("F7 New Folder",KeyEvent.VK_F7);
+       btn5.setActionCommand("New_Folder");
        panel.add(btn5,c);
-       btn5.addActionListener(new java.awt.event.ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                //btn5ActionPerformed(e);
-            }
-       });
+       btn5.addActionListener(this);
 
         c.gridx = 5;
        JButton btn6 = createButton("F8 Delete",KeyEvent.VK_F8);
@@ -415,7 +417,10 @@ public class MainForm extends JFrame implements ActionListener{
             copyFile();
         } else if(command.equals("Exit")) {
             System.exit(0);
+        } else if(command.equals("ftp")) {
+            ftp();
         }
+
     }
     
     //</editor-fold>
@@ -435,7 +440,10 @@ public class MainForm extends JFrame implements ActionListener{
                     Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 refresh();
+            }
 
+            public void mySEventOccurred(MySEvent evt) {
+                throw new UnsupportedOperationException("Not supported yet.");
             }
         });
     }
@@ -455,6 +463,10 @@ public class MainForm extends JFrame implements ActionListener{
                 }
                 refresh();
 
+            }
+
+            public void mySEventOccurred(MySEvent evt) {
+                throw new UnsupportedOperationException("Not supported yet.");
             }
         });
     }
@@ -479,6 +491,10 @@ public class MainForm extends JFrame implements ActionListener{
                     Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 refresh();
+            }
+
+            public void mySEventOccurred(MySEvent evt) {
+                throw new UnsupportedOperationException("Not supported yet.");
             }
         });
     }
@@ -517,6 +533,27 @@ public class MainForm extends JFrame implements ActionListener{
                 }
                 refresh();
 
+            }
+
+            public void mySEventOccurred(MySEvent evt) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
+    }
+
+    private void ftp()
+    {
+        frmFtpConnection frm = new frmFtpConnection();
+        frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frm.setVisible(true);
+        frm.addMySEventListener(new MyEventListener() {
+
+            public void myEventOccurred(MyEvent evt) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            public void mySEventOccurred(MySEvent evt) {
+                throw new UnsupportedOperationException("Not supported yet.");
             }
         });
     }

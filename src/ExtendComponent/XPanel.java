@@ -45,6 +45,8 @@ public class XPanel extends JPanel implements FocusListener {
     private JScrollPane _scrollpane;
     private Color _focusColor = Color.BLUE;
     private Color _lostfocusColor = Color.decode("#66CCFF");
+
+    private Boolean _ftpMode;
     
  // <editor-fold defaultstate="collapsed" desc="Properties">
     public JPanel getBody() {
@@ -102,7 +104,11 @@ public class XPanel extends JPanel implements FocusListener {
     public JTabbedPane getTabPane() {
         return _tabPane;
     }  
-    
+
+    public void setftpMode(Boolean value){
+        _ftpMode = value;
+    }
+
     // </editor-fold>
 
     public void addFocusListener(XPanelEventListener pel) {
@@ -143,6 +149,9 @@ public class XPanel extends JPanel implements FocusListener {
     }
 
     public void initlizeComponent() {
+
+        _ftpMode = false;
+        
         this.setLayout(new BorderLayout());
 
         _head = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -296,6 +305,9 @@ public class XPanel extends JPanel implements FocusListener {
         }
     }
 
+    /*
+     * ham tra ve mang cac filename dang bi select
+     */
     public ArrayList<String> getSelectedItems() {
         ArrayList<String> selectedItems = new ArrayList<String>();
         

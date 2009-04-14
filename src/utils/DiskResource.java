@@ -48,5 +48,4 @@ public class DiskResource
                 + " of " + f.getTotalSpace()/1024 + "k free";
         return kq;
     }
-    
 }

@@ -54,7 +54,7 @@ public class FileResource {
             if(files[i].isDirectory())
                 dirArr.add(item);
             else
-                firArr.add(item);            
+                firArr.add(item); 
         }
         
         Collections.sort(dirArr, new Comparer());
@@ -116,6 +116,11 @@ public class FileResource {
         Calendar cal = Calendar.getInstance();
         cal.setTimeZone(zone);
         cal.setTime(datetime);
+        return getDate(cal);
+    }
+
+    public static String getDate(Calendar cal)
+    {
         int year = cal.get(Calendar.YEAR);
 	    int month = cal.get(Calendar.MONTH)+1;
 	    int date = cal.get(Calendar.DAY_OF_MONTH);
