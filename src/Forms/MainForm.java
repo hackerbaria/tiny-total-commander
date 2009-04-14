@@ -414,7 +414,7 @@ public class MainForm extends JFrame implements ActionListener{
         } else if(command.equals("Delete_File")) {
             deleteFilesFolders();
         } else if(command.equals("Copy_File")) {
-            copyFile();
+            copyFilesFolders();
         } else if(command.equals("Exit")) {
             System.exit(0);
         } else if(command.equals("ftp")) {
@@ -439,11 +439,7 @@ public class MainForm extends JFrame implements ActionListener{
 
             public void myEventOccurred(MyEvent evt) {
                 String fullPath = getCurrentPath() + evt.getData();
-                try {
-                    XFile.create(fullPath); // create file
-                } catch (IOException ex) {
-                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                XFile.create(fullPath); // create file
                 refresh();
             }
 
@@ -524,19 +520,35 @@ public class MainForm extends JFrame implements ActionListener{
         refresh();
     }
 
-    private void copyFile() {
-        frmCopy frm = new frmCopy(getLostFocusPath() + getSelectedItemFileName(true));
+    /**
+     * Copy file(s) and folder(s)
+     */
+    private void copyFilesFolders() {
+        frmCopy frm = new frmCopy(getLostFocusPath());
         frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frm.setVisible(true);
         frm.addMyEventListener(new MyEventListener() {
 
             public void myEventOccurred(MyEvent evt) {
-                String fullPath = evt.getData();
-                try {
-                    XFile.copy(getSelectedItemPath(), fullPath);
-                } catch (IOException ex) {
-                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                String path = evt.getData();
+
+                ArrayList<String> selectedItems = focusPanel.getSelectedItems();
+                for(String item : selectedItems) {
+                    if(FileHelper.isFile(item)) {
+                        try {
+                            XFile.copy(item, path + FileHelper.getFileName(item));
+                        } catch (IOException ex) {
+                            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else if(FileHelper.isFolder(item)) {
+                        try {
+                            XFolder.copy(item, path + FileHelper.getFileName(item));
+                        } catch (IOException ex) {
+                            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                 }
+                
                 refresh();
 
             }

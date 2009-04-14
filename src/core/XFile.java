@@ -18,9 +18,13 @@ public class XFile {
     /**
      * Create a new file
      */
-    public static void create(String path) throws IOException {
+    public static void create(String path){
         java.io.File file = new java.io.File(path);
-        file.createNewFile();
+        try {
+            file.createNewFile();
+        } catch (IOException ex) {
+            Logger.getLogger(XFile.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
