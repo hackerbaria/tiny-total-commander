@@ -477,6 +477,11 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void viewFile() {
+        if(FileHelper.isFolder(getSelectedItemPath())) {
+            MsgboxHelper.inform("No file selected.");
+            return;
+        }
+
         frmViewFile frm = new frmViewFile(getSelectedItemPath());
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setVisible(true);

@@ -16,7 +16,7 @@ public class MsgboxHelper
      * @param msg
      */
     public static void showError(String msg){
-        JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, msg, "Tiny Total Commander", JOptionPane.ERROR_MESSAGE);
     }
 
     /**
@@ -33,6 +33,6 @@ public class MsgboxHelper
      * @param msg
      */
     public static void inform(String msg) {
-        JOptionPane.showMessageDialog(null, msg, "Information", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, msg, "Tiny Total Commander", JOptionPane.INFORMATION_MESSAGE);
     }
 }

@@ -103,8 +103,6 @@ public class XFile {
      * Zip a file
      */
     public static void zip(String filename, String zipfilename) throws IOException {
-        // TODO: zip file
-
         InputStream input = new FileInputStream(filename);
         ZipOutputStream zipoutput = new ZipOutputStream(new FileOutputStream(zipfilename));
 
