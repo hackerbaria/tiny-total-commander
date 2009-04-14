@@ -6,6 +6,8 @@
 package core;
 
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -65,9 +67,13 @@ public class XFile {
      * Execute a file
      * @ref http://tinyurl.com/executefile
      */
-    public static void execute(String filePath) throws IOException {
-        Runtime runner = Runtime.getRuntime();
-        runner.exec("cmd /c start " + filePath);
+    public static void execute(String filePath) {
+        try {
+            Runtime runner = Runtime.getRuntime();
+            runner.exec("cmd /c start " + filePath);
+        } catch (IOException ex) {
+            Logger.getLogger(XFile.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

@@ -486,7 +486,7 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void renameFile() {
-        frmRenameFile frm = new frmRenameFile(getSelectedItemFileName(true));
+        frmRenameFile frm = new frmRenameFile(FileHelper.getFileName(getSelectedItemPath()));
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setVisible(true);
         frm.addMyEventListener(new MyEventListener() {

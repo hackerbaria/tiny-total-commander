@@ -5,6 +5,7 @@
 
 package ExtendComponent;
 
+import core.XFile;
 import utils.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -358,36 +359,32 @@ public class XPanel extends JPanel implements FocusListener {
             // ignore :)
             
         } else if(e.getClickCount() == 2) { // double click
-
            // get selected row
            int rowSelectedIndex = _dirTable.getSelectedRow();
            TextImageObj tmodel = (TextImageObj) _model.getValueAt(rowSelectedIndex, 0);
            String name = (String) tmodel.getText();
            String fullpath = _currentPathLabel.getText();
-
+           
            if(name.equals("[...]")) {
-               int u = fullpath.lastIndexOf("\\\\");
-               String parent = fullpath.substring(0,u);
+               // double click on [...] => up one level
+               String parent = FileHelper.geParentPath(fullpath);
                refreshTable(parent);
                _currentPathLabel.setText(parent + "\\");
            } else {
+               // double click on file or folder ...
                fullpath = fullpath + "\\" + name;
                String extention = (String) _model.getValueAt(rowSelectedIndex, 1);
-
                if(extention.length() > 1) {
                    fullpath = fullpath + "." + extention;
                }
-               
-               File fileSelected = new File(fullpath);
-               if(fileSelected.isDirectory()) {
+
+               if(FileHelper.isFolder(fullpath)) {
+                   // double click on folder => go inside
                    refreshTable(fullpath);
                    _currentPathLabel.setText(fullpath + "\\");
                } else {
-                   try {
-                       Desktop.getDesktop().open(fileSelected);
-                   } catch (IOException ex) {
-                       Logger.getLogger(XPanel.class.getName()).log(Level.SEVERE, null, ex);
-                   }
+                   // double click on file => lauch file
+                   XFile.execute(fullpath);
                }
            }
         }

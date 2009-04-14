@@ -38,6 +38,7 @@ public class frmRenameFile extends javax.swing.JFrame {
         setLocationRelativeTo(this);            // center the form
 
         txtFileName.setText(filename);
+        txtFileName.selectAll();
     }
 
     /** This method is called from within the constructor to
