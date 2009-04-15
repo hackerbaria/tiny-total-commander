@@ -230,8 +230,7 @@ public class MainForm extends JFrame implements ActionListener{
     
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Create mainpanel">
-    
+    // <editor-fold defaultstate="collapsed" desc="Create mainpanel">
     private JSplitPane splitPane;
     private XPanel leftPanel;
     private XPanel rightPanel;
@@ -277,6 +276,8 @@ public class MainForm extends JFrame implements ActionListener{
         panel.add(splitPane, BorderLayout.CENTER);
         return panel;
     }
+
+    // </editor-fold>
 
     /**
      * Get current path in main form
@@ -450,10 +451,6 @@ public class MainForm extends JFrame implements ActionListener{
                 }
                 refresh();
             }
-
-            public void mySEventOccurred(MySEvent evt) {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
         });
     }
 
@@ -472,9 +469,6 @@ public class MainForm extends JFrame implements ActionListener{
                     Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 refresh();
-            }
-            public void mySEventOccurred(MySEvent evt) {
-                throw new UnsupportedOperationException("Not supported yet.");
             }
         });
     }
@@ -506,10 +500,6 @@ public class MainForm extends JFrame implements ActionListener{
                     Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 refresh();
-            }
-
-            public void mySEventOccurred(MySEvent evt) {
-                throw new UnsupportedOperationException("Not supported yet.");
             }
         });
     }
@@ -581,10 +571,6 @@ public class MainForm extends JFrame implements ActionListener{
                 refresh();
 
             }
-
-            public void mySEventOccurred(MySEvent evt) {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
         });
     }
 
@@ -619,10 +605,6 @@ public class MainForm extends JFrame implements ActionListener{
                 }
                 refresh();
             }
-
-            public void mySEventOccurred(MySEvent evt) {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
         });
     }
 
@@ -656,10 +638,6 @@ public class MainForm extends JFrame implements ActionListener{
                 }
                 refresh();
             }
-
-            public void mySEventOccurred(MySEvent evt) {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
         });
     }
 
@@ -681,10 +659,6 @@ public class MainForm extends JFrame implements ActionListener{
                 }
                 refresh();
             }
-
-            public void mySEventOccurred(MySEvent evt) {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
         });
     }
 
@@ -693,19 +667,13 @@ public class MainForm extends JFrame implements ActionListener{
         frmFtpConnection frm = new frmFtpConnection();
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setVisible(true);
-        frm.addMySEventListener(new MyEventListener() {
-
-            public void myEventOccurred(MyEvent evt) {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }           
-            public void mySEventOccurred(MySEvent evt) {
-                //throw new UnsupportedOperationException("Not supported yet.");
-                //utils.MsgboxHelper.inform("chanh");
-                // get connection info
-               
-                String url = (String) evt.getData().get(0);
-                String password =new String((char[])evt.getData().get(1));
-                String username = (String) evt.getData().get(2);
+        frm.addMyEventListener(new MyEventListener() {
+       
+            public void myEventOccurred(MyEvent evt) {               
+                String url = evt.getDataList().get(0);        // url
+                String username = evt.getDataList().get(1);   // username
+                String password = evt.getDataList().get(2);   // password
+                
                 ftp = new FtpResource(url, password, username);
                 try {
                     if (ftp.connect()) {

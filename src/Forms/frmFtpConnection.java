@@ -12,35 +12,31 @@
 package Forms;
 
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 import utils.MyEventListener;
 import javax.swing.event.EventListenerList;
-import utils.MySEvent;
+import utils.MyEvent;
 /**
  *
  * @author pmchanh
  */
 public class frmFtpConnection extends javax.swing.JFrame {
-protected javax.swing.event.EventListenerList listenerList = new EventListenerList();
-    /** Creates new form frmFtpConnection */
-    public frmFtpConnection() {
-        initComponents();
-        
-        getRootPane().setDefaultButton(jButton1);
-        setLocationRelativeTo(this);
-       
-    }
-
-    public void addMySEventListener(MyEventListener mel)
-    {
+    protected javax.swing.event.EventListenerList listenerList = new EventListenerList();
+    
+    public void addMyEventListener(MyEventListener mel) {
       listenerList.add(MyEventListener.class, mel);
     }
 
-    public void removeMySEventListener(MyEventListener mel)
-    {
+    public void removeMyEventListener(MyEventListener mel) {
         listenerList.remove(MyEventListener.class, mel);
+    }
+
+    /** Creates new form frmFtpConnection */
+    public frmFtpConnection() {
+        initComponents();
+
+        getRootPane().setDefaultButton(jButton1);
+        setLocationRelativeTo(this);
+
     }
     /** This method is called from within the constructor to
      * initialize the form.
@@ -51,12 +47,12 @@ protected javax.swing.event.EventListenerList listenerList = new EventListenerLi
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
+        txtUrl = new javax.swing.JTextField();
         label1 = new java.awt.Label();
         label2 = new java.awt.Label();
         label3 = new java.awt.Label();
-        jTextField2 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        txtUsername = new javax.swing.JTextField();
+        txtPassword = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -64,7 +60,7 @@ protected javax.swing.event.EventListenerList listenerList = new EventListenerLi
         setTitle("ftp");
         setResizable(false);
 
-        jTextField1.setName("txtUrl"); // NOI18N
+        txtUrl.setName("txtUrl"); // NOI18N
 
         label1.setText("Host URL:");
 
@@ -72,9 +68,9 @@ protected javax.swing.event.EventListenerList listenerList = new EventListenerLi
 
         label3.setText("Password:");
 
-        jTextField2.setName("txtUsername"); // NOI18N
+        txtUsername.setName("txtUsername"); // NOI18N
 
-        jPasswordField1.setName("txtPassword"); // NOI18N
+        txtPassword.setName("txtPassword"); // NOI18N
 
         jButton1.setMnemonic( KeyEvent.VK_ENTER);
         jButton1.setText("OK");
@@ -114,9 +110,9 @@ protected javax.swing.event.EventListenerList listenerList = new EventListenerLi
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addGap(1, 1, 1)
-                            .addComponent(jPasswordField1))
-                        .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE))
+                            .addComponent(txtPassword))
+                        .addComponent(txtUsername, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtUrl, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -125,15 +121,15 @@ protected javax.swing.event.EventListenerList listenerList = new EventListenerLi
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtUrl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(label3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
@@ -155,32 +151,28 @@ protected javax.swing.event.EventListenerList listenerList = new EventListenerLi
      * button ok
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ArrayList list = new ArrayList();
-        list.add(jTextField1.getText());// url
-        list.add(jPasswordField1.getPassword());// password
-        list.add(jTextField2.getText());// username
-        MySEvent mse = new MySEvent(list);
+        MyEvent event = new MyEvent(txtUrl.getText());       // url
+        event.addData(txtUsername.getText());                // username
+        event.addData(txtPassword.getPassword().toString()); // password
 
         Object[] listeners = listenerList.getListenerList();
         for (int i = 0; i < listeners.length; i += 2) {
             if (listeners[i] == MyEventListener.class) {
-                ((MyEventListener)listeners[i+1]).mySEventOccurred(mse);
+                ((MyEventListener)listeners[i+1]).myEventOccurred(event);
             }
         }
         this.dispose(); // close form
     }//GEN-LAST:event_jButton1ActionPerformed
 
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private java.awt.Label label1;
     private java.awt.Label label2;
     private java.awt.Label label3;
+    private javax.swing.JPasswordField txtPassword;
+    private javax.swing.JTextField txtUrl;
+    private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 
 }
