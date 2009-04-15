@@ -448,8 +448,9 @@ public class MainForm extends JFrame implements ActionListener{
     //<editor-fold defaultstate="collapsed" desc="Functions">
 
     private void newFile() {
-        frmNewFile frm = new frmNewFile();
+        MiniForm frm = new MiniForm();
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frm.setLabelText("New File");
         frm.setVisible(true);
         
         frm.addMyEventListener(new MyEventListener() {
@@ -471,8 +472,9 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void newFolder() {
-        frmNewFolder frm = new frmNewFolder();
+        MiniForm frm = new MiniForm();
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frm.setLabelText("New Directory");
         frm.setVisible(true);
         frm.addMyEventListener(new MyEventListener() {
 
@@ -503,8 +505,10 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void renameFile() {
-        frmRenameFile frm = new frmRenameFile(FileHelper.getFileName(getSelectedItemPath()));
+        MiniForm frm = new MiniForm();
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frm.setLabelText("New Name");
+        frm.setTextboxText(FileHelper.getFileName(getSelectedItemPath()));
         frm.setVisible(true);
         frm.addMyEventListener(new MyEventListener() {
 
@@ -560,8 +564,10 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void copyFilesFolders() {
-        frmCopy frm = new frmCopy(getLostFocusPath());
+        MiniForm frm = new MiniForm();
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frm.setLabelText("Copy To");
+        frm.setTextboxText(getLostFocusPath());
         frm.setVisible(true);
         frm.addMyEventListener(new MyEventListener() {
 
@@ -598,8 +604,10 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void moveFilesFolders() {
-        frmMove frm = new frmMove(getLostFocusPath());
+        MiniForm frm = new MiniForm();
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frm.setLabelText("Move To");
+        frm.setTextboxText(getLostFocusPath());
         frm.setVisible(true);
         frm.addMyEventListener(new MyEventListener() {
 
@@ -646,8 +654,10 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void zipFile() {
-        frmZip frm = new frmZip(getLostFocusPath() + getSelectedItemFileName(false));
+        MiniForm frm = new MiniForm();
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frm.setTextboxText("Pack file(s) to the archive");
+        frm.setTextboxText(getLostFocusPath() + getSelectedItemFileName(false) + ".zip");
         frm.setVisible(true);
 
         frm.addMyEventListener(new MyEventListener() {
@@ -669,8 +679,10 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void unzipFile() {
-        frmUnzip frm = new frmUnzip(getLostFocusPath());
+        MiniForm frm = new MiniForm();
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frm.setTextboxText("Unpack specific files from archive to");
+        frm.setTextboxText(getLostFocusPath());
         frm.setVisible(true);
 
         frm.addMyEventListener(new MyEventListener() {

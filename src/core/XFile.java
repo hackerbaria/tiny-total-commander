@@ -133,9 +133,6 @@ public class XFile {
         int count = 0;
         while((entry = inStream.getNextEntry()) != null) {
             byte buffer[] = new byte[Konstant.BUFFER];
-
-            String en = entry.getName();
-
             outStream = new BufferedOutputStream(new FileOutputStream(outFilePath + "/" + entry.getName()), Konstant.BUFFER);
             while((count = inStream.read(buffer)) > 0) {
                 outStream.write(buffer, 0, count);

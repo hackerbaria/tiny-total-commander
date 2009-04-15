@@ -4,23 +4,22 @@
  */
 
 /*
- * frmNewFile.java
+ * MiniForm.java
  *
- * Created on Apr 1, 2009, 10:05:13 PM
+ * Created on Apr 15, 2009, 3:33:04 PM
  */
 
 package Forms;
 
-import java.awt.BorderLayout;
-import javax.swing.JColorChooser;
 import javax.swing.event.EventListenerList;
-import utils.*;
+import utils.MyEvent;
+import utils.MyEventListener;
 
 /**
  *
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
-public class frmNewFile extends javax.swing.JFrame {
+public class MiniForm extends javax.swing.JFrame {
     protected javax.swing.event.EventListenerList listenerList = new EventListenerList();
 
     public void addMyEventListener(MyEventListener evt) {
@@ -30,12 +29,21 @@ public class frmNewFile extends javax.swing.JFrame {
     public void removeMyEventListener(MyEventListener evt) {
         listenerList.remove(MyEventListener.class, evt);
     }
-
-    public frmNewFile() {
+    
+    /** Creates new form MiniForm */
+    public MiniForm() {
         initComponents();
-        
+
         getRootPane().setDefaultButton(btnOK);  // set default button
         setLocationRelativeTo(this);            // center the form
+    }
+
+    public void setLabelText(String text) {
+        lblText.setText(text);
+    }
+
+    public void setTextboxText(String text) {
+        txtPath.setText(text);
     }
 
     /** This method is called from within the constructor to
@@ -47,22 +55,20 @@ public class frmNewFile extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtFileName = new javax.swing.JTextField();
+        lblText = new javax.swing.JLabel();
+        txtPath = new javax.swing.JTextField();
         btnOK = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tiny Total Commander");
-        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
 
-        txtFileName.setName("txtFileName"); // NOI18N
+        lblText.setText("Label Text");
 
-        btnOK.setLabel("OK");
+        btnOK.setText("OK");
         btnOK.setMaximumSize(new java.awt.Dimension(67, 23));
         btnOK.setMinimumSize(new java.awt.Dimension(67, 23));
-        btnOK.setName("btnOK"); // NOI18N
         btnOK.setPreferredSize(new java.awt.Dimension(67, 23));
         btnOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -71,14 +77,11 @@ public class frmNewFile extends javax.swing.JFrame {
         });
 
         btnCancel.setText("Cancel");
-        btnCancel.setName("btnCancel"); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
             }
         });
-
-        jLabel1.setText("New File");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -87,37 +90,33 @@ public class frmNewFile extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtFileName, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
+                    .addComponent(lblText)
+                    .addComponent(txtPath, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
-                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1))
+                        .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCancel)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(jLabel1)
+                .addContainerGap()
+                .addComponent(lblText)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtFileName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnCancel)
+                    .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        this.dispose(); // close form
-    }//GEN-LAST:event_btnCancelActionPerformed
-
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
-        MyEvent ev = new MyEvent(txtFileName.getText());
+        MyEvent ev = new MyEvent(txtPath.getText());
         Object[] listeners = listenerList.getListenerList();
 
         // Each listener occupies two elements - the first is the listener class
@@ -129,14 +128,17 @@ public class frmNewFile extends javax.swing.JFrame {
         }
 
         this.dispose(); // close form
-    }//GEN-LAST:event_btnOKActionPerformed
+}//GEN-LAST:event_btnOKActionPerformed
 
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        this.dispose(); // close form
+}//GEN-LAST:event_btnCancelActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnOK;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField txtFileName;
+    private javax.swing.JLabel lblText;
+    private javax.swing.JTextField txtPath;
     // End of variables declaration//GEN-END:variables
 
 }
