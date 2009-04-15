@@ -15,6 +15,7 @@ import javax.swing.event.EventListenerList;
 import core.XEvent;
 import core.XEventListener;
 import java.awt.Color;
+import utils.LanguageManager;
 
 /**
  *
@@ -34,6 +35,16 @@ public class MiniForm extends javax.swing.JFrame {
     /** Creates new form MiniForm */
     public MiniForm() {
         initComponents();
+
+        getRootPane().setDefaultButton(btnOK);  // set default button
+        setLocationRelativeTo(this);            // center the form
+    }
+
+    public MiniForm(LanguageManager langManager){
+
+        initComponents();
+        btnOK.setText(langManager.TranslateLang("btnOK"));
+        btnCancel.setText(langManager.TranslateLang("btnCancel"));
 
         getRootPane().setDefaultButton(btnOK);  // set default button
         setLocationRelativeTo(this);            // center the form
@@ -94,9 +105,9 @@ public class MiniForm extends javax.swing.JFrame {
                     .addComponent(lblText)
                     .addComponent(txtPath, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnCancel)))
+                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

@@ -33,6 +33,8 @@ public class MainForm extends JFrame implements ActionListener{
     private BorderLayout borderLayout;    
     Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
     private  FtpResource ftp = null;
+
+    private LanguageManager LangManager = new LanguageManager();
     // constructor
     public MainForm()
     {
@@ -81,6 +83,7 @@ public class MainForm extends JFrame implements ActionListener{
     private JMenu showMenu;
     private JMenu configMenu;
     private JMenu helpMenu;
+    private JMenu languageMenu;
     private JMenu temporaryMenu;
     private JToolBar mainToolbar;
     private XButton btnFTP;
@@ -168,6 +171,16 @@ public class MainForm extends JFrame implements ActionListener{
         helpMenu.add(new JSeparator());
         helpMenu.add(createMenuItem("About", "about"));
         // ~help menu
+
+        // language menu
+        languageMenu = new JMenu("Languages");
+        menuBar.add(languageMenu);
+
+        languageMenu.add(createMenuItem("English", "Change_English"));
+        languageMenu.add(createMenuItem("United State", "Change_UnitedState"));
+        languageMenu.add(createMenuItem("Spain", "Change_Spanish"));
+        languageMenu.add(createMenuItem("Viet Nam", "Change_VietNamese"));
+        // ~language menu
 
         // temporary menu
         temporaryMenu = new JMenu("Temporary");
@@ -427,6 +440,14 @@ public class MainForm extends JFrame implements ActionListener{
             focusPanel.deSelectAll();
         } else if (command.equals("newtab")){
             focusPanel.createNewTab();
+        } else if (command.equals("Change_English")){
+            LangManager.ChangeLanguage("english");
+        } else if (command.equals("Change_UnitedState")){
+            LangManager.ChangeLanguage("united state");
+        } else if (command.equals("Change_Spanish")){
+            LangManager.ChangeLanguage("spain");
+        } else if (command.equals("Change_VietNamese")){
+            LangManager.ChangeLanguage("vietnam");
         }
 
 
@@ -437,9 +458,11 @@ public class MainForm extends JFrame implements ActionListener{
     //<editor-fold defaultstate="collapsed" desc="Functions">
 
     private void newFile() {
-        MiniForm frm = new MiniForm();
+        //MiniForm frm = new MiniForm();
+        MiniForm frm = new MiniForm(LangManager);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frm.setLabelText("New File");
+        //frm.setLabelText("New File");
+        frm.setLabelText(LangManager.TranslateLang("label1_frmNewFile"));
         frm.setVisible(true);
         
         frm.addMyEventListener(new XEventListener() {
@@ -457,9 +480,11 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void newFolder() {
-        MiniForm frm = new MiniForm();
+        //MiniForm frm = new MiniForm();
+        MiniForm frm = new MiniForm(LangManager);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frm.setLabelText("New Directory");
+        //frm.setLabelText("New Directory
+        frm.setLabelText(LangManager.TranslateLang("label1_frmNewFolder"));
         frm.setVisible(true);
         frm.addMyEventListener(new XEventListener() {
 
@@ -487,9 +512,11 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void renameFile() {
-        MiniForm frm = new MiniForm();
+        //MiniForm frm = new MiniForm();
+        MiniForm frm = new MiniForm(LangManager);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frm.setLabelText("New Name");
+        //frm.setLabelText("New Name");
+        frm.setLabelText(LangManager.TranslateLang("label1_frmRenameFile"));
         frm.setTextboxText(PathHelper.getFileName(getSelectedItemPath()));
         frm.setVisible(true);
         frm.addMyEventListener(new XEventListener() {
@@ -508,7 +535,8 @@ public class MainForm extends JFrame implements ActionListener{
 
     private void deleteFilesFolders() {        
         ArrayList<String> selectedItems = focusPanel.getSelectedItems();
-        String msg = "Do you really want to delete the " + selectedItems.size() + " selected item(s) \n";
+        //String msg = "Do you really want to delete the " + selectedItems.size() + " selected item(s) \n";
+        String msg = LangManager.TranslateLang("label1_frmDel") + selectedItems.size() + " " + LangManager.TranslateLang("label2_frmDel");
         for(int i = 0; i < selectedItems.size(); ++i) {
             msg += PathHelper.getFileName(selectedItems.get(i)) + "\n";
             if(i >= 4) {       // so many items (>5 items) then ...
@@ -541,9 +569,11 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void copyFilesFolders() {
-        MiniForm frm = new MiniForm();
+        //MiniForm frm = new MiniForm();
+        MiniForm frm = new MiniForm(LangManager);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frm.setLabelText("Copy To");
+        //frm.setLabelText("Copy To");
+        frm.setLabelText(LangManager.TranslateLang("label1_frmCopy"));
         frm.setTextboxText(getLostFocusPath());
         frm.setVisible(true);
         frm.addMyEventListener(new XEventListener() {
@@ -577,9 +607,11 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void moveFilesFolders() {
-        MiniForm frm = new MiniForm();
+        //MiniForm frm = new MiniForm();
+        MiniForm frm = new MiniForm(LangManager);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frm.setLabelText("Move To");
+        //frm.setLabelText("Move To");
+        frm.setLabelText(LangManager.TranslateLang("label1_frmMove"));
         frm.setTextboxText(getLostFocusPath());
         frm.setVisible(true);
         frm.addMyEventListener(new XEventListener() {
@@ -623,9 +655,11 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void zipFilesFolders() {
-        MiniForm frm = new MiniForm();
+        //MiniForm frm = new MiniForm();
+        MiniForm frm = new MiniForm(LangManager);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frm.setTextboxText("Pack file(s) to the archive");
+        //frm.setTextboxText("Pack file(s) to the archive");
+        frm.setTextboxText(LangManager.TranslateLang("label1_frmZip"));
         frm.setTextboxText(getLostFocusPath() + PathHelper.getFileNameWithoutExt(getSelectedItemPath()) + ".zip");
         frm.setVisible(true);
 
@@ -645,9 +679,11 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void unzipFile() {
-        MiniForm frm = new MiniForm();
+        //MiniForm frm = new MiniForm();
+        MiniForm frm = new MiniForm(LangManager);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frm.setTextboxText("Unpack specific files from archive to");
+        //frm.setTextboxText("Unpack specific files from archive to");
+        frm.setTextboxText(LangManager.TranslateLang("label1_frmUnzip"));
         frm.setTextboxText(getLostFocusPath());
         frm.setVisible(true);
 
