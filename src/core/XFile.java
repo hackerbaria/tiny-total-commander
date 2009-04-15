@@ -7,7 +7,9 @@ package core;
 
 import java.io.*;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
+import utils.Konstant;
 
 /**
  * File
@@ -47,7 +49,7 @@ public class XFile {
         OutputStream out = new FileOutputStream(dest);
 
         // Copy the bits from instream to outstream
-        byte[] buf = new byte[1024];
+        byte[] buf = new byte[Konstant.BUFFER];
         int len;
         while ((len = in.read(buf)) > 0) {
             out.write(buf, 0, len);
@@ -98,26 +100,49 @@ public class XFile {
     /**
      * Zip a file
      */
-    public static void zip(String filename, String zipfilename) throws IOException {
-        InputStream input = new FileInputStream(filename);
-        ZipOutputStream zipoutput = new ZipOutputStream(new FileOutputStream(zipfilename));
+    public static void zip(String inFilePath, String outFilePath) throws IOException {
+        zipInternal(new File(inFilePath), new File(outFilePath));
+    }
 
-        zipoutput.putNextEntry(new ZipEntry(filename));
-        byte[] buf = new byte[1024];
+     public static void zipInternal(File inFile, File outFile) throws IOException {
+        InputStream inStream = new FileInputStream(inFile);
+        ZipOutputStream outStream = new ZipOutputStream(new FileOutputStream(outFile));
+
+        outStream.putNextEntry(new ZipEntry(inFile.getName()));
+        byte[] buf = new byte[Konstant.BUFFER];
         int len = 0;
-        while((len = input.read(buf)) > 0) {
-            zipoutput.write(buf, 0, len);
+        while((len = inStream.read(buf)) > 0) {
+            outStream.write(buf, 0, len);
         }
-        zipoutput.closeEntry();
+        outStream.closeEntry();
 
-        input.close();
-        zipoutput.close();
+        inStream.close();
+        outStream.close();
     }
 
     /**
      * Unzip a file
      */
-    public static void unzip(String filePath) throws IOException {
+    public static void unzip(String inFilePath, String outFilePath) throws IOException {
         // TODO: unzip file
+
+        ZipInputStream inStream = new ZipInputStream(new FileInputStream(inFilePath));
+        BufferedOutputStream outStream = null;
+
+        ZipEntry entry = null;
+        int count = 0;
+        while((entry = inStream.getNextEntry()) != null) {
+            byte buffer[] = new byte[Konstant.BUFFER];
+
+            String en = entry.getName();
+
+            outStream = new BufferedOutputStream(new FileOutputStream(outFilePath + "/" + entry.getName()), Konstant.BUFFER);
+            while((count = inStream.read(buffer)) > 0) {
+                outStream.write(buffer, 0, count);
+            }
+        }
+
+        inStream.close();
+        outStream.close();
     }
 }

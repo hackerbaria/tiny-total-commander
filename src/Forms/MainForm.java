@@ -195,7 +195,8 @@ public class MainForm extends JFrame implements ActionListener{
         temporaryMenu.add(createMenuItem("New Folder", "New_Folder"));
         temporaryMenu.add(new JSeparator());
         temporaryMenu.add(createMenuItem("Zip file", "Zip_File"));
-        //~setup menu
+        temporaryMenu.add(createMenuItem("Unzip file", "Unzip_File"));
+        //~temporary menu
 
         //setup toolbar
         mainToolbar = new JToolBar();
@@ -424,6 +425,8 @@ public class MainForm extends JFrame implements ActionListener{
             editFile();
         } else if(command.equals("Zip_File")) {
             zipFile();
+        } else if(command.equals("Unzip_File")) {
+            unzipFile();
         } else if(command.equals("Exit")) {
             System.exit(0);
         } else if(command.equals("ftp")) { 
@@ -653,6 +656,29 @@ public class MainForm extends JFrame implements ActionListener{
                 String fullPath = evt.getData();
                 try {
                     XFile.zip(getSelectedItemPath(), fullPath);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                refresh();
+            }
+
+            public void mySEventOccurred(MySEvent evt) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
+    }
+
+    private void unzipFile() {
+        frmUnzip frm = new frmUnzip(getLostFocusPath());
+        frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frm.setVisible(true);
+
+        frm.addMyEventListener(new MyEventListener() {
+
+            public void myEventOccurred(MyEvent evt) {
+                String fullPath = evt.getData();
+                try {
+                    XFile.unzip(getSelectedItemPath(), fullPath);
                 } catch (IOException ex) {
                     Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
