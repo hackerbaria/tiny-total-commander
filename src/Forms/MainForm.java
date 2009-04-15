@@ -433,6 +433,7 @@ public class MainForm extends JFrame implements ActionListener{
         } else if (command.equals("selectall")){
             focusPanel.selectAllRow();
         } else if (command.equals("unselectall")){
+            
             focusPanel.DeSelectAll();
         }
 
