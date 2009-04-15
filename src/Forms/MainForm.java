@@ -476,7 +476,7 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void viewFile() {
-        if(FileHelper.isFolder(getSelectedItemPath())) {
+        if(PathHelper.isFolder(getSelectedItemPath())) {
             MsgboxHelper.inform("No file selected.");
             return;
         }
@@ -490,7 +490,7 @@ public class MainForm extends JFrame implements ActionListener{
         MiniForm frm = new MiniForm();
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setLabelText("New Name");
-        frm.setTextboxText(FileHelper.getFileName(getSelectedItemPath()));
+        frm.setTextboxText(PathHelper.getFileName(getSelectedItemPath()));
         frm.setVisible(true);
         frm.addMyEventListener(new MyEventListener() {
 
@@ -510,7 +510,7 @@ public class MainForm extends JFrame implements ActionListener{
         ArrayList<String> selectedItems = focusPanel.getSelectedItems();
         String msg = "Do you really want to delete the " + selectedItems.size() + " selected item(s) \n";
         for(int i = 0; i < selectedItems.size(); ++i) {
-            msg += FileHelper.getFileName(selectedItems.get(i)) + "\n";
+            msg += PathHelper.getFileName(selectedItems.get(i)) + "\n";
             if(i >= 4) {       // so many items (>5 items) then ...
                 msg += "...";  // truncate the rest of them
                 break;
@@ -519,14 +519,14 @@ public class MainForm extends JFrame implements ActionListener{
         // delete 'em all!
         if(MsgboxHelper.confirm(msg) == true) {
             for(String item : selectedItems) {
-                if(FileHelper.isFile(item)) {
+                if(PathHelper.isFile(item)) {
                     // delete file
                     try {
                         XFile.delete(item);
                     } catch (IOException ex) {
                         Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } else if(FileHelper.isFolder(item)) {
+                } else if(PathHelper.isFolder(item)) {
                     // delete folder
                     try {
                         XFolder.delete(item);
@@ -553,17 +553,17 @@ public class MainForm extends JFrame implements ActionListener{
 
                 ArrayList<String> selectedItems = focusPanel.getSelectedItems();
                 for(String item : selectedItems) {
-                    if(FileHelper.isFile(item)) {
+                    if(PathHelper.isFile(item)) {
                         // copy file
                         try {
-                            XFile.copy(item, path + FileHelper.getFileName(item));
+                            XFile.copy(item, path + PathHelper.getFileName(item));
                         } catch (IOException ex) {
                             Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    } else if(FileHelper.isFolder(item)) {
+                    } else if(PathHelper.isFolder(item)) {
                         // copy folder
                         try {
-                            XFolder.copy(item, path + FileHelper.getFileName(item));
+                            XFolder.copy(item, path + PathHelper.getFileName(item));
                         } catch (IOException ex) {
                             Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -589,17 +589,17 @@ public class MainForm extends JFrame implements ActionListener{
 
                 ArrayList<String> selectedItems = focusPanel.getSelectedItems();
                 for(String item : selectedItems) {
-                    if(FileHelper.isFile(item)) {
+                    if(PathHelper.isFile(item)) {
                         // move file
                         try {
-                            XFile.move(item, path + FileHelper.getFileName(item));
+                            XFile.move(item, path + PathHelper.getFileName(item));
                         } catch (IOException ex) {
                             Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    } else if(FileHelper.isFolder(item)) {
+                    } else if(PathHelper.isFolder(item)) {
                         // move folder
                         try {
-                            XFolder.move(item, path + FileHelper.getFileName(item));
+                            XFolder.move(item, path + PathHelper.getFileName(item));
                         } catch (IOException ex) {
                             Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -611,7 +611,7 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void editFile() {
-        if(FileHelper.isFolder(getSelectedItemPath())) {
+        if(PathHelper.isFolder(getSelectedItemPath())) {
             MsgboxHelper.inform("No files selected.");
             return;
         }
@@ -626,7 +626,7 @@ public class MainForm extends JFrame implements ActionListener{
         MiniForm frm = new MiniForm();
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setTextboxText("Pack file(s) to the archive");
-        frm.setTextboxText(getLostFocusPath() + FileHelper.getFileNameWithoutExt(getSelectedItemPath()) + ".zip");
+        frm.setTextboxText(getLostFocusPath() + PathHelper.getFileNameWithoutExt(getSelectedItemPath()) + ".zip");
         frm.setVisible(true);
 
         frm.addMyEventListener(new MyEventListener() {

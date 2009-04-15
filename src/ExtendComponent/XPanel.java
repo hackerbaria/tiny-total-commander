@@ -101,7 +101,7 @@ public class XPanel extends JPanel implements FocusListener {
      */
     public void setCurrentPath(String path) {
         this._tabPane.setTitleAt(_tabPane.getSelectedIndex(),
-                FileHelper.getParentName(path));
+                PathHelper.getParentName(path));
         ((XTab)_tabPane.getComponentAt(
                 _tabPane.getSelectedIndex())).setCurrentPath(path);
     }
@@ -232,7 +232,7 @@ public class XPanel extends JPanel implements FocusListener {
             _activeTab = newTab;
 
             _tabPane.setTitleAt(_tabPane.getTabCount()-1,
-                    FileHelper.getParentName(previousPath));
+                    PathHelper.getParentName(previousPath));
             _activeTab.setCurrentPath(previousPath);
             refresh(previousPath);
         }

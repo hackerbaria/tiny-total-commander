@@ -36,64 +36,10 @@ public class FtpResource {
     private String _password;
     private String _username;
     private FTPClient _ftpClient;
-
     private String _rootPath;
 
-    /**
-     * get rootpath of ftp server
-     * @return
-     */
     public String getRootPath() {
         return _rootPath;
-    }
-
-
-    /**
-     * get password
-     * @return
-     */
-    public String getPassword() {
-        return _password;
-    }
-
-    /**
-     * set password
-     * @param _password
-     */
-    public void setPassword(String _password) {
-        this._password = _password;
-    }
-
-    /**
-     * get url of FTP host
-     * @return
-     */
-    public String getUrl() {
-        return _url;
-    }
-
-    /**
-     * set url of FTP host
-     * @param _url
-     */
-    public void setUrl(String _url) {
-        this._url = _url;
-    }
-
-    /**
-     * get username
-     * @return
-     */
-    public String getUsername() {
-        return _username;
-    }
-
-    /**
-     * set username
-     * @param _username
-     */
-    public void setUsername(String _username) {
-        this._username = _username;
     }
 
     /**
@@ -109,29 +55,15 @@ public class FtpResource {
         }
     }
 
-     /**
-      * Constructor
-      * @param _url
-      * @param _password
-      * @param _username
-      */
-    public FtpResource(String _url, char[] _password, String _username) {
-        this._url = _url;
-        this._password = new String(_password);
-        this._username = _username;
-    }
-
     /**
      * Constructor
-     * @param _url
-     * @param _password
-     * @param _username
      */
-    public FtpResource(String _url, String _password, String _username) {
-        this._url = _url;
-        this._password = _password;
-        this._username = _username;
+    public FtpResource(String url, String password, String username) {
+        _url = url;
+        _password = password;
+        _username = username;
     }
+    
     /**
      *  connect to server
      */
@@ -252,7 +184,7 @@ public class FtpResource {
      * Lay icon file
      * Thamkhao: http://blog.codebeach.com/2008/02/get-file-type-icon-with-java.html
      */
-    public Icon getIcon(FTPFile file)
+    private Icon getIcon(FTPFile file)
     {
         File temp = null;
         Icon ico = null;
@@ -278,12 +210,7 @@ public class FtpResource {
         return ico;
     }
 
-    /**
-     * Get extension of FTPFile
-     * @param FTPFile
-     * @return
-     */
-    public static String getExtension(FTPFile f) {
+    private static String getExtension(FTPFile f) {
         String extension = "";
         String name = f.getName();
         if(!f.isDirectory()) {
@@ -294,23 +221,14 @@ public class FtpResource {
         return extension;
     }
 
- /**
-  * get size of FTPFile in bytes
-  * @param FTPFile
-  * @return String
-  */
-    public static String getSize(FTPFile f) {
+    private static String getSize(FTPFile f) {
         String rs = "<DIR>";
         if(!f.isDirectory())
             rs = "" + f.getSize();
         return rs;
     }
-    /**
-     * get display name of FTPFile without extension
-     * @param FTPFile
-     * @return String
-     */
-    public static String getName(FTPFile f) {
+
+    private static String getName(FTPFile f) {
         String name = f.getName();
         if(!f.isDirectory()) {
             int e = name.lastIndexOf(".");
