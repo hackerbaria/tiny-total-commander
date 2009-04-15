@@ -11,21 +11,21 @@ import java.util.EventObject;
  *
  * @author pmchanh
  */
-public class XPanelEvent extends EventObject {
-    private XPanel _obj;
+public class XComponentEvent extends EventObject {
+    private Object _obj;
     private Boolean _isFocus;
 
-    public XPanelEvent(XPanel obj, Boolean isFocus) {
+    public XComponentEvent(Object obj, Boolean isFocus) {
         super(obj);
         this._obj = obj;
         this._isFocus = isFocus;
     }
 
-    public XPanel get_obj() {
+    public Object get_obj() {
         return _obj;
     }
 
-    public void set_obj(XPanel _obj) {
+    public void set_obj(Object _obj) {
         this._obj = _obj;
     }
 

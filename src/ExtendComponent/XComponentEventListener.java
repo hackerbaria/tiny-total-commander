@@ -11,7 +11,9 @@ import java.util.EventListener;
  *
  * @author pmchanh
  */
-public interface XPanelEventListener extends EventListener {
-    public void myEventOccurred(XPanelEvent evt);
+public interface XComponentEventListener extends EventListener {
+    public void myEventOccurred(XComponentEvent evt);
+    public void myTableEventOccurred(XComponentEvent evt);
+   
 }
 

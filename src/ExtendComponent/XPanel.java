@@ -6,6 +6,7 @@
 package ExtendComponent;
 
 import core.XFile;
+import javax.swing.event.ChangeEvent;
 import utils.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -15,6 +16,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.TableColumn;
 
 /**
@@ -36,36 +38,16 @@ public class XPanel extends JPanel implements FocusListener {
     private JComboBox _diskList;
     private JLabel _diskInfo;
 
-    private JTabbedPane _tabPane;
-    private JPanel _currentPathPanel;
-    private JLabel _currentPathLabel;
-    private JPanel _containPane;
-    private XTable _dirTable;
-    private XTableModel _model;
-    private JScrollPane _scrollpane;
+    private JTabbedPane _tabPane;   
     private Color _focusColor = Color.BLUE;
     private Color _lostfocusColor = Color.decode("#66CCFF");
-
-    private Boolean _ftpMode;
-    private FtpResource _ftpResource;
+    private XTab _activeTab;
     
  // <editor-fold defaultstate="collapsed" desc="Properties">
     public JPanel getBody() {
         return _body;
     }
-
-    public JPanel getContainPane() {
-        return _containPane;
-    }   
    
-    public JPanel getCurrentPathPanel() {
-        return _currentPathPanel;
-    }
-
-    public XTable getDirTable() {
-        return _dirTable;
-    }
-
     public JLabel getDiskInfo() {
         return _diskInfo;
     }
@@ -89,92 +71,85 @@ public class XPanel extends JPanel implements FocusListener {
     public Color getLostfocusColor() {
         return _lostfocusColor;
     }
-
-    public XTableModel getModel() {
-        return _model;
+    
+    public XTab getTab(int index)
+    {
+        return (XTab)_tabPane.getComponentAt(index);
     }
 
-    public JScrollPane getScrollpane() {
-        return _scrollpane;
+    public XTab getActiveTab()
+    {
+        return getTab(getCurrentIndex());
     }
 
-    public JTabbedPane getTabPane() {
-        return _tabPane;
-    }  
-
-    public void setftpMode(Boolean value){
-        _ftpMode = value;
+    public int getCurrentIndex()
+    {
+        return _tabPane.getSelectedIndex();
     }
-
-    public void setFtpResource(FtpResource _ftpResource) {
-        this._ftpResource = _ftpResource;
-    }
-
     // </editor-fold>
 
-    public void addFocusListener(XPanelEventListener pel) {
-        this.listenerList.add(XPanelEventListener.class, pel);
+     public void addFocusListener(XComponentEventListener pel) {
+        this.listenerList.add(XComponentEventListener.class, pel);
     }
-
-    private void addGlobalFocusEvent(XPanelEvent pe) {
-        Object[] listeners = this.listenerList.getListenerList();
-        for(int i = 0; i < listeners.length; i+= 2)
-            if(listeners[i] == XPanelEventListener.class)
-                ((XPanelEventListener)listeners[i+1]).myEventOccurred(pe);
-    }
-
     /*
      *   xu ly su kien nhan focus
      */
     public void focusGained(FocusEvent e) {
-       // displayMessage("Focus gained", e);       
-        addGlobalFocusEvent(new XPanelEvent(this, true));
-
+       // displayMessage("Focus gained", e);
+        addGlobalFocusEvent(new XComponentEvent(this, true));
+        
     }
-    
+    private void addGlobalFocusEvent(XComponentEvent pe) {
+        Object[] listeners = this.listenerList.getListenerList();
+        for(int i = 0; i < listeners.length; i+= 2)
+            if(listeners[i] == XComponentEventListener.class)
+                ((XComponentEventListener)listeners[i+1]).myEventOccurred(pe);
+    }
     /*
      *  xu ly su kien mat focus
      */
     public void focusLost(FocusEvent e) {
-       // displayMessage("Focus lost", e);        
-        addGlobalFocusEvent(new XPanelEvent(this, false));
+       // displayMessage("Focus lost", e);
+        addGlobalFocusEvent(new XComponentEvent(this, true));        
     }  
-
-    /*
-     *  thiet lap duong dan hien hanh
-     */
-    public void setCurrentPath(String path) {
-        this._currentPathLabel.setText(path);
-        this._tabPane.setTitleAt(_tabPane.getSelectedIndex(),
-                FileHelper.getParentName(path));
-    }
-
-     /*
-      *  lay duong dan hien hanh
-      */
-     public String getCurrentPath() {
-        return this._currentPathLabel.getText();
-    }
-
-    /**
+/**
      * Tô background cho biet component nay dang duoc focus
      */
     public void focusRender() {
-        _currentPathPanel.setBackground(_focusColor);
-        _dirTable.setRowSelectionAllowed(true);
+       ((XTab)_tabPane.getComponentAt(
+                 _tabPane.getSelectedIndex())).focusRender();
     }
 
     /**
      * Tô lai mau background cho biet component mat focus
      */
     public void lostfocusRender() {
-        _currentPathPanel.setBackground(_lostfocusColor);
-        _dirTable.setRowSelectionAllowed(false);
+       ((XTab)_tabPane.getComponentAt(
+                 _tabPane.getSelectedIndex())).lostfocusRender();
+    }
+    /**
+     *  thiet lap duong dan hien hanh
+     */
+    public void setCurrentPath(String path) {
+
+        this._tabPane.setTitleAt(_tabPane.getSelectedIndex(),
+                FileHelper.getParentName(path));
+        ((XTab)_tabPane.getComponentAt(
+                _tabPane.getSelectedIndex())).setCurrentPath(path);
     }
 
-    public void initlizeComponent() {
+     /**
+      *  lay duong dan hien hanh
+      */
+     public String getCurrentPath() {
+         return getActiveTab().getCurrentPath();
+         
+    }
 
-        _ftpMode = false;
+    /**
+     * Initialize component
+     */
+    public void initlizeComponent() {        
         
         this.setLayout(new BorderLayout());
 
@@ -204,62 +179,75 @@ public class XPanel extends JPanel implements FocusListener {
         _tabPane.setLayout(new BorderLayout());
         _tabPane.setBackground(Color.WHITE);
         _tabPane.addFocusListener(this);
+        initTab();
+        /*_tabPane.addChangeListener(new ChangeListener() {
 
-        
-        _containPane = new JPanel(new BorderLayout());
+            public void stateChanged(ChangeEvent e) {
 
-        _currentPathPanel = new JPanel(new BorderLayout());
-        _currentPathPanel.setBackground(_lostfocusColor);
-        _currentPathLabel = new JLabel("C");
-        _currentPathLabel.setForeground(Color.WHITE);
-        _currentPathPanel.add(_currentPathLabel, BorderLayout.CENTER);
-        
-        _containPane.add(_currentPathPanel, BorderLayout.NORTH);
-        
-
-        String[] columnName = {"Name","Ext","Size","Date","Attr"};
-        Object[] obj = {new TextImageObj("", null),"2","3","4","5"};
-        Vector temp = new Vector();
-        temp.add(obj);
-        _model = new XTableModel(temp, columnName);
-        _dirTable = new XTable(_model);
-        _dirTable.setRowHeight(20);
-        _dirTable.setShowGrid(false);
-        _dirTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        _dirTable.addFocusListener(this);
-        _dirTable.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e){
-                setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                dirTableRowClicked(e);
-                setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             }
-        });
-        
-        setColumnWidth(0, 200);
-        _scrollpane = new JScrollPane(_dirTable);
-        _containPane.add(_scrollpane, BorderLayout.CENTER);
-        _tabPane.addTab("Tab",_containPane);
+        });*/
         _tabPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
         _body.add(_tabPane);
 
       //  foot.setBackground(Color.gray);
     }
+    public void createNewTab()
+    {
+        if(_activeTab.getftpMode())
+        {
+            initTab();
+            setCurrentPath("C:\\");
+            refresh("C:\\");            
+        }
+        else {
+            XTab newTab = new XTab();
+            newTab.addFocusListener(new XComponentEventListener() {
 
-    // TODO: Chánh - multiple tabs
+                public void myEventOccurred(XComponentEvent evt) {
+                   // addGlobalFocusEvent(new XComponentEvent(this, evt.get_isFocus()));
+                    dummy(evt.get_isFocus());
+                }
 
-    // TODO: Chánh - support rename on panel
+                public void myTableEventOccurred(XComponentEvent evt) {
+                     String path = (String)evt.get_obj();
+                     setCurrentPath(path);
+                }
+            });
+            //_tabPane.setTabComponentAt(_tabPane.getTabCount()-1, newTab);
 
-    /**
-     *
-     * @param index
-     * @param width
-     */
-    private void setColumnWidth(int index, int width) {
-        TableColumn col = _dirTable.getColumnModel().getColumn(index);
-        col.setPreferredWidth(width);
+            _tabPane.add(newTab);
+            String previousPath = getCurrentPath();
+            _activeTab = newTab;
+
+            _tabPane.setTitleAt(_tabPane.getTabCount()-1,
+                    FileHelper.getParentName(previousPath));
+            _activeTab.setCurrentPath(previousPath);
+            refresh(previousPath);
+        }
     }
 
+    public void initTab(){
+         XTab newTab = new XTab();
+        newTab.addFocusListener(new XComponentEventListener() {
+
+            public void myEventOccurred(XComponentEvent evt) {               
+                dummy(evt.get_isFocus());               
+            }
+
+            public void myTableEventOccurred(XComponentEvent evt) {
+               String path = (String)evt.get_obj();
+               setCurrentPath(path);
+            }
+        });
+        _activeTab = newTab;
+        _tabPane.add(newTab);
+        _tabPane.setSelectedComponent(newTab);
+    }
+
+    private void dummy(Boolean status)
+    {
+        addGlobalFocusEvent(new XComponentEvent(this, status));
+    }
     /**
      *
      * @param e
@@ -273,12 +261,13 @@ public class XPanel extends JPanel implements FocusListener {
         //currentPathLabel.setText(" " + path + "*.*");
         try {
 
-             refreshTable(path);
+             getActiveTab().refreshTable(path);
              // lấy thông tin của ổ đĩa vừa chọn
              _diskInfo.setText(DiskResource.getInfo(path));
              // set lại đường dẫn hiện hành trong tab pane
              //_currentPathLabel.setText(path);
              setCurrentPath(path);
+             
         }
         catch(Exception ex) {
             // lấy ổ đĩa trong đường dẫn hiện hành ở label màu xanh trong tabpane
@@ -291,7 +280,6 @@ public class XPanel extends JPanel implements FocusListener {
             MsgboxHelper.showError("Drive not found!");
         }
     }
-
     //
     /**
      * Tìm chỉ số của ổ đĩa trong danh sách ổ đĩa trong combobox dirList
@@ -315,167 +303,27 @@ public class XPanel extends JPanel implements FocusListener {
             _diskList.insertItemAt(disks[i], i);
         _diskList.setSelectedIndex(0);
     }
-
-    /**
-     * Refresh lai table hien danh sach file sau moi lan chon item
-     * @param pathname
-     */
-    public void refreshTable(String pathname) {
-        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        Vector v = new Vector();
-        if(_ftpMode)
-        {
-            v = _ftpResource.getAllFiles(pathname);
-        }
-        else{
-            v = FileResource.listFiles(pathname);            
-        }
-        if(v.size() > 0) {
-                removeAllRow();
-                _model.fillData(v);
-            }
-        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-    }
-
-    /**
-     * Xoa tat ca cac row trong table hien danh sach file
-     */
-    private void removeAllRow() {
-        while(_model.getRowCount() > 0) {
-           _model.delRow(0);
-        }
-    }
-
-    /*
-     * ham tra ve mang cac filename dang bi select
-     */
-    public ArrayList<String> getSelectedItems() {
-        ArrayList<String> selectedItems = new ArrayList<String>();
-        
-        int[] selectedRows = _dirTable.getSelectedRows();
-        for(int row : selectedRows) {
-            TextImageObj tmodel = (TextImageObj) _model.getValueAt(row, 0);
-            String name = (String) tmodel.getText();
-            String ext = (String) _model.getValueAt(row, 1);
-            if(ext.length() > 1) {
-                selectedItems.add(getCurrentPath() + name + "." + ext);
-            } else {
-                selectedItems.add(getCurrentPath() + name);
-            }
-        }
-        return selectedItems;
-    }
-
-    /*
-     * lay duong dan day du cua file duoc chon
-     */
-    public String getSelectedItemPath() {
-       int rowSelectedIndex = _dirTable.getSelectedRow();
-       TextImageObj tmodel = (TextImageObj) _model.getValueAt(rowSelectedIndex, 0);
-       String name = (String) tmodel.getText();
-       String extention = (String) _model.getValueAt(rowSelectedIndex, 1);
-       if(extention.length() > 1) {
-           return getCurrentPath() + name + "." + extention;
-       }
-       
-       return getCurrentPath() + name;
-    }
+   
 
     public String getSelectedItemFileName(Boolean withExtension) {
-        int rowSelectedIndex = _dirTable.getSelectedRow();
-        TextImageObj tmodel = (TextImageObj) _model.getValueAt(rowSelectedIndex, 0);
+        int rowSelectedIndex = getActiveTab()
+                                .getDirTable()
+                                .getSelectedRow();
+        TextImageObj tmodel = (TextImageObj)getActiveTab()
+                                .getModel()
+                                .getValueAt(rowSelectedIndex, 0);
         String name = (String) tmodel.getText();
-        String ext = (String) _model.getValueAt(rowSelectedIndex, 1);
+        String ext = (String)getActiveTab()
+                                .getModel()
+                                .getValueAt(rowSelectedIndex, 1);
         if(ext.length() > 1 && withExtension == true) {
            return name + "." + ext;
         }
         return name; // without extension
     }
-    
-    /**
-     * Xu ly su kien click vao mot dong trong table hien danh sach file
-     * @param e
-     */
-    private void dirTableRowClicked(MouseEvent e) {
-        if(e.getClickCount() == 1) {        // single click
-            // ignore :)
-            
-        } else if(e.getClickCount() == 2) { // double click
-            
-              if(_ftpMode)
-                  ProcessRowClickInFtpMode();
-              else
-                  ProcessRowClickInNormalMode();
-        }
-    }
-    
-    /*
-     * xu ly double click tren row o che do ftpmode
-    */
-    private void ProcessRowClickInFtpMode()
+
+    public void refresh(String path)
     {
-        // get selected row
-           int rowSelectedIndex = _dirTable.getSelectedRow();
-           TextImageObj tmodel = (TextImageObj) _model.getValueAt(rowSelectedIndex, 0);
-           String name = (String) tmodel.getText();
-           if(name.equals("[...]")){
-               _ftpResource.goUp();
-               refreshTable(_ftpResource.getWorkingDir());
-               setCurrentPath(_ftpResource.getWorkingDir());
-           } else {
-               _ftpResource.changeDir(name);
-               refreshTable(_ftpResource.getWorkingDir());
-               setCurrentPath(_ftpResource.getWorkingDir());
-           }
+        _activeTab.refreshTable(path);
     }
-
-    /*
-     *  xu ly double click tren row o che do binh thuong ( khong phai ftp)
-     */
-    private void ProcessRowClickInNormalMode()
-    {
-          // get selected row
-           int rowSelectedIndex = _dirTable.getSelectedRow();
-           TextImageObj tmodel = (TextImageObj) _model.getValueAt(rowSelectedIndex, 0);
-           String name = (String) tmodel.getText();
-           String fullpath = getCurrentPath();
-           
-           if(name.equals("[...]")) {
-               // double click on [...] => up one level
-               String parent = FileHelper.geParentPath(fullpath);
-               refreshTable(parent+ "\\");
-               setCurrentPath(parent + "\\");
-           } else {
-               // double click on file or folder ...
-               fullpath = fullpath + "\\" + name;
-               String extention = (String) _model.getValueAt(rowSelectedIndex, 1);
-               if(extention.length() > 1) {
-                   fullpath = fullpath + "." + extention;
-               }
-
-                if(FileHelper.isFolder(fullpath)) {
-                // double click on folder => go inside
-                refreshTable(fullpath);
-                setCurrentPath(fullpath + "\\");
-               } else {
-                    try {
-                        // double click on file => lauch file
-                        XFile.execute(fullpath);
-                    } catch (IOException ex) {
-                        Logger.getLogger(XPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-               }
-           }
-    }
-
-    public void selectAllRow() {
-        _dirTable.selectAll();
-    }
-
-    public void DeSelectAll() {
-        _dirTable.clearSelection();
-    }
-
-    
-
 }

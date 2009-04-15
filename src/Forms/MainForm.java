@@ -7,8 +7,8 @@ package Forms;
 
 import ExtendComponent.XButton;
 import ExtendComponent.XPanel;
-import ExtendComponent.XPanelEvent;
-import ExtendComponent.XPanelEventListener;
+import ExtendComponent.XComponentEvent;
+import ExtendComponent.XComponentEventListener;
 import core.XFile;
 import core.XFolder;
 import java.awt.BorderLayout;
@@ -159,6 +159,8 @@ public class MainForm extends JFrame implements ActionListener{
                 KeyStroke.getKeyStroke(KeyEvent.VK_F1, ActionEvent.CTRL_MASK)));
         showMenu.add(createMenuItem("Full", "Full",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F2, ActionEvent.CTRL_MASK)));
+        showMenu.add(createMenuItem("New Folder Tab", "newtab",
+                KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK)));
         // ~show menu
 
         // config menu
@@ -257,17 +259,25 @@ public class MainForm extends JFrame implements ActionListener{
         leftPanel.focusRender();
         focusPanel = leftPanel;
 
-        leftPanel.addFocusListener(new XPanelEventListener() {
-            public void myEventOccurred(XPanelEvent evt) {
+        leftPanel.addFocusListener(new XComponentEventListener() {
+            public void myEventOccurred(XComponentEvent evt) {
                 XuLyFocusXPanel(evt);
+            }
+
+            public void myTableEventOccurred(XComponentEvent evt) {
+                throw new UnsupportedOperationException("Not supported yet.");
             }
         });
         
         rightPanel = new ExtendComponent.XPanel();
-        rightPanel.addFocusListener(new XPanelEventListener() {
+        rightPanel.addFocusListener(new XComponentEventListener() {
 
-            public void myEventOccurred(XPanelEvent evt) {
+            public void myEventOccurred(XComponentEvent evt) {
                 XuLyFocusXPanel(evt);
+            }
+
+            public void myTableEventOccurred(XComponentEvent evt) {
+                throw new UnsupportedOperationException("Not supported yet.");
             }
         });
         
@@ -295,7 +305,7 @@ public class MainForm extends JFrame implements ActionListener{
      * @return
      */
     public String getSelectedItemPath() {
-        return focusPanel.getSelectedItemPath();
+        return focusPanel.getActiveTab().getSelectedItemPath();
     }
 
     /**
@@ -315,11 +325,11 @@ public class MainForm extends JFrame implements ActionListener{
 
         if(leftPanel.getCurrentPath().equals(
                                   focusPanel.getCurrentPath())) {
-            leftPanel.refreshTable(getCurrentPath());
-            rightPanel.refreshTable(getLostFocusPath());
+            leftPanel.refresh(getCurrentPath());
+            rightPanel.refresh(getLostFocusPath());
         } else {
-            leftPanel.refreshTable(getLostFocusPath());
-            rightPanel.refreshTable(getCurrentPath());
+            leftPanel.refresh(getLostFocusPath());
+            rightPanel.refresh(getCurrentPath());
         }
     }
 
@@ -336,17 +346,17 @@ public class MainForm extends JFrame implements ActionListener{
         return leftPanel.getCurrentPath();
     }
 
-    public void XuLyFocusXPanel(XPanelEvent evt) {
+    public void XuLyFocusXPanel(XComponentEvent evt) {
         if(evt.get_isFocus() == true) {
             focusPanel.lostfocusRender();
-            focusPanel = evt.get_obj();
+            focusPanel = (XPanel) evt.get_obj();
             focusPanel.focusRender();
         }
         else if (evt.get_isFocus() == false)
         {
             //if(this.getFocusOwner())
             //utils.MsgboxHelper.confirm(this.getT);
-            evt.get_obj().lostfocusRender();
+            ((XPanel)evt.get_obj()).lostfocusRender();
         }
     }
     
@@ -434,10 +444,11 @@ public class MainForm extends JFrame implements ActionListener{
         } else if (command.equals("dftp")){
                 dftp();
         } else if (command.equals("selectall")){
-            focusPanel.selectAllRow();
-        } else if (command.equals("unselectall")){
-            
-            focusPanel.DeSelectAll();
+            focusPanel.getActiveTab().selectAllRow();
+        } else if (command.equals("unselectall")){            
+            focusPanel.getActiveTab().DeSelectAll();
+        } else if (command.equals("newtab")){
+            focusPanel.createNewTab();
         }
 
 
@@ -528,9 +539,8 @@ public class MainForm extends JFrame implements ActionListener{
         });
     }
 
-    private void deleteFilesFolders() {
-        ArrayList<String> selectedItems = focusPanel.getSelectedItems();
-
+    private void deleteFilesFolders() {        
+        ArrayList<String> selectedItems = focusPanel.getActiveTab().getSelectedItems();
         String msg = "Do you really want to delete the " + selectedItems.size() + " selected item(s) \n";
         for(int i = 0; i < selectedItems.size(); ++i) {
             msg += FileHelper.getFileName(selectedItems.get(i)) + "\n";
@@ -574,7 +584,7 @@ public class MainForm extends JFrame implements ActionListener{
             public void myEventOccurred(MyEvent evt) {
                 String path = evt.getData();
 
-                ArrayList<String> selectedItems = focusPanel.getSelectedItems();
+                ArrayList<String> selectedItems = focusPanel.getActiveTab().getSelectedItems();
                 for(String item : selectedItems) {
                     if(FileHelper.isFile(item)) {
                         // copy file
@@ -614,7 +624,7 @@ public class MainForm extends JFrame implements ActionListener{
             public void myEventOccurred(MyEvent evt) {
                 String path = evt.getData();
 
-                ArrayList<String> selectedItems = focusPanel.getSelectedItems();
+                ArrayList<String> selectedItems = focusPanel.getActiveTab().getSelectedItems();
                 for(String item : selectedItems) {
                     if(FileHelper.isFile(item)) {
                         // move file
@@ -724,9 +734,9 @@ public class MainForm extends JFrame implements ActionListener{
                 ftp = new FtpResource(url, password, username);
                 try {
                     if (ftp.connect()) {
-                        focusPanel.setftpMode(true);
-                        focusPanel.setFtpResource(ftp);
-                        focusPanel.refreshTable("");
+                        focusPanel.getActiveTab().setftpMode(true);
+                        focusPanel.getActiveTab().setFtpResource(ftp);
+                        focusPanel.getActiveTab().refreshTable("");
                         focusPanel.setCurrentPath(ftp.getWorkingDir());
                         btnFTPDiscnn.setEnabled(true);
                     }
@@ -743,14 +753,14 @@ public class MainForm extends JFrame implements ActionListener{
                 ftp.disConnect();
         if(leftPanel.getCurrentPath().startsWith(ftp.getRootPath()))
         {
-            leftPanel.setftpMode(false);
-            leftPanel.refreshTable("C:\\");
+            leftPanel.getActiveTab().setftpMode(false);
+            leftPanel.getActiveTab().refreshTable("C:\\");
             leftPanel.setCurrentPath("C:\\");
         }
         if(rightPanel.getCurrentPath().startsWith(ftp.getRootPath()))
         {
-            rightPanel.setftpMode(false);
-            rightPanel.refreshTable("C:\\");
+            rightPanel.getActiveTab().setftpMode(false);
+            rightPanel.getActiveTab().refreshTable("C:\\");
             rightPanel.setCurrentPath("C:\\");
         }
         btnFTPDiscnn.setEnabled(false);
