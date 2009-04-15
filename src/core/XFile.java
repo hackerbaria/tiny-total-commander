@@ -9,13 +9,17 @@ import java.io.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
-import utils.Konstant;
 
 /**
  * File
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public class XFile {
+
+    /**
+     * Buffer used in reading file
+     */
+    private static final int BUFFER = 1024;
 
     /**
      * Create a new file
@@ -49,7 +53,7 @@ public class XFile {
         OutputStream out = new FileOutputStream(dest);
 
         // Copy the bits from instream to outstream
-        byte[] buf = new byte[Konstant.BUFFER];
+        byte[] buf = new byte[BUFFER];
         int len;
         while ((len = in.read(buf)) > 0) {
             out.write(buf, 0, len);
@@ -109,7 +113,7 @@ public class XFile {
         ZipOutputStream outStream = new ZipOutputStream(new FileOutputStream(outFile));
 
         outStream.putNextEntry(new ZipEntry(inFile.getName()));
-        byte[] buf = new byte[Konstant.BUFFER];
+        byte[] buf = new byte[BUFFER];
         int len = 0;
         while((len = inStream.read(buf)) > 0) {
             outStream.write(buf, 0, len);
@@ -130,8 +134,8 @@ public class XFile {
         ZipEntry entry = null;
         int count = 0;
         while((entry = inStream.getNextEntry()) != null) {
-            byte buffer[] = new byte[Konstant.BUFFER];
-            outStream = new BufferedOutputStream(new FileOutputStream(outFilePath + "/" + entry.getName()), Konstant.BUFFER);
+            byte buffer[] = new byte[BUFFER];
+            outStream = new BufferedOutputStream(new FileOutputStream(outFilePath + "/" + entry.getName()), BUFFER);
             while((count = inStream.read(buffer)) > 0) {
                 outStream.write(buffer, 0, count);
             }

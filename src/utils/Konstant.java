@@ -12,7 +12,12 @@ package utils;
 public class Konstant {
     
     /**
-     * Buffer used for reading from file
+     * Application's name
      */
-    public static final int BUFFER = 1024;
+    public static final String APP_NAME = "Tiny Total Commander";
+
+    /**
+     * Application's version
+     */
+    public static final String APP_VER = "1.0";
 }
