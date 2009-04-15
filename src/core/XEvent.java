@@ -12,10 +12,10 @@ import java.util.EventObject;
  *
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
-public class MyEvent extends EventObject {
+public class XEvent extends EventObject {
     private ArrayList<String> _dataList = new ArrayList<String>();
 
-    public MyEvent(String data) {
+    public XEvent(String data) {
         super(data);
         _dataList.add(data);
     }

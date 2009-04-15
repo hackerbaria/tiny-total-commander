@@ -12,9 +12,9 @@
 package Forms;
 
 import java.awt.event.KeyEvent;
-import core.MyEventListener;
+import core.XEventListener;
 import javax.swing.event.EventListenerList;
-import core.MyEvent;
+import core.XEvent;
 /**
  *
  * @author pmchanh
@@ -22,12 +22,12 @@ import core.MyEvent;
 public class frmFtpConnection extends javax.swing.JFrame {
     protected javax.swing.event.EventListenerList listenerList = new EventListenerList();
     
-    public void addMyEventListener(MyEventListener mel) {
-      listenerList.add(MyEventListener.class, mel);
+    public void addMyEventListener(XEventListener mel) {
+      listenerList.add(XEventListener.class, mel);
     }
 
-    public void removeMyEventListener(MyEventListener mel) {
-        listenerList.remove(MyEventListener.class, mel);
+    public void removeMyEventListener(XEventListener mel) {
+        listenerList.remove(XEventListener.class, mel);
     }
 
     /** Creates new form frmFtpConnection */
@@ -151,14 +151,14 @@ public class frmFtpConnection extends javax.swing.JFrame {
      * button ok
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        MyEvent event = new MyEvent(txtUrl.getText());       // url
+        XEvent event = new XEvent(txtUrl.getText());       // url
         event.addData(txtUsername.getText());                // username
         event.addData(txtPassword.getPassword().toString()); // password
 
         Object[] listeners = listenerList.getListenerList();
         for (int i = 0; i < listeners.length; i += 2) {
-            if (listeners[i] == MyEventListener.class) {
-                ((MyEventListener)listeners[i+1]).myEventOccurred(event);
+            if (listeners[i] == XEventListener.class) {
+                ((XEventListener)listeners[i+1]).myEventOccurred(event);
             }
         }
         this.dispose(); // close form

@@ -5,8 +5,8 @@
 
 package Forms;
 
-import core.MyEventListener;
-import core.MyEvent;
+import core.XEventListener;
+import core.XEvent;
 import ExtendComponent.*;
 import core.*;
 import java.awt.*;
@@ -442,9 +442,9 @@ public class MainForm extends JFrame implements ActionListener{
         frm.setLabelText("New File");
         frm.setVisible(true);
         
-        frm.addMyEventListener(new MyEventListener() {
+        frm.addMyEventListener(new XEventListener() {
 
-            public void myEventOccurred(MyEvent evt) {
+            public void myEventOccurred(XEvent evt) {
                 String fullPath = getCurrentPath() + evt.getData();
                 try {
                     XFile.create(fullPath); // create file
@@ -461,9 +461,9 @@ public class MainForm extends JFrame implements ActionListener{
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setLabelText("New Directory");
         frm.setVisible(true);
-        frm.addMyEventListener(new MyEventListener() {
+        frm.addMyEventListener(new XEventListener() {
 
-            public void myEventOccurred(MyEvent evt) {
+            public void myEventOccurred(XEvent evt) {
                 String fullPath = getCurrentPath() + evt.getData();
                 try {
                     XFolder.create(fullPath);
@@ -492,9 +492,9 @@ public class MainForm extends JFrame implements ActionListener{
         frm.setLabelText("New Name");
         frm.setTextboxText(PathHelper.getFileName(getSelectedItemPath()));
         frm.setVisible(true);
-        frm.addMyEventListener(new MyEventListener() {
+        frm.addMyEventListener(new XEventListener() {
 
-            public void myEventOccurred(MyEvent evt) {
+            public void myEventOccurred(XEvent evt) {
                 String fullPath = getCurrentPath() + evt.getData();
                 try {
                     XFile.rename(getSelectedItemPath(), fullPath);
@@ -546,9 +546,9 @@ public class MainForm extends JFrame implements ActionListener{
         frm.setLabelText("Copy To");
         frm.setTextboxText(getLostFocusPath());
         frm.setVisible(true);
-        frm.addMyEventListener(new MyEventListener() {
+        frm.addMyEventListener(new XEventListener() {
 
-            public void myEventOccurred(MyEvent evt) {
+            public void myEventOccurred(XEvent evt) {
                 String path = evt.getData();
 
                 ArrayList<String> selectedItems = focusPanel.getSelectedItems();
@@ -582,9 +582,9 @@ public class MainForm extends JFrame implements ActionListener{
         frm.setLabelText("Move To");
         frm.setTextboxText(getLostFocusPath());
         frm.setVisible(true);
-        frm.addMyEventListener(new MyEventListener() {
+        frm.addMyEventListener(new XEventListener() {
 
-            public void myEventOccurred(MyEvent evt) {
+            public void myEventOccurred(XEvent evt) {
                 String path = evt.getData();
 
                 ArrayList<String> selectedItems = focusPanel.getSelectedItems();
@@ -629,9 +629,9 @@ public class MainForm extends JFrame implements ActionListener{
         frm.setTextboxText(getLostFocusPath() + PathHelper.getFileNameWithoutExt(getSelectedItemPath()) + ".zip");
         frm.setVisible(true);
 
-        frm.addMyEventListener(new MyEventListener() {
+        frm.addMyEventListener(new XEventListener() {
 
-            public void myEventOccurred(MyEvent evt) {
+            public void myEventOccurred(XEvent evt) {
                 String fullPath = evt.getData();
                 try {
                     XFile.zip(getSelectedItemPath(), fullPath);
@@ -650,9 +650,9 @@ public class MainForm extends JFrame implements ActionListener{
         frm.setTextboxText(getLostFocusPath());
         frm.setVisible(true);
 
-        frm.addMyEventListener(new MyEventListener() {
+        frm.addMyEventListener(new XEventListener() {
 
-            public void myEventOccurred(MyEvent evt) {
+            public void myEventOccurred(XEvent evt) {
                 String fullPath = evt.getData();
                 try {
                     XFile.unzip(getSelectedItemPath(), fullPath);
@@ -669,9 +669,9 @@ public class MainForm extends JFrame implements ActionListener{
         frmFtpConnection frm = new frmFtpConnection();
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setVisible(true);
-        frm.addMyEventListener(new MyEventListener() {
+        frm.addMyEventListener(new XEventListener() {
        
-            public void myEventOccurred(MyEvent evt) {               
+            public void myEventOccurred(XEvent evt) {
                 String url = evt.getDataList().get(0);        // url
                 String username = evt.getDataList().get(1);   // username
                 String password = evt.getDataList().get(2);   // password

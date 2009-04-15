@@ -12,8 +12,8 @@
 package Forms;
 
 import javax.swing.event.EventListenerList;
-import core.MyEvent;
-import core.MyEventListener;
+import core.XEvent;
+import core.XEventListener;
 
 /**
  *
@@ -22,12 +22,12 @@ import core.MyEventListener;
 public class MiniForm extends javax.swing.JFrame {
     protected javax.swing.event.EventListenerList listenerList = new EventListenerList();
 
-    public void addMyEventListener(MyEventListener evt) {
-        listenerList.add(MyEventListener.class, evt);
+    public void addMyEventListener(XEventListener evt) {
+        listenerList.add(XEventListener.class, evt);
     }
 
-    public void removeMyEventListener(MyEventListener evt) {
-        listenerList.remove(MyEventListener.class, evt);
+    public void removeMyEventListener(XEventListener evt) {
+        listenerList.remove(XEventListener.class, evt);
     }
     
     /** Creates new form MiniForm */
@@ -116,14 +116,14 @@ public class MiniForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
-        MyEvent ev = new MyEvent(txtPath.getText());
+        XEvent ev = new XEvent(txtPath.getText());
         Object[] listeners = listenerList.getListenerList();
 
         // Each listener occupies two elements - the first is the listener class
         // and the second is the listener instance
         for (int i = 0; i < listeners.length; i += 2) {
-            if (listeners[i] == MyEventListener.class) {
-                ((MyEventListener)listeners[i+1]).myEventOccurred(ev);
+            if (listeners[i] == XEventListener.class) {
+                ((XEventListener)listeners[i+1]).myEventOccurred(ev);
             }
         }
 

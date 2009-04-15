@@ -5,13 +5,12 @@
 
 package core;
 
-import core.MyEvent;
 import java.util.EventListener;
 
 /**
  *
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
-public interface MyEventListener extends EventListener{
-    public void myEventOccurred(MyEvent evt);
+public interface XEventListener extends EventListener{
+    public void myEventOccurred(XEvent evt);
 }

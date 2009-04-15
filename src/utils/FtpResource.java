@@ -258,5 +258,4 @@ public class FtpResource {
 
 	    return kq;
     }
-
 }
