@@ -31,7 +31,7 @@ public class PathHelper {
     /**
      * Get parent path
      */
-    public static String geParentPath(String path) {
+    public static String getParentPath(String path) {
         return path.substring(0, path.lastIndexOf("\\\\"));
     }
 

@@ -634,7 +634,7 @@ public class MainForm extends JFrame implements ActionListener{
             public void myEventOccurred(XEvent evt) {
                 String fullPath = evt.getData();
                 try {
-                    XZiper.zipFolder(getSelectedItemPath(), fullPath);
+                    XZiper.zip(getSelectedItemPath(), fullPath);
                 } catch (Exception ex) {
                     Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -656,10 +656,11 @@ public class MainForm extends JFrame implements ActionListener{
             public void myEventOccurred(XEvent evt) {
                 String fullPath = evt.getData();
                 try {
-                    XFile.unzip(getSelectedItemPath(), fullPath);
-                } catch (IOException ex) {
+                    XZiper.unzip(getSelectedItemPath(), fullPath);
+                } catch (Exception ex) {
                     Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
+
                 refresh();
             }
         });

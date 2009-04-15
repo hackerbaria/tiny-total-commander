@@ -223,7 +223,7 @@ public class XTab extends JPanel implements FocusListener {
 
            if(name.equals("[...]")) {
                // double click on [...] => up one level
-               String parent = PathHelper.geParentPath(fullpath);
+               String parent = PathHelper.getParentPath(fullpath);
                refreshTable(parent+ "\\");
                setCurrentPath(parent + "\\");
            } else {
