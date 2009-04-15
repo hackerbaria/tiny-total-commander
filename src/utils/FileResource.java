@@ -43,7 +43,6 @@ public class FileResource {
                // TODO: Chánh - bug svn
                // ko up lên parent folder được khi browse thư mục có file ẩn do svn tạo ra
                // fix: không hiện các file ẩn ?
-
                sf = ShellFolder.getShellFolder(files[i]);
                icon = new ImageIcon(sf.getIcon(true).getScaledInstance(19, 19, Image.SCALE_SMOOTH));
 

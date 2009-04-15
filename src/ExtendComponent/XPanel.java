@@ -443,7 +443,7 @@ public class XPanel extends JPanel implements FocusListener {
            if(name.equals("[...]")) {
                // double click on [...] => up one level
                String parent = FileHelper.geParentPath(fullpath);
-               refreshTable(parent);
+               refreshTable(parent+ "\\");
                setCurrentPath(parent + "\\");
            } else {
                // double click on file or folder ...

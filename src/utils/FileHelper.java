@@ -33,7 +33,7 @@ public class FileHelper {
      */
     public static String geParentPath(String path) {
         //return path.substring(0, path.indexOf("\\\\"));<~ x(
-        return path.substring(0, path.lastIndexOf("\\\\"));        
+        return path.substring(0, path.lastIndexOf("\\\\"));
     }
 
     /**
