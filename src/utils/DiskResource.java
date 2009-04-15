@@ -6,33 +6,30 @@
 package utils;
 import java.io.File;
 import javax.swing.filechooser.FileSystemView;
+
 /**
  *
  * @author pmchanh
  */
-public class DiskResource
-{
-    public static String[] getAll()
-    {
+public class DiskResource {
+    /**
+     * Get all drives on computer
+     * @return
+     */
+    public static String[] getAll() {
         File[] fs = File.listRoots();
         String[] rs = new String[fs.length];
-        for(int i = 0; i < fs.length; i++)
-        {
-            String item = refinePath(fs[i]).toLowerCase();
-            rs[i] = item;
+        for(int i = 0; i < fs.length; i++) {
+            String driveName = fs[i].getPath().replace(":\\", "");
+            rs[i] = "[-" + driveName + "-]";
         }
         return rs;
     }
-    public static String refinePath(File f)
-    {
-        String rs = "";
-        String path = f.getPath().replace(":\\", "");
-        rs = "[-" + path + "-] " ;
-        return rs;
-    }
 
-    public static String getInfo(String pathName)
-    {
+    /**
+     * Get disk information (unuse space)
+     */
+    public static String getInfo(String pathName) {
         FileSystemView view = FileSystemView.getFileSystemView();
         File f = new File(pathName);
         String label = view.getSystemDisplayName(f);        
