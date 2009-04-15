@@ -32,7 +32,20 @@ public class FileHelper {
      * Get parent path
      */
     public static String geParentPath(String path) {
-        return path.substring(0, path.indexOf("\\\\"));
+        //return path.substring(0, path.indexOf("\\\\"));<~ x(
+        return path.substring(0, path.lastIndexOf("\\\\"));        
+    }
+
+    /**
+     * Get parent name
+     */
+    public static String getParentName(String path)
+    {
+        int i = path.lastIndexOf("\\\\");
+        if(i<0)
+            return path;
+        else
+            return path.substring(i + 2, path.length()-1);
     }
 
     /**

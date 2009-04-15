@@ -42,10 +42,9 @@ public class MainForm extends JFrame implements ActionListener{
     private JPanel headPanel;
     private JPanel footPanel;
     private JPanel mainPanel;
-    private BorderLayout borderLayout;
-    private XPanel activeXPanel;
+    private BorderLayout borderLayout;    
     Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-     private  FtpResource ftp;
+    private  FtpResource ftp = null;
     // constructor
     public MainForm()
     {
@@ -207,6 +206,7 @@ public class MainForm extends JFrame implements ActionListener{
         btnFTP = new XButton("Ftp Connect","ftp");
         btnFTP.addActionListener(this);
         btnFTPDiscnn = new XButton("Ftp Disconnect","dftp");
+        btnFTPDiscnn.setEnabled(false);
         btnFTPDiscnn.addActionListener(this);
         mainToolbar.add(btnFTP);
         mainToolbar.add(btnFTPDiscnn);
@@ -287,7 +287,7 @@ public class MainForm extends JFrame implements ActionListener{
      * @return
      */
     public String getCurrentPath() {
-        return focusPanel.getCurrentPathLabel().getText();
+        return focusPanel.getCurrentPath();
     }
 
     /**
@@ -313,8 +313,8 @@ public class MainForm extends JFrame implements ActionListener{
      */
     private void refresh() {
 
-        if(leftPanel.getCurrentPathLabel().getText().equals(
-                                  focusPanel.getCurrentPathLabel().getText())) {           
+        if(leftPanel.getCurrentPath().equals(
+                                  focusPanel.getCurrentPath())) {
             leftPanel.refreshTable(getCurrentPath());
             rightPanel.refreshTable(getLostFocusPath());
         } else {
@@ -328,12 +328,12 @@ public class MainForm extends JFrame implements ActionListener{
      * @return
      */
     private String getLostFocusPath() {
-        if(leftPanel.getCurrentPathLabel().getText().equals(
-                                focusPanel.getCurrentPathLabel().getText())) {
-            return rightPanel.getCurrentPathLabel().getText();
+        if(leftPanel.getCurrentPath().equals(
+                                focusPanel.getCurrentPath())) {
+            return rightPanel.getCurrentPath();
 
         }
-        return leftPanel.getCurrentPathLabel().getText();
+        return leftPanel.getCurrentPath();
     }
 
     public void XuLyFocusXPanel(XPanelEvent evt) {
@@ -716,7 +716,7 @@ public class MainForm extends JFrame implements ActionListener{
             public void mySEventOccurred(MySEvent evt) {
                 //throw new UnsupportedOperationException("Not supported yet.");
                 //utils.MsgboxHelper.inform("chanh");
-                // get connection info              
+                // get connection info
                
                 String url = (String) evt.getData().get(0);
                 String password =new String((char[])evt.getData().get(1));
@@ -725,15 +725,15 @@ public class MainForm extends JFrame implements ActionListener{
                 try {
                     if (ftp.connect()) {
                         focusPanel.setftpMode(true);
-                        focusPanel.set_ftpResource(ftp);
-                        focusPanel.refreshTable("wwwroot/");
+                        focusPanel.setFtpResource(ftp);
+                        focusPanel.refreshTable("");
                         focusPanel.setCurrentPath(ftp.getWorkingDir());
-
+                        btnFTPDiscnn.setEnabled(true);
                     }
                 } catch (Exception ex) {
                     //Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                     utils.MsgboxHelper.showError(ex.getMessage());
-                }           
+                }
             }
         });
     }
@@ -752,7 +752,8 @@ public class MainForm extends JFrame implements ActionListener{
             rightPanel.setftpMode(false);
             rightPanel.refreshTable("C:\\");
             rightPanel.setCurrentPath("C:\\");
-        }           
+        }
+        btnFTPDiscnn.setEnabled(false);
     }
     //</editor-fold>
 }

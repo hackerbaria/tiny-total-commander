@@ -9,7 +9,6 @@ import core.XFile;
 import utils.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -57,11 +56,7 @@ public class XPanel extends JPanel implements FocusListener {
 
     public JPanel getContainPane() {
         return _containPane;
-    }
-
-    public JLabel getCurrentPathLabel() {
-        return _currentPathLabel;
-    }
+    }   
    
     public JPanel getCurrentPathPanel() {
         return _currentPathPanel;
@@ -111,7 +106,7 @@ public class XPanel extends JPanel implements FocusListener {
         _ftpMode = value;
     }
 
-    public void set_ftpResource(FtpResource _ftpResource) {
+    public void setFtpResource(FtpResource _ftpResource) {
         this._ftpResource = _ftpResource;
     }
 
@@ -150,6 +145,8 @@ public class XPanel extends JPanel implements FocusListener {
      */
     public void setCurrentPath(String path) {
         this._currentPathLabel.setText(path);
+        this._tabPane.setTitleAt(_tabPane.getSelectedIndex(),
+                FileHelper.getParentName(path));
     }
 
      /*
@@ -280,11 +277,13 @@ public class XPanel extends JPanel implements FocusListener {
              // lấy thông tin của ổ đĩa vừa chọn
              _diskInfo.setText(DiskResource.getInfo(path));
              // set lại đường dẫn hiện hành trong tab pane
-             _currentPathLabel.setText(path);
+             //_currentPathLabel.setText(path);
+             setCurrentPath(path);
         }
         catch(Exception ex) {
             // lấy ổ đĩa trong đường dẫn hiện hành ở label màu xanh trong tabpane
-            String s = _currentPathLabel.getText().substring(0, 1);
+            //String s = _currentPathLabel.getText().substring(0, 1);
+            String s = getCurrentPath().substring(0, 1);
             // nếu drive không đọc được thì gán tên ổ đĩa đang được select lại
             // thành ổ đĩa trước khi select change
             _diskList.setSelectedIndex(findIndex(s));
@@ -359,9 +358,9 @@ public class XPanel extends JPanel implements FocusListener {
             String name = (String) tmodel.getText();
             String ext = (String) _model.getValueAt(row, 1);
             if(ext.length() > 1) {
-                selectedItems.add(_currentPathLabel.getText() + name + "." + ext);
+                selectedItems.add(getCurrentPath() + name + "." + ext);
             } else {
-                selectedItems.add(_currentPathLabel.getText() + name);
+                selectedItems.add(getCurrentPath() + name);
             }
         }
         return selectedItems;
@@ -376,10 +375,10 @@ public class XPanel extends JPanel implements FocusListener {
        String name = (String) tmodel.getText();
        String extention = (String) _model.getValueAt(rowSelectedIndex, 1);
        if(extention.length() > 1) {
-           return _currentPathLabel.getText() + name + "." + extention;
+           return getCurrentPath() + name + "." + extention;
        }
        
-       return _currentPathLabel.getText() + name;
+       return getCurrentPath() + name;
     }
 
     public String getSelectedItemFileName(Boolean withExtension) {
@@ -422,11 +421,11 @@ public class XPanel extends JPanel implements FocusListener {
            if(name.equals("[...]")){
                _ftpResource.goUp();
                refreshTable(_ftpResource.getWorkingDir());
-               _currentPathLabel.setText(_ftpResource.getWorkingDir());
+               setCurrentPath(_ftpResource.getWorkingDir());
            } else {
                _ftpResource.changeDir(name);
                refreshTable(_ftpResource.getWorkingDir());
-               _currentPathLabel.setText(_ftpResource.getWorkingDir());
+               setCurrentPath(_ftpResource.getWorkingDir());
            }
     }
 
@@ -439,13 +438,13 @@ public class XPanel extends JPanel implements FocusListener {
            int rowSelectedIndex = _dirTable.getSelectedRow();
            TextImageObj tmodel = (TextImageObj) _model.getValueAt(rowSelectedIndex, 0);
            String name = (String) tmodel.getText();
-           String fullpath = _currentPathLabel.getText();
+           String fullpath = getCurrentPath();
            
            if(name.equals("[...]")) {
                // double click on [...] => up one level
                String parent = FileHelper.geParentPath(fullpath);
                refreshTable(parent);
-               _currentPathLabel.setText(parent + "\\");
+               setCurrentPath(parent + "\\");
            } else {
                // double click on file or folder ...
                fullpath = fullpath + "\\" + name;
@@ -457,7 +456,7 @@ public class XPanel extends JPanel implements FocusListener {
                 if(FileHelper.isFolder(fullpath)) {
                 // double click on folder => go inside
                 refreshTable(fullpath);
-                _currentPathLabel.setText(fullpath + "\\");
+                setCurrentPath(fullpath + "\\");
                } else {
                     try {
                         // double click on file => lauch file
