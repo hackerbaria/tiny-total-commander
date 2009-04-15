@@ -38,35 +38,67 @@ public class FtpResource {
 
     private String _rootPath;
 
+    /**
+     * get rootpath of ftp server
+     * @return
+     */
     public String getRootPath() {
         return _rootPath;
     }
 
-   
+
+    /**
+     * get password
+     * @return
+     */
     public String getPassword() {
         return _password;
     }
 
+    /**
+     * set password
+     * @param _password
+     */
     public void setPassword(String _password) {
         this._password = _password;
     }
 
+    /**
+     * get url of FTP host
+     * @return
+     */
     public String getUrl() {
         return _url;
     }
 
+    /**
+     * set url of FTP host
+     * @param _url
+     */
     public void setUrl(String _url) {
         this._url = _url;
     }
 
+    /**
+     * get username
+     * @return
+     */
     public String getUsername() {
         return _username;
     }
 
+    /**
+     * set username
+     * @param _username
+     */
     public void setUsername(String _username) {
         this._username = _username;
     }
 
+    /**
+     * get working directory
+     * @return
+     */
      public String getWorkingDir() {
         try {
             return _ftpClient.printWorkingDirectory();
@@ -76,18 +108,30 @@ public class FtpResource {
         }
     }
 
+     /**
+      * Constructor
+      * @param _url
+      * @param _password
+      * @param _username
+      */
     public FtpResource(String _url, char[] _password, String _username) {
         this._url = _url;
         this._password = new String(_password);
         this._username = _username;
     }
-    
+
+    /**
+     * Constructor
+     * @param _url
+     * @param _password
+     * @param _username
+     */
     public FtpResource(String _url, String _password, String _username) {
         this._url = _url;
         this._password = _password;
         this._username = _username;
     }
-    /*
+    /**
      *  connect to server
      */
     public Boolean connect() throws Exception {
@@ -105,11 +149,9 @@ public class FtpResource {
            // return false;
              throw new Exception(ex.getMessage());  
         }
-
-       //_ftpClient.login(_username, _password);
     }
 
-    /*
+    /**
      * disconnect from server
      */
     public void disConnect()
@@ -123,7 +165,7 @@ public class FtpResource {
         _ftpClient = null;
     }
     
-    /*
+    /**
      *  change working directory
      */ 
     public Boolean changeDir(String remotePath){
@@ -138,7 +180,7 @@ public class FtpResource {
         return true;
     }
 
-    /*
+    /**
      * go to parent of working directory
      */
     public boolean goUp()
@@ -153,7 +195,7 @@ public class FtpResource {
     }
 
 
-    /*
+    /**
      *  get all files from current dir in server
      */
     public Vector getAllFiles(String wd)
@@ -205,7 +247,7 @@ public class FtpResource {
         return rs;
     }
 
-    /*
+    /**
      * Lay icon file
      * Thamkhao: http://blog.codebeach.com/2008/02/get-file-type-icon-with-java.html
      */
@@ -234,7 +276,12 @@ public class FtpResource {
         }
         return ico;
     }
-    
+
+    /**
+     * Get extension of FTPFile
+     * @param FTPFile
+     * @return
+     */
     public static String getExtension(FTPFile f) {
         String extension = "";
         String name = f.getName();
@@ -246,13 +293,22 @@ public class FtpResource {
         return extension;
     }
 
+ /**
+  * get size of FTPFile in bytes
+  * @param FTPFile
+  * @return String
+  */
     public static String getSize(FTPFile f) {
         String rs = "<DIR>";
         if(!f.isDirectory())
             rs = "" + f.getSize();
         return rs;
     }
-
+    /**
+     * get display name of FTPFile without extension
+     * @param FTPFile
+     * @return String
+     */
     public static String getName(FTPFile f) {
         String name = f.getName();
         if(!f.isDirectory()) {
@@ -261,13 +317,6 @@ public class FtpResource {
                 name = name.substring(0,e);
         }
         return name;
-    }
-
-    public static void main(String[] args) {
-       /* FtpResource ftp = new FtpResource("dsaf", "�df", "dsafs");
-        ftp.connect();
-        Vector v = ftp.getAllFiles("wwwroot/");
-        ftp.disConnect();*/
-    }
+    }    
 
 }

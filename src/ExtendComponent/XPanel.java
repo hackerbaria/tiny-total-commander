@@ -475,4 +475,7 @@ public class XPanel extends JPanel implements FocusListener {
     public void DeSelectAll() {
         _dirTable.clearSelection();
     }
+
+    
+
 }
