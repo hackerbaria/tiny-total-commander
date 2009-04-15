@@ -195,8 +195,6 @@ public class MainForm extends JFrame implements ActionListener{
         temporaryMenu.add(createMenuItem("New Folder", "New_Folder"));
         temporaryMenu.add(new JSeparator());
         temporaryMenu.add(createMenuItem("Zip file", "Zip_File"));
-        
-
         //~setup menu
 
         //setup toolbar
@@ -432,7 +430,12 @@ public class MainForm extends JFrame implements ActionListener{
                 ftp();
         } else if (command.equals("dftp")){
                 dftp();
+        } else if (command.equals("selectall")){
+            focusPanel.selectAllRow();
+        } else if (command.equals("unselectall")){
+            focusPanel.DeSelectAll();
         }
+
 
     }
     

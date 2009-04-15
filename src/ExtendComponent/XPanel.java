@@ -473,4 +473,13 @@ public class XPanel extends JPanel implements FocusListener {
                }
            }
     }
+
+    public void selectAllRow()
+    {
+        _dirTable.selectAll();
+    }
+    public void DeSelectAll()
+    {
+        _dirTable.clearSelection();
+    }
 }
