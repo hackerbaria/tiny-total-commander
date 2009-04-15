@@ -14,8 +14,7 @@ import javax.swing.table.TableCellRenderer;
  *
  * @author pmchanh
  */
-public class XTable extends  JTable{
-    
+public class XTable extends  JTable{    
     public XTable (ExtendComponent.XTableModel model)
     {
         super(model);

@@ -19,6 +19,4 @@ public class XButton extends JButton {
         setFocusPainted(false);
         setActionCommand(command);
     }
-
-
 }

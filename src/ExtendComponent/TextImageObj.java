@@ -25,9 +25,9 @@ public class TextImageObj {
         return _icon;
     }
 
-    public TextImageObj(String text, Icon iconData) {
+    public TextImageObj(String text, Icon icon) {
         _text = text;
-        _icon = iconData;
+        _icon = icon;
     }
 
     public static TextImageObj createEmptyObj() {

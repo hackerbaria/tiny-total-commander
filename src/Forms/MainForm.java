@@ -689,7 +689,7 @@ public class MainForm extends JFrame implements ActionListener{
                         focusPanel.setftpMode(true);
                         focusPanel.set_ftpResource(ftp);
                         focusPanel.refreshTable("wwwroot/");
-                        focusPanel.set_currentPath(ftp.get_workingDir());                       
+                        focusPanel.setCurrentPath(ftp.getWorkingDir());
 
                     }
                 } catch (Exception ex) {
@@ -703,17 +703,17 @@ public class MainForm extends JFrame implements ActionListener{
     private void dftp() {
         if(ftp != null)
                 ftp.disConnect();
-        if(leftPanel.get_currentPath().startsWith(ftp.get_rootPath()))
+        if(leftPanel.getCurrentPath().startsWith(ftp.getRootPath()))
         {
             leftPanel.setftpMode(false);
             leftPanel.refreshTable("C:\\");
-            leftPanel.set_currentPath("C:\\");
+            leftPanel.setCurrentPath("C:\\");
         }
-        if(rightPanel.get_currentPath().startsWith(ftp.get_rootPath()))
+        if(rightPanel.getCurrentPath().startsWith(ftp.getRootPath()))
         {
             rightPanel.setftpMode(false);
             rightPanel.refreshTable("C:\\");
-            rightPanel.set_currentPath("C:\\");
+            rightPanel.setCurrentPath("C:\\");
         }           
     }
     //</editor-fold>

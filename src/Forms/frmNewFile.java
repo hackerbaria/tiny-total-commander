@@ -11,6 +11,8 @@
 
 package Forms;
 
+import java.awt.BorderLayout;
+import javax.swing.JColorChooser;
 import javax.swing.event.EventListenerList;
 import utils.*;
 

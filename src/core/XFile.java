@@ -78,14 +78,10 @@ public class XFile {
     public static String getContent(String filePath) throws IOException{
         StringBuilder builder = new StringBuilder();
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
-        try {
-            String line = null;
-            while((line = reader.readLine()) != null) {
-                builder.append(line);
-                builder.append(System.getProperty("line.separator"));
-            }
-        } catch(Exception ex) {
-            // ignore :)
+        String line = null;
+        while((line = reader.readLine()) != null) {
+            builder.append(line);
+            builder.append(System.getProperty("line.separator"));
         }
 
         return builder.toString();

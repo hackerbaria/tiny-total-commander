@@ -136,6 +136,7 @@ public class XPanel extends JPanel implements FocusListener {
         addGlobalFocusEvent(new XPanelEvent(this, true));
 
     }
+    
     /*
      *  xu ly su kien mat focus
      */
@@ -147,14 +148,14 @@ public class XPanel extends JPanel implements FocusListener {
     /*
      *  thiet lap duong dan hien hanh
      */
-     public void set_currentPath(String path) {
+    public void setCurrentPath(String path) {
         this._currentPathLabel.setText(path);
     }
 
      /*
-     *  lay duong dan hien hanh
-     */
-     public String get_currentPath() {
+      *  lay duong dan hien hanh
+      */
+     public String getCurrentPath() {
         return this._currentPathLabel.getText();
     }
 
@@ -412,8 +413,6 @@ public class XPanel extends JPanel implements FocusListener {
     /*
      * xu ly double click tren row o che do ftpmode
     */
-
-
     private void ProcessRowClickInFtpMode()
     {
         // get selected row
@@ -422,13 +421,12 @@ public class XPanel extends JPanel implements FocusListener {
            String name = (String) tmodel.getText();
            if(name.equals("[...]")){
                _ftpResource.goUp();
-               refreshTable(_ftpResource.get_workingDir());
-               _currentPathLabel.setText(_ftpResource.get_workingDir());
-           }
-           else{
+               refreshTable(_ftpResource.getWorkingDir());
+               _currentPathLabel.setText(_ftpResource.getWorkingDir());
+           } else {
                _ftpResource.changeDir(name);
-               refreshTable(_ftpResource.get_workingDir());
-               _currentPathLabel.setText(_ftpResource.get_workingDir());
+               refreshTable(_ftpResource.getWorkingDir());
+               _currentPathLabel.setText(_ftpResource.getWorkingDir());
            }
     }
 
@@ -456,14 +454,11 @@ public class XPanel extends JPanel implements FocusListener {
                    fullpath = fullpath + "." + extention;
                }
 
-               File fileSelected = new File(fullpath);
-               if(fileSelected.isDirectory()) {
-                 if(FileHelper.isFolder(fullpath)) {
-                   // double click on folder => go inside
-                   refreshTable(fullpath);
-                   _currentPathLabel.setText(fullpath + "\\");
-               }
-               }else {
+                if(FileHelper.isFolder(fullpath)) {
+                // double click on folder => go inside
+                refreshTable(fullpath);
+                _currentPathLabel.setText(fullpath + "\\");
+               } else {
                     try {
                         // double click on file => lauch file
                         XFile.execute(fullpath);
@@ -474,12 +469,11 @@ public class XPanel extends JPanel implements FocusListener {
            }
     }
 
-    public void selectAllRow()
-    {
+    public void selectAllRow() {
         _dirTable.selectAll();
     }
-    public void DeSelectAll()
-    {
+
+    public void DeSelectAll() {
         _dirTable.clearSelection();
     }
 }

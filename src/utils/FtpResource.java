@@ -38,36 +38,36 @@ public class FtpResource {
 
     private String _rootPath;
 
-    public String get_rootPath() {
+    public String getRootPath() {
         return _rootPath;
     }
 
    
-    public String get_password() {
+    public String getPassword() {
         return _password;
     }
 
-    public void set_password(String _password) {
+    public void setPassword(String _password) {
         this._password = _password;
     }
 
-    public String get_url() {
+    public String getUrl() {
         return _url;
     }
 
-    public void set_url(String _url) {
+    public void setUrl(String _url) {
         this._url = _url;
     }
 
-    public String get_username() {
+    public String getUsername() {
         return _username;
     }
 
-    public void set_username(String _username) {
+    public void setUsername(String _username) {
         this._username = _username;
     }
 
-     public String get_workingDir() {
+     public String getWorkingDir() {
         try {
             return _ftpClient.printWorkingDirectory();
         } catch (IOException ex) {
@@ -81,6 +81,7 @@ public class FtpResource {
         this._password = new String(_password);
         this._username = _username;
     }
+    
     public FtpResource(String _url, String _password, String _username) {
         this._url = _url;
         this._password = _password;
@@ -89,8 +90,7 @@ public class FtpResource {
     /*
      *  connect to server
      */
-    public Boolean connect() throws Exception
-    {
+    public Boolean connect() throws Exception {
         try {
             _ftpClient = new FTPClient();
             _ftpClient.connect(_url);
@@ -166,8 +166,7 @@ public class FtpResource {
                 ArrayList<Object[]> dirArr = new ArrayList<Object[]>();
                 ArrayList<Object[]> firArr = new ArrayList<Object[]>();
                 FTPFile[] ftpFiles = _ftpClient.listFiles();
-                for(FTPFile file:ftpFiles)
-                {
+                for(FTPFile file:ftpFiles) {
                     Object[] item = new Object[5];                     
                     Icon icon = getIcon(file);
                     
@@ -187,8 +186,7 @@ public class FtpResource {
                 Collections.sort(firArr, new Comparer());
                 Iterator iterDir = dirArr.iterator();
                 Iterator iterFile = firArr.iterator();
-                 if(!_ftpClient.printWorkingDirectory().equals(_rootPath))
-                {
+                if(!_ftpClient.printWorkingDirectory().equals(_rootPath)) {
                     Object[] emptyRow = {TextImageObj.createEmptyObj(),"","","",""};
                     rs.add(emptyRow);
                 }            
@@ -236,12 +234,11 @@ public class FtpResource {
         }
         return ico;
     }
-    public static String getExtension(FTPFile f)
-    {
+    
+    public static String getExtension(FTPFile f) {
         String extension = "";
         String name = f.getName();
-        if(!f.isDirectory())
-        {
+        if(!f.isDirectory()) {
             int e = name.lastIndexOf(".");
             if(e > 0)
                 extension = name.substring(e + 1, name.length());
@@ -250,7 +247,6 @@ public class FtpResource {
     }
 
     public static String getSize(FTPFile f) {
-
         String rs = "<DIR>";
         if(!f.isDirectory())
             rs = "" + f.getSize();
@@ -259,16 +255,15 @@ public class FtpResource {
 
     public static String getName(FTPFile f) {
         String name = f.getName();
-        if(!f.isDirectory())
-        {
+        if(!f.isDirectory()) {
             int e = name.lastIndexOf(".");
             if(e > 0)
                 name = name.substring(0,e);
         }
         return name;
     }
-    public static void main(String[] args)
-    {
+
+    public static void main(String[] args) {
        /* FtpResource ftp = new FtpResource("dsaf", "�df", "dsafs");
         ftp.connect();
         Vector v = ftp.getAllFiles("wwwroot/");
