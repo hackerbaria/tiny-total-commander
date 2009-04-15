@@ -41,6 +41,7 @@ public class MainForm extends JFrame implements ActionListener{
         super();
         InitializeComponent();
        // readDiskListToCombobox();4
+        changeLanguage();
 
     }
 
@@ -265,7 +266,7 @@ public class MainForm extends JFrame implements ActionListener{
             }
 
             public void myTableEventOccurred(XComponentEvent evt) {
-                throw new UnsupportedOperationException("Not supported yet.");
+                throw new UnsupportedOperationException(LangManager.TranslateLang("alert_notsupport"));
             }
         });
         
@@ -277,7 +278,7 @@ public class MainForm extends JFrame implements ActionListener{
             }
 
             public void myTableEventOccurred(XComponentEvent evt) {
-                throw new UnsupportedOperationException("Not supported yet.");
+                throw new UnsupportedOperationException(LangManager.TranslateLang("alert_notsupport"));
             }
         });
         
@@ -361,34 +362,41 @@ public class MainForm extends JFrame implements ActionListener{
        c.gridy = 0;
        c.weightx = 0.5;
 
-       JButton btn1 = createButton("F3 View",KeyEvent.VK_F3);
+       //JButton btn1 = createButton("F3 View",KeyEvent.VK_F3);
+       JButton btn1 = createButton(LangManager.TranslateLang("btn1_MainForm"),KeyEvent.VK_F3);
 
        panel.add(btn1,c);
 
        c.gridx = 1;
-       JButton btn2 = createButton("F4 Edit", KeyEvent.VK_F4);
+       //JButton btn2 = createButton("F4 Edit", KeyEvent.VK_F4);
+       JButton btn2 = createButton(LangManager.TranslateLang("btn2_MainForm"), KeyEvent.VK_F4);
        panel.add(btn2,c);
 
        c.gridx = 2;
-       JButton btn3 = createButton("F5 Copy", KeyEvent.VK_F5);
+       //JButton btn3 = createButton("F5 Copy", KeyEvent.VK_F5);
+       JButton btn3 = createButton(LangManager.TranslateLang("btn3_MainForm"), KeyEvent.VK_F5);
        panel.add(btn3,c);
 
        c.gridx = 3;
-       JButton btn4 = createButton("F6 Move",KeyEvent.VK_F6);
+       //JButton btn4 = createButton("F6 Move",KeyEvent.VK_F6);
+       JButton btn4 = createButton(LangManager.TranslateLang("btn4_MainForm"),KeyEvent.VK_F6);
        panel.add(btn4,c);
 
         c.gridx = 4;
-       JButton btn5 = createButton("F7 New Folder",KeyEvent.VK_F7);
+       //JButton btn5 = createButton("F7 New Folder",KeyEvent.VK_F7);
+       JButton btn5 = createButton(LangManager.TranslateLang("btn5_MainForm"),KeyEvent.VK_F7);
        btn5.setActionCommand("New_Folder");
        panel.add(btn5,c);
        btn5.addActionListener(this);
 
         c.gridx = 5;
-       JButton btn6 = createButton("F8 Delete",KeyEvent.VK_F8);
+       //JButton btn6 = createButton("F8 Delete",KeyEvent.VK_F8);
+        JButton btn6 = createButton(LangManager.TranslateLang("btn6_MainForm"),KeyEvent.VK_F8);
        panel.add(btn6,c);
 
         c.gridx = 6;
-       JButton btn7 = createButton("Alt+F4 Exit",KeyEvent.VK_F9 );
+       //JButton btn7 = createButton("Alt+F4 Exit",KeyEvent.VK_F9 );
+        JButton btn7 = createButton(LangManager.TranslateLang("btn7_MainForm"),KeyEvent.VK_F9 );
        panel.add(btn7,c);
 
        return panel;
@@ -442,12 +450,16 @@ public class MainForm extends JFrame implements ActionListener{
             focusPanel.createNewTab();
         } else if (command.equals("Change_English")){
             LangManager.ChangeLanguage("english");
+            changeLanguage();
         } else if (command.equals("Change_UnitedState")){
             LangManager.ChangeLanguage("united state");
+            changeLanguage();
         } else if (command.equals("Change_Spanish")){
             LangManager.ChangeLanguage("spain");
+            changeLanguage();
         } else if (command.equals("Change_VietNamese")){
             LangManager.ChangeLanguage("vietnam");
+            changeLanguage();
         }
 
 
@@ -502,7 +514,7 @@ public class MainForm extends JFrame implements ActionListener{
 
     private void viewFile() {
         if(PathHelper.isFolder(getSelectedItemPath())) {
-            MsgboxHelper.inform("No file selected.");
+            MsgboxHelper.inform(LangManager.TranslateLang("alert_nofile"));
             return;
         }
 
@@ -644,7 +656,7 @@ public class MainForm extends JFrame implements ActionListener{
 
     private void editFile() {
         if(PathHelper.isFolder(getSelectedItemPath())) {
-            MsgboxHelper.inform("No files selected.");
+            MsgboxHelper.inform(LangManager.TranslateLang("alert_nofile"));
             return;
         }
         try {
@@ -745,6 +757,31 @@ public class MainForm extends JFrame implements ActionListener{
             rightPanel.setCurrentPath("C:\\");
         }
         btnFTPDiscnn.setEnabled(false);
+    }
+
+    private void changeLanguage(){
+
+        // Thay doi text tren nut
+        JButton btn1 = (JButton)footPanel.getComponent(0);
+        btn1.setText(LangManager.TranslateLang("btn1_MainForm"));
+
+        JButton btn2 = (JButton)footPanel.getComponent(1);
+        btn2.setText(LangManager.TranslateLang("btn2_MainForm"));
+
+        JButton btn3 = (JButton)footPanel.getComponent(2);
+        btn3.setText(LangManager.TranslateLang("btn3_MainForm"));
+
+        JButton btn4 = (JButton)footPanel.getComponent(3);
+        btn4.setText(LangManager.TranslateLang("btn4_MainForm"));
+
+        JButton btn5 = (JButton)footPanel.getComponent(4);
+        btn5.setText(LangManager.TranslateLang("btn5_MainForm"));
+
+        JButton btn6 = (JButton)footPanel.getComponent(5);
+        btn6.setText(LangManager.TranslateLang("btn6_MainForm"));
+
+        JButton btn7 = (JButton)footPanel.getComponent(6);
+        btn7.setText(LangManager.TranslateLang("btn7_MainForm"));
     }
     //</editor-fold>
 }

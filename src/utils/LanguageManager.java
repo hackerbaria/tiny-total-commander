@@ -36,17 +36,17 @@ public class LanguageManager {
 
     public void ChangeLanguage(String Lang){
 
-        if(Lang == "united state"){
+        if(Lang.compareTo("united state") == 0){
 
             labels =
            ResourceBundle.getBundle("Languages\\LanguageSupport",supportedLocale[1]);
         }
-        else if(Lang == "spain"){
+        else if(Lang.compareTo("spain") == 0){
 
             labels =
            ResourceBundle.getBundle("Languages\\LanguageSupport",supportedLocale[2]);
         }
-        else if (Lang == "vietnam"){
+        else if (Lang.compareTo("vietnam") == 0){
 
             labels =
            ResourceBundle.getBundle("Languages\\LanguageSupport",supportedLocale[3]);
