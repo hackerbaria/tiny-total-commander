@@ -32,7 +32,6 @@ public class FileHelper {
      * Get parent path
      */
     public static String geParentPath(String path) {
-        //return path.substring(0, path.indexOf("\\\\"));<~ x(
         return path.substring(0, path.lastIndexOf("\\\\"));
     }
 
@@ -50,10 +49,16 @@ public class FileHelper {
 
     /**
      * Get file name from path
-     * @param path
-     * @return
      */
     public static String getFileName(String path) {
         return path.substring(path.lastIndexOf("\\") + 1, path.length());
+    }
+
+    /**
+     * Get filename without extension
+     */
+    public static String getFileNameWithoutExt(String path) {
+        String filename = getFileName(path);
+        return filename.substring(0, filename.lastIndexOf("."));
     }
 }

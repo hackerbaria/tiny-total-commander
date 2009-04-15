@@ -79,7 +79,7 @@ public class XFile {
     }
 
     /**
-     * Get file's content (for viewing file purpose)
+     * Get file's content (for viewing file)
      */
     public static String getContent(String filePath) throws IOException{
         StringBuilder builder = new StringBuilder();

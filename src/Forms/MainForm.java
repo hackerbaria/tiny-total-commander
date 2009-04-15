@@ -5,18 +5,9 @@
 
 package Forms;
 
-import ExtendComponent.XButton;
-import ExtendComponent.XPanel;
-import ExtendComponent.XComponentEvent;
-import ExtendComponent.XComponentEventListener;
-import core.XFile;
-import core.XFolder;
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Toolkit;
+import ExtendComponent.*;
+import core.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -25,12 +16,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import utils.FileHelper;
-import utils.FtpResource;
-import utils.MsgboxHelper;
-import utils.MyEvent;
-import utils.MyEventListener;
-import utils.MySEvent;
+import utils.*;
 /**
  *
  * @author pmchanh
@@ -255,7 +241,7 @@ public class MainForm extends JFrame implements ActionListener{
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
-        leftPanel = new ExtendComponent.XPanel();
+        leftPanel = new XPanel();
         leftPanel.focusRender();
         focusPanel = leftPanel;
 
@@ -305,7 +291,7 @@ public class MainForm extends JFrame implements ActionListener{
      * @return
      */
     public String getSelectedItemPath() {
-        return focusPanel.getActiveTab().getSelectedItemPath();
+        return focusPanel.getSelectedItemPath();
     }
 
     /**
@@ -313,13 +299,12 @@ public class MainForm extends JFrame implements ActionListener{
      * @param withExt
      * @return
      */
-    public String getSelectedItemFileName(Boolean withExt) {
-        return focusPanel.getSelectedItemFileName(withExt);
-    }
+    //public String getSelectedItemFileName(Boolean withExt) {
+    //    return focusPanel.getActiveTab().getSelectedItemFileName(withExt);
+    //}
 
     /**
      * Refresh 
-     * @param path
      */
     private void refresh() {
 
@@ -335,7 +320,6 @@ public class MainForm extends JFrame implements ActionListener{
 
     /**
      * Get item path on lost focus panel
-     * @return
      */
     private String getLostFocusPath() {
         if(leftPanel.getCurrentPath().equals(
@@ -347,16 +331,16 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     public void XuLyFocusXPanel(XComponentEvent evt) {
-        if(evt.get_isFocus() == true) {
+        if(evt.getIsFocus() == true) {
             focusPanel.lostfocusRender();
-            focusPanel = (XPanel) evt.get_obj();
+            focusPanel = (XPanel) evt.getObj();
             focusPanel.focusRender();
         }
-        else if (evt.get_isFocus() == false)
+        else if (evt.getIsFocus() == false)
         {
             //if(this.getFocusOwner())
             //utils.MsgboxHelper.confirm(this.getT);
-            ((XPanel)evt.get_obj()).lostfocusRender();
+            ((XPanel)evt.getObj()).lostfocusRender();
         }
     }
     
@@ -667,7 +651,7 @@ public class MainForm extends JFrame implements ActionListener{
         MiniForm frm = new MiniForm();
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setTextboxText("Pack file(s) to the archive");
-        frm.setTextboxText(getLostFocusPath() + getSelectedItemFileName(false) + ".zip");
+        frm.setTextboxText(getLostFocusPath() + FileHelper.getFileNameWithoutExt(getSelectedItemPath()) + ".zip");
         frm.setVisible(true);
 
         frm.addMyEventListener(new MyEventListener() {

@@ -176,11 +176,9 @@ public class XTab extends JPanel implements FocusListener {
     public void refreshTable(String pathname) {
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         Vector v = new Vector();
-        if(_ftpMode)
-        {
+        if(_ftpMode) {
             v = _ftpResource.getAllFiles(pathname);
-        }
-        else{
+        } else {
             v = FileResource.listFiles(pathname);
         }
         if(v.size() > 0) {
@@ -296,12 +294,14 @@ public class XTab extends JPanel implements FocusListener {
             if(listeners[i] == XComponentEventListener.class)
                 ((XComponentEventListener)listeners[i+1]).myEventOccurred(pe);
     }
+    
     private void addTableEvent(XComponentEvent pe) {
         Object[] listeners = this.listenerList.getListenerList();
         for(int i = 0; i < listeners.length; i+= 2)
             if(listeners[i] == XComponentEventListener.class)
                 ((XComponentEventListener)listeners[i+1]).myTableEventOccurred(pe);
     }
+    
     public void focusGained(FocusEvent e) {
          addGlobalFocusEvent(new XComponentEvent(this, true));
     }

@@ -55,12 +55,11 @@ public class XFolder {
     private static void deleteFiles(java.io.File folder) {
         for (java.io.File item : folder.listFiles()) {
             if(item.isDirectory()) {
-                // item is folder
+                // item is a non-empty folder
                 deleteFiles(item);
-            } else {
-                // item is file
-                item.delete();
-            }
+            } 
+            // item is a file or an empty folder
+            item.delete();
         }
     }
 

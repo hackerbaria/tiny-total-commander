@@ -8,7 +8,7 @@ package ExtendComponent;
 import java.util.EventObject;
 
 /**
- *
+ * Component event
  * @author pmchanh
  */
 public class XComponentEvent extends EventObject {
@@ -17,27 +17,15 @@ public class XComponentEvent extends EventObject {
 
     public XComponentEvent(Object obj, Boolean isFocus) {
         super(obj);
-        this._obj = obj;
-        this._isFocus = isFocus;
+        _obj = obj;
+        _isFocus = isFocus;
     }
 
-    public Object get_obj() {
+    public Object getObj() {
         return _obj;
     }
 
-    public void set_obj(Object _obj) {
-        this._obj = _obj;
-    }
-
-    public Boolean get_isFocus() {
+    public Boolean getIsFocus() {
         return _isFocus;
     }
-
-    public void set_isFocus(Boolean _isFocus) {
-        this._isFocus = _isFocus;
-    }
-
-   
-    
-
 }

@@ -8,12 +8,11 @@ package ExtendComponent;
 import javax.swing.JButton;
 
 /**
- *
+ * Button
  * @author pmchanh
  */
 public class XButton extends JButton {
-    public XButton(String label, String command)
-    {
+    public XButton(String label, String command) {
         super(label);
         setBorderPainted(false);
         setFocusPainted(false);

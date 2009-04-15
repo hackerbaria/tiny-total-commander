@@ -5,6 +5,7 @@
 
 package utils;
 import java.io.File;
+import javax.swing.JComboBox;
 import javax.swing.filechooser.FileSystemView;
 
 /**
@@ -44,5 +45,15 @@ public class DiskResource {
         kq ="[" + label + "] " + f.getFreeSpace()/1024 + " k "
                 + " of " + f.getTotalSpace()/1024 + "k free";
         return kq;
+    }
+
+    /**
+     * Get selected disk
+     */
+    public static String getSelectedDisk(JComboBox diskList) {
+        String selectedDisk = (String) diskList.getSelectedItem();
+        int u = selectedDisk.indexOf("[-");
+        int v = selectedDisk.indexOf("-]");
+        return selectedDisk.substring(u+2, v) + ":\\";
     }
 }

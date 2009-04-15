@@ -5,19 +5,10 @@
 
 package ExtendComponent;
 
-import core.XFile;
-import javax.swing.event.ChangeEvent;
 import utils.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
-import javax.swing.table.TableColumn;
 
 /**
  *
@@ -88,14 +79,17 @@ public class XPanel extends JPanel implements FocusListener {
     }
     // </editor-fold>
 
-     public void addFocusListener(XComponentEventListener pel) {
+    /**
+     * Add focus listener
+     */
+    public void addFocusListener(XComponentEventListener pel) {
         this.listenerList.add(XComponentEventListener.class, pel);
     }
+     
     /*
      *   xu ly su kien nhan focus
      */
     public void focusGained(FocusEvent e) {
-       // displayMessage("Focus gained", e);
         addGlobalFocusEvent(new XComponentEvent(this, true));
         
     }
@@ -105,14 +99,15 @@ public class XPanel extends JPanel implements FocusListener {
             if(listeners[i] == XComponentEventListener.class)
                 ((XComponentEventListener)listeners[i+1]).myEventOccurred(pe);
     }
+    
     /*
      *  xu ly su kien mat focus
      */
     public void focusLost(FocusEvent e) {
-       // displayMessage("Focus lost", e);
         addGlobalFocusEvent(new XComponentEvent(this, true));        
-    }  
-/**
+    }
+    
+    /**
      * Tô background cho biet component nay dang duoc focus
      */
     public void focusRender() {
@@ -131,7 +126,6 @@ public class XPanel extends JPanel implements FocusListener {
      *  thiet lap duong dan hien hanh
      */
     public void setCurrentPath(String path) {
-
         this._tabPane.setTitleAt(_tabPane.getSelectedIndex(),
                 FileHelper.getParentName(path));
         ((XTab)_tabPane.getComponentAt(
@@ -143,8 +137,11 @@ public class XPanel extends JPanel implements FocusListener {
       */
      public String getCurrentPath() {
          return getActiveTab().getCurrentPath();
-         
-    }
+     }
+
+     public String getSelectedItemPath() {
+         return getActiveTab().getSelectedItemPath();
+     }
 
     /**
      * Initialize component
@@ -191,25 +188,27 @@ public class XPanel extends JPanel implements FocusListener {
 
       //  foot.setBackground(Color.gray);
     }
+
+    /**
+     * Create a new tab
+     */
     public void createNewTab()
     {
-        if(_activeTab.getftpMode())
-        {
+        if(_activeTab.getftpMode()) {
             initTab();
             setCurrentPath("C:\\");
             refresh("C:\\");            
-        }
-        else {
+        } else {
             XTab newTab = new XTab();
             newTab.addFocusListener(new XComponentEventListener() {
 
                 public void myEventOccurred(XComponentEvent evt) {
-                   // addGlobalFocusEvent(new XComponentEvent(this, evt.get_isFocus()));
-                    dummy(evt.get_isFocus());
+                   // addGlobalFocusEvent(new XComponentEvent(this, evt.getIsFocus()));
+                    dummy(evt.getIsFocus());
                 }
 
                 public void myTableEventOccurred(XComponentEvent evt) {
-                     String path = (String)evt.get_obj();
+                     String path = (String)evt.getObj();
                      setCurrentPath(path);
                 }
             });
@@ -226,16 +225,16 @@ public class XPanel extends JPanel implements FocusListener {
         }
     }
 
-    public void initTab(){
-         XTab newTab = new XTab();
+    private void initTab(){
+        XTab newTab = new XTab();
         newTab.addFocusListener(new XComponentEventListener() {
 
             public void myEventOccurred(XComponentEvent evt) {               
-                dummy(evt.get_isFocus());               
+                dummy(evt.getIsFocus());
             }
 
             public void myTableEventOccurred(XComponentEvent evt) {
-               String path = (String)evt.get_obj();
+               String path = (String)evt.getObj();
                setCurrentPath(path);
             }
         });
@@ -244,32 +243,18 @@ public class XPanel extends JPanel implements FocusListener {
         _tabPane.setSelectedComponent(newTab);
     }
 
-    private void dummy(Boolean status)
-    {
+    private void dummy(Boolean status) {
         addGlobalFocusEvent(new XComponentEvent(this, status));
     }
-    /**
-     *
-     * @param e
-     */
+    
     private void diskSelectedChange(ActionEvent e) {
-        // get path
-        String selectedDisk = (String) _diskList.getSelectedItem();
-        int u = selectedDisk.indexOf("[-");
-        int v = selectedDisk.indexOf("-]");
-        String path = selectedDisk.substring(u+2, v) + ":\\"; 
-        //currentPathLabel.setText(" " + path + "*.*");
+        // get path (selected disk)
+        String path = DiskResource.getSelectedDisk(_diskList);
         try {
-
              getActiveTab().refreshTable(path);
-             // lấy thông tin của ổ đĩa vừa chọn
              _diskInfo.setText(DiskResource.getInfo(path));
-             // set lại đường dẫn hiện hành trong tab pane
-             //_currentPathLabel.setText(path);
              setCurrentPath(path);
-             
-        }
-        catch(Exception ex) {
+        } catch(Exception ex) {
             // lấy ổ đĩa trong đường dẫn hiện hành ở label màu xanh trong tabpane
             //String s = _currentPathLabel.getText().substring(0, 1);
             String s = getCurrentPath().substring(0, 1);
@@ -280,7 +265,7 @@ public class XPanel extends JPanel implements FocusListener {
             MsgboxHelper.showError("Drive not found!");
         }
     }
-    //
+
     /**
      * Tìm chỉ số của ổ đĩa trong danh sách ổ đĩa trong combobox dirList
      */
@@ -303,27 +288,11 @@ public class XPanel extends JPanel implements FocusListener {
             _diskList.insertItemAt(disks[i], i);
         _diskList.setSelectedIndex(0);
     }
-   
 
-    public String getSelectedItemFileName(Boolean withExtension) {
-        int rowSelectedIndex = getActiveTab()
-                                .getDirTable()
-                                .getSelectedRow();
-        TextImageObj tmodel = (TextImageObj)getActiveTab()
-                                .getModel()
-                                .getValueAt(rowSelectedIndex, 0);
-        String name = (String) tmodel.getText();
-        String ext = (String)getActiveTab()
-                                .getModel()
-                                .getValueAt(rowSelectedIndex, 1);
-        if(ext.length() > 1 && withExtension == true) {
-           return name + "." + ext;
-        }
-        return name; // without extension
-    }
-
-    public void refresh(String path)
-    {
+    /**
+     * Refresh panel
+     */
+    public void refresh(String path){
         _activeTab.refreshTable(path);
     }
 }
