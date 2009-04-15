@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Vector;
@@ -215,7 +216,7 @@ public class FtpResource {
                     item[0] = new TextImageObj(getName(file), icon);// filename
                     item[1] = getExtension(file);
                     item[2] = getSize(file); // file size
-                    item[3] = FileResource.getDate(file.getTimestamp());
+                    item[3] = getDate(file.getTimestamp());
                     item[4] = ""; // attribute
                     if(file.isDirectory())
                         dirArr.add(item);
@@ -317,6 +318,27 @@ public class FtpResource {
                 name = name.substring(0,e);
         }
         return name;
-    }    
+    }
+
+    private static String getDate(Calendar cal) {
+        int year = cal.get(Calendar.YEAR);
+	    int month = cal.get(Calendar.MONTH)+1;
+	    int date = cal.get(Calendar.DAY_OF_MONTH);
+	    int time = cal.get(Calendar.HOUR_OF_DAY);
+	    int minute = cal.get(Calendar.MINUTE);
+	    int second = cal.get(Calendar.SECOND);
+
+        String kq = "";
+        kq += date < 10 ? "0" + date :"" + date;
+        kq += "/";
+	    kq += month < 10 ? "0" + month:"" + month;
+	    kq += "/" + year + " ";
+
+	    kq += time < 10   ? "0" + time  +":" :"" + time + ":";
+	    kq += minute < 10 ? "0" + minute+":" :"" +minute+ ":";
+	    kq += second < 10 ? "0" + second :"" +second;
+
+	    return kq;
+    }
 
 }

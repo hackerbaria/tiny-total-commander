@@ -20,7 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.TableColumn;
-import utils.FileHelper;
+import utils.PathHelper;
 import utils.FileResource;
 import utils.FtpResource;
 
@@ -223,7 +223,7 @@ public class XTab extends JPanel implements FocusListener {
 
            if(name.equals("[...]")) {
                // double click on [...] => up one level
-               String parent = FileHelper.geParentPath(fullpath);
+               String parent = PathHelper.geParentPath(fullpath);
                refreshTable(parent+ "\\");
                setCurrentPath(parent + "\\");
            } else {
@@ -234,7 +234,7 @@ public class XTab extends JPanel implements FocusListener {
                    fullpath = fullpath + "." + extention;
                }
 
-                if(FileHelper.isFolder(fullpath)) {
+                if(PathHelper.isFolder(fullpath)) {
                 // double click on folder => go inside
                 refreshTable(fullpath);
                 setCurrentPath(fullpath + "\\");

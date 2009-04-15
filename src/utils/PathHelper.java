@@ -8,10 +8,10 @@ package utils;
 import java.io.File;
 
 /**
- *
+ * Path utils
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
-public class FileHelper {
+public class PathHelper {
     /**
      * Is it a file?
      */

@@ -8,7 +8,7 @@ package ExtendComponent;
 
 import java.awt.Color;
 import javax.swing.*;
-import utils.FileHelper;
+import utils.PathHelper;
 
 /**
  *
@@ -31,7 +31,7 @@ public class XTabPane extends JTabbedPane {
     public void setCurrentPath(String path) {
         this._currentPathLabel.setText(path);
         this.setTitleAt(this.getSelectedIndex(),
-                FileHelper.getParentName(path));
+                PathHelper.getParentName(path));
     }
 
      /**

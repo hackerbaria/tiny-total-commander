@@ -28,6 +28,9 @@ import sun.awt.shell.ShellFolder;
  * @author pmchanh
  */
 public class FileResource {
+    /**
+     * List all files
+     */
     public static Vector listFiles(String pathname) {
         File f = new File(pathname);
         File[] files = f.listFiles();
@@ -80,7 +83,9 @@ public class FileResource {
 
     }
 
-    public static String getName(File f) {
+    //<editor-fold defaultstate="collapsed" desc="Housekeeping ...">
+
+    private static String getName(File f) {
         String name = f.getName();
         if(!f.isDirectory())
         {
@@ -90,8 +95,8 @@ public class FileResource {
         }
         return name;
     }
-    public static String getExtension(File f)
-    {
+    
+    private static String getExtension(File f) {
         String extension = "";
         String name = f.getName();
         if(!f.isDirectory())
@@ -103,15 +108,14 @@ public class FileResource {
         return extension;
     }
 
-    public static String getSize(File f) {
-
+    private static String getSize(File f) {
         String rs = "<DIR>";
         if(!f.isDirectory())
             rs = "" + f.length();
         return rs;
     }
 
-    public static String getDate(File f){
+    private static String getDate(File f) {
         long d = f.lastModified();
         Date datetime = new Date(d);
         TimeZone zone = TimeZone.getTimeZone("GMT+07:00");
@@ -121,8 +125,7 @@ public class FileResource {
         return getDate(cal);
     }
 
-    public static String getDate(Calendar cal)
-    {
+    private static String getDate(Calendar cal) {
         int year = cal.get(Calendar.YEAR);
 	    int month = cal.get(Calendar.MONTH)+1;
 	    int date = cal.get(Calendar.DAY_OF_MONTH);
@@ -142,4 +145,6 @@ public class FileResource {
 
 	    return kq;
     }
+
+    //</editor-fold>
 }
