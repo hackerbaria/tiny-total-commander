@@ -12,8 +12,8 @@
 package Forms;
 
 import javax.swing.event.EventListenerList;
-import utils.MyEvent;
-import utils.MyEventListener;
+import core.MyEvent;
+import core.MyEventListener;
 
 /**
  *

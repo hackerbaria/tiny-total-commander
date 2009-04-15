@@ -12,9 +12,9 @@
 package Forms;
 
 import java.awt.event.KeyEvent;
-import utils.MyEventListener;
+import core.MyEventListener;
 import javax.swing.event.EventListenerList;
-import utils.MyEvent;
+import core.MyEvent;
 /**
  *
  * @author pmchanh

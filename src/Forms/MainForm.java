@@ -5,6 +5,8 @@
 
 package Forms;
 
+import core.MyEventListener;
+import core.MyEvent;
 import ExtendComponent.*;
 import core.*;
 import java.awt.*;

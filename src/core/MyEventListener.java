@@ -3,8 +3,9 @@
  * and open the template in the editor.
  */
 
-package utils;
+package core;
 
+import core.MyEvent;
 import java.util.EventListener;
 
 /**
