@@ -34,7 +34,7 @@ public class FtpConnectionForm extends javax.swing.JFrame {
     public FtpConnectionForm() {
         initComponents();
 
-        getRootPane().setDefaultButton(jButton1);
+        getRootPane().setDefaultButton(btnOK);
         setLocationRelativeTo(this);
 
     }
@@ -53,8 +53,8 @@ public class FtpConnectionForm extends javax.swing.JFrame {
         label3 = new java.awt.Label();
         txtUsername = new javax.swing.JTextField();
         txtPassword = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnOK = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ftp");
@@ -72,21 +72,21 @@ public class FtpConnectionForm extends javax.swing.JFrame {
 
         txtPassword.setName("txtPassword"); // NOI18N
 
-        jButton1.setMnemonic( KeyEvent.VK_ENTER);
-        jButton1.setText("OK");
-        jButton1.setName("btnOK"); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnOK.setMnemonic( KeyEvent.VK_ENTER);
+        btnOK.setText("OK");
+        btnOK.setName("btnOK"); // NOI18N
+        btnOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnOKActionPerformed(evt);
             }
         });
 
-        jButton2.setMnemonic(KeyEvent.VK_ESCAPE);
-        jButton2.setText("Cancel");
-        jButton2.setName("btnCancel"); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnCancel.setMnemonic(KeyEvent.VK_ESCAPE);
+        btnCancel.setText("Cancel");
+        btnCancel.setName("btnCancel"); // NOI18N
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnCancelActionPerformed(evt);
             }
         });
 
@@ -104,9 +104,9 @@ public class FtpConnectionForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(1, 1, 1)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2))
+                        .addComponent(btnCancel))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addGap(1, 1, 1)
@@ -132,8 +132,8 @@ public class FtpConnectionForm extends javax.swing.JFrame {
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1))
+                    .addComponent(btnCancel)
+                    .addComponent(btnOK))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -143,14 +143,14 @@ public class FtpConnectionForm extends javax.swing.JFrame {
     /**
      * button cancel
      */
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         this.dispose();// close form
-    }//GEN-LAST:event_jButton2ActionPerformed
+}//GEN-LAST:event_btnCancelActionPerformed
     /**
      * 
      * button ok
      */
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         XEvent event = new XEvent(txtUrl.getText());       // url
         event.addData(txtUsername.getText());                // username
         event.addData(txtPassword.getPassword().toString()); // password
@@ -162,11 +162,11 @@ public class FtpConnectionForm extends javax.swing.JFrame {
             }
         }
         this.dispose(); // close form
-    }//GEN-LAST:event_jButton1ActionPerformed
+}//GEN-LAST:event_btnOKActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnOK;
     private java.awt.Label label1;
     private java.awt.Label label2;
     private java.awt.Label label3;

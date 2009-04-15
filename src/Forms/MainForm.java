@@ -676,7 +676,7 @@ public class MainForm extends JFrame implements ActionListener{
                 String username = evt.getDataList().get(1);   // username
                 String password = evt.getDataList().get(2);   // password
                 
-                ftp = new FtpResource(url, password, username);
+                ftp = new FtpResource(url, username, password);
                 try {
                     if (ftp.connect()) {
                         focusPanel.setftpMode(true);
@@ -686,8 +686,8 @@ public class MainForm extends JFrame implements ActionListener{
                         btnFTPDiscnn.setEnabled(true);
                     }
                 } catch (Exception ex) {
-                    //Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-                    utils.MsgboxHelper.showError(ex.getMessage());
+                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                    //utils.MsgboxHelper.showError(ex.getMessage());
                 }
             }
         });
@@ -696,14 +696,12 @@ public class MainForm extends JFrame implements ActionListener{
     private void dftp() {
         if(ftp != null)
                 ftp.disConnect();
-        if(leftPanel.getCurrentPath().startsWith(ftp.getRootPath()))
-        {
+        if(leftPanel.getCurrentPath().startsWith(ftp.getRootPath())) {
             leftPanel.setftpMode(false);
             leftPanel.refresh("C:\\");
             leftPanel.setCurrentPath("C:\\");
         }
-        if(rightPanel.getCurrentPath().startsWith(ftp.getRootPath()))
-        {
+        if(rightPanel.getCurrentPath().startsWith(ftp.getRootPath())) {
             rightPanel.setftpMode(false);
             rightPanel.refresh("C:\\");
             rightPanel.setCurrentPath("C:\\");

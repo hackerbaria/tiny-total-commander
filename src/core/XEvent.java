@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.EventObject;
 
 /**
- *
+ * Custom event
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public class XEvent extends EventObject {

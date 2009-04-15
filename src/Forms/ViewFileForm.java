@@ -30,6 +30,7 @@ public class ViewFileForm extends javax.swing.JFrame {
         try {
             setTitle(getTitle() + " - [" + path + "]");    // set title
             txtContent.setText(XFile.getContent(path));    // show content
+            txtContent.setCaretPosition(0);                // set caret to beginning
         } catch (IOException ex) {
             Logger.getLogger(ViewFileForm.class.getName()).log(Level.SEVERE, null, ex);
         }

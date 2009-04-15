@@ -8,7 +8,7 @@ package core;
 import java.util.EventListener;
 
 /**
- *
+ * Event Listener
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public interface XEventListener extends EventListener{

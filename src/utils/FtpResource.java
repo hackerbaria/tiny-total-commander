@@ -58,7 +58,7 @@ public class FtpResource {
     /**
      * Constructor
      */
-    public FtpResource(String url, String password, String username) {
+    public FtpResource(String url, String username, String password) {
         _url = url;
         _password = password;
         _username = username;
