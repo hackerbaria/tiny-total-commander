@@ -48,6 +48,7 @@ public class XPanel extends JPanel implements FocusListener {
     private Color _lostfocusColor = Color.decode("#66CCFF");
 
     private Boolean _ftpMode;
+    private FtpResource _ftpResource;
     
  // <editor-fold defaultstate="collapsed" desc="Properties">
     public JPanel getBody() {
@@ -61,7 +62,7 @@ public class XPanel extends JPanel implements FocusListener {
     public JLabel getCurrentPathLabel() {
         return _currentPathLabel;
     }
-
+   
     public JPanel getCurrentPathPanel() {
         return _currentPathPanel;
     }
@@ -110,6 +111,10 @@ public class XPanel extends JPanel implements FocusListener {
         _ftpMode = value;
     }
 
+    public void set_ftpResource(FtpResource _ftpResource) {
+        this._ftpResource = _ftpResource;
+    }
+
     // </editor-fold>
 
     public void addFocusListener(XPanelEventListener pel) {
@@ -122,16 +127,36 @@ public class XPanel extends JPanel implements FocusListener {
             if(listeners[i] == XPanelEventListener.class)
                 ((XPanelEventListener)listeners[i+1]).myEventOccurred(pe);
     }
-    
+
+    /*
+     *   xu ly su kien nhan focus
+     */
     public void focusGained(FocusEvent e) {
        // displayMessage("Focus gained", e);       
         addGlobalFocusEvent(new XPanelEvent(this, true));
 
     }
+    /*
+     *  xu ly su kien mat focus
+     */
     public void focusLost(FocusEvent e) {
        // displayMessage("Focus lost", e);        
         addGlobalFocusEvent(new XPanelEvent(this, false));
     }  
+
+    /*
+     *  thiet lap duong dan hien hanh
+     */
+     public void set_currentPath(String path) {
+        this._currentPathLabel.setText(path);
+    }
+
+     /*
+     *  lay duong dan hien hanh
+     */
+     public String get_currentPath() {
+        return this._currentPathLabel.getText();
+    }
 
     /**
      * Tô background cho biet component nay dang duoc focus
@@ -207,10 +232,12 @@ public class XPanel extends JPanel implements FocusListener {
         _dirTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e){
+                setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 dirTableRowClicked(e);
+                setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             }
         });
-
+        
         setColumnWidth(0, 200);
         _scrollpane = new JScrollPane(_dirTable);
         _containPane.add(_scrollpane, BorderLayout.CENTER);
@@ -294,11 +321,20 @@ public class XPanel extends JPanel implements FocusListener {
      * @param pathname
      */
     public void refreshTable(String pathname) {
-        Vector v = FileResource.listFiles(pathname);
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        Vector v = new Vector();
+        if(_ftpMode)
+        {
+            v = _ftpResource.getAllFiles(pathname);
+        }
+        else{
+            v = FileResource.listFiles(pathname);            
+        }
         if(v.size() > 0) {
-            removeAllRow();
-            _model.fillData(v);
-        }        
+                removeAllRow();
+                _model.fillData(v);
+            }
+        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
 
     /**
@@ -327,10 +363,12 @@ public class XPanel extends JPanel implements FocusListener {
                 selectedItems.add(_currentPathLabel.getText() + name);
             }
         }
-
         return selectedItems;
     }
 
+    /*
+     * lay duong dan day du cua file duoc chon
+     */
     public String getSelectedItemPath() {
        int rowSelectedIndex = _dirTable.getSelectedRow();
        TextImageObj tmodel = (TextImageObj) _model.getValueAt(rowSelectedIndex, 0);
@@ -363,7 +401,43 @@ public class XPanel extends JPanel implements FocusListener {
             // ignore :)
             
         } else if(e.getClickCount() == 2) { // double click
-           // get selected row
+            
+              if(_ftpMode)
+                  ProcessRowClickInFtpMode();
+              else
+                  ProcessRowClickInNormalMode();
+        }
+    }
+    
+    /*
+     * xu ly double click tren row o che do ftpmode
+    */
+
+
+    private void ProcessRowClickInFtpMode()
+    {
+        // get selected row
+           int rowSelectedIndex = _dirTable.getSelectedRow();
+           TextImageObj tmodel = (TextImageObj) _model.getValueAt(rowSelectedIndex, 0);
+           String name = (String) tmodel.getText();
+           if(name.equals("[...]")){
+               _ftpResource.goUp();
+               refreshTable(_ftpResource.get_workingDir());
+               _currentPathLabel.setText(_ftpResource.get_workingDir());
+           }
+           else{
+               _ftpResource.changeDir(name);
+               refreshTable(_ftpResource.get_workingDir());
+               _currentPathLabel.setText(_ftpResource.get_workingDir());
+           }
+    }
+
+    /*
+     *  xu ly double click tren row o che do binh thuong ( khong phai ftp)
+     */
+    private void ProcessRowClickInNormalMode()
+    {
+          // get selected row
            int rowSelectedIndex = _dirTable.getSelectedRow();
            TextImageObj tmodel = (TextImageObj) _model.getValueAt(rowSelectedIndex, 0);
            String name = (String) tmodel.getText();
@@ -382,11 +456,14 @@ public class XPanel extends JPanel implements FocusListener {
                    fullpath = fullpath + "." + extention;
                }
 
-               if(FileHelper.isFolder(fullpath)) {
+               File fileSelected = new File(fullpath);
+               if(fileSelected.isDirectory()) {
+                 if(FileHelper.isFolder(fullpath)) {
                    // double click on folder => go inside
                    refreshTable(fullpath);
                    _currentPathLabel.setText(fullpath + "\\");
-               } else {
+               }
+               }else {
                     try {
                         // double click on file => lauch file
                         XFile.execute(fullpath);
@@ -395,6 +472,5 @@ public class XPanel extends JPanel implements FocusListener {
                     }
                }
            }
-        }
-    } 
+    }
 }

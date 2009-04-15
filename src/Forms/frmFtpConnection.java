@@ -12,6 +12,8 @@
 package Forms;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import utils.MyEventListener;
 import javax.swing.event.EventListenerList;
@@ -28,6 +30,7 @@ protected javax.swing.event.EventListenerList listenerList = new EventListenerLi
         
         getRootPane().setDefaultButton(jButton1);
         setLocationRelativeTo(this);
+       
     }
 
     public void addMySEventListener(MyEventListener mel)

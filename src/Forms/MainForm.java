@@ -25,6 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import utils.FileHelper;
+import utils.FtpResource;
 import utils.MsgboxHelper;
 import utils.MyEvent;
 import utils.MyEventListener;
@@ -43,7 +44,7 @@ public class MainForm extends JFrame implements ActionListener{
     private BorderLayout borderLayout;
     private XPanel activeXPanel;
     Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-
+     private  FtpResource ftp;
     // constructor
     public MainForm()
     {
@@ -94,7 +95,7 @@ public class MainForm extends JFrame implements ActionListener{
     private JMenu helpMenu;
     private JMenu temporaryMenu;
     private JToolBar mainToolbar;
-    
+    private JButton btnFTP;
     private JPanel createHeadPanel()
     {
         JPanel panel = new JPanel();
@@ -201,13 +202,13 @@ public class MainForm extends JFrame implements ActionListener{
         mainToolbar.setRollover(true);
         mainToolbar.setName("toolbar");
 
-        JButton btn = new JButton("Ftp Connect");
-        btn.setBorderPainted(false);
-        btn.setFocusPainted(false);
-        btn.setActionCommand("ftp");
-        btn.addActionListener(this);
+        btnFTP = new JButton("Ftp Connect");
+        btnFTP.setBorderPainted(false);
+        btnFTP.setFocusPainted(false);
+        btnFTP.setActionCommand("ftp");
+        btnFTP.addActionListener(this);
         JButton btn2 = new JButton("Button2");
-        mainToolbar.add(btn);
+        mainToolbar.add(btnFTP);
         mainToolbar.add(btn2);
        
         panel.add(mainToolbar, BorderLayout.SOUTH);
@@ -427,7 +428,26 @@ public class MainForm extends JFrame implements ActionListener{
         } else if(command.equals("Exit")) {
             System.exit(0);
         } else if(command.equals("ftp")) {
-            ftp();
+             if(btnFTP.getText().equals("FTP Disconnect"))
+                {
+                    if(ftp != null)
+                        ftp.disConnect();
+                    if(leftPanel.get_currentPath().startsWith(ftp.get_rootPath()))
+                    {
+                        leftPanel.setftpMode(false);
+                        leftPanel.refreshTable("C:\\");
+                        leftPanel.set_currentPath("C:\\");
+                    }
+                    if(rightPanel.get_currentPath().startsWith(ftp.get_rootPath()))
+                    {
+                        rightPanel.setftpMode(false);
+                        rightPanel.refreshTable("C:\\");
+                        rightPanel.set_currentPath("C:\\");
+                    }
+                    btnFTP.setText("FTP Connect");
+                }
+             else
+                ftp();
         }
 
     }
@@ -473,9 +493,7 @@ public class MainForm extends JFrame implements ActionListener{
                     Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 refresh();
-
             }
-
             public void mySEventOccurred(MySEvent evt) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
@@ -631,7 +649,6 @@ public class MainForm extends JFrame implements ActionListener{
             MsgboxHelper.inform("No files selected.");
             return;
         }
-
         try {
             XFile.execute(getSelectedItemPath());
         } catch (IOException ex) {
@@ -671,13 +688,31 @@ public class MainForm extends JFrame implements ActionListener{
 
             public void myEventOccurred(MyEvent evt) {
                 throw new UnsupportedOperationException("Not supported yet.");
-            }
-
+            }           
             public void mySEventOccurred(MySEvent evt) {
-                throw new UnsupportedOperationException("Not supported yet.");
+                //throw new UnsupportedOperationException("Not supported yet.");
+                //utils.MsgboxHelper.inform("chanh");
+                // get connection info              
+               
+                String url = (String) evt.getData().get(0);
+                String password =new String((char[])evt.getData().get(1));
+                String username = (String) evt.getData().get(2);
+                ftp = new FtpResource(url, password, username);
+                try {
+                    if (ftp.connect()) {
+                        focusPanel.setftpMode(true);
+                        focusPanel.set_ftpResource(ftp);
+                        focusPanel.refreshTable("wwwroot/");
+                        focusPanel.set_currentPath(ftp.get_workingDir());
+                        btnFTP.setText("FTP Disconnect");
+
+                    }
+                } catch (Exception ex) {
+                    //Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                    utils.MsgboxHelper.showError(ex.getMessage());
+                }           
             }
         });
     }
-
     //</editor-fold>
 }

@@ -20,6 +20,7 @@ public class XTableModel extends AbstractTableModel{
     public XTableModel(Vector data, String[] column){
         _data = data;
         _column = column;
+       
     }
 
     public int getRowCount() {
@@ -47,6 +48,7 @@ public class XTableModel extends AbstractTableModel{
     public void delRow(int numrow){
         _data.remove(numrow);
         this.fireTableDataChanged();
+
     }
     
     public void fillData(Vector v)
@@ -54,4 +56,25 @@ public class XTableModel extends AbstractTableModel{
         _data = v;
         this.fireTableDataChanged();
     }
+
+    @Override
+    public boolean isCellEditable(int row, int column)
+    {
+     /*   if (column == 0) {
+            return true;
+        } else {
+            return false;
+        }*/
+        return false;
+    }
+   
+    @Override
+    public void setValueAt(Object obj, int row, int col)
+    {
+        _data.remove(row);
+        _data.addElement(obj);
+        this.fireTableCellUpdated(row, col);
+    }
+
+    
 }

@@ -9,7 +9,13 @@ import ExtendComponent.TextImageObj;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Icon;
@@ -30,29 +36,28 @@ public class FileResource {
         ArrayList<Object[]> firArr = new ArrayList<Object[]>();
         for(int i = 0; i < n; i++ )
         {
-            Object[] item = new Object[5];
-            ShellFolder sf;
-            Icon icon = null;
-            try {
+                        
+                Object[] item = new Object[5];
+                ShellFolder sf;
+                Icon icon = null;
+                try {
+                   sf = ShellFolder.getShellFolder(files[i]);
+                   icon = new ImageIcon(sf.getIcon(true).getScaledInstance(19, 19, Image.SCALE_SMOOTH));
+                   
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(FileResource.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
-                // TODO: bug - Chánh
-                // nếu folder có chứa file .svn thì khi bấm [...] bị die
-
-                sf = ShellFolder.getShellFolder(files[i]);
-                icon = new ImageIcon(sf.getIcon(true).getScaledInstance(19, 19, Image.SCALE_SMOOTH));
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(FileResource.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            item[0] = new TextImageObj(getName(files[i]), icon);
-            item[1] = getExtension(files[i]);
-            item[2] = getSize(files[i]);
-            item[3] = getDate(files[i]);
-            item[4] = "";
-            if(files[i].isDirectory())
-                dirArr.add(item);
-            else
-                firArr.add(item); 
+                item[0] = new TextImageObj(getName(files[i]), icon);
+                item[1] = getExtension(files[i]);
+                item[2] = getSize(files[i]);
+                item[3] = getDate(files[i]);
+                item[4] = "";
+                if(files[i].isDirectory())
+                    dirArr.add(item);
+                else
+                    firArr.add(item);
+            
         }
         
         Collections.sort(dirArr, new Comparer());
@@ -66,7 +71,7 @@ public class FileResource {
             Object[] emptyRow = {TextImageObj.createEmptyObj(),"","","",""};           
             rs.add(emptyRow);
         }
-        int i = 0;
+        
         while(iterDir.hasNext())
             rs.add(iterDir.next());
         
