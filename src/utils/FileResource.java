@@ -34,29 +34,32 @@ public class FileResource {
         int n = files.length;        
         ArrayList<Object[]> dirArr = new ArrayList<Object[]>();
         ArrayList<Object[]> firArr = new ArrayList<Object[]>();
-        for(int i = 0; i < n; i++ )
-        {
-                        
-                Object[] item = new Object[5];
-                ShellFolder sf;
-                Icon icon = null;
-                try {
-                   sf = ShellFolder.getShellFolder(files[i]);
-                   icon = new ImageIcon(sf.getIcon(true).getScaledInstance(19, 19, Image.SCALE_SMOOTH));
-                   
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(FileResource.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        for(int i = 0; i < n; i++ ) {
+            Object[] item = new Object[5];
+            ShellFolder sf;
+            Icon icon = null;
+            try {
 
-                item[0] = new TextImageObj(getName(files[i]), icon);
-                item[1] = getExtension(files[i]);
-                item[2] = getSize(files[i]);
-                item[3] = getDate(files[i]);
-                item[4] = "";
-                if(files[i].isDirectory())
-                    dirArr.add(item);
-                else
-                    firArr.add(item);
+               // TODO: Chánh - bug svn
+               // ko up lên parent folder được khi browse thư mục có file ẩn do svn tạo ra
+               // fix: không hiện các file ẩn ?
+
+               sf = ShellFolder.getShellFolder(files[i]);
+               icon = new ImageIcon(sf.getIcon(true).getScaledInstance(19, 19, Image.SCALE_SMOOTH));
+
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(FileResource.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            item[0] = new TextImageObj(getName(files[i]), icon);
+            item[1] = getExtension(files[i]);
+            item[2] = getSize(files[i]);
+            item[3] = getDate(files[i]);
+            item[4] = "";
+            if(files[i].isDirectory())
+                dirArr.add(item);
+            else
+                firArr.add(item);
             
         }
         

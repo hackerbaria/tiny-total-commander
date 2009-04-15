@@ -124,8 +124,6 @@ public class XFile {
      * Unzip a file
      */
     public static void unzip(String inFilePath, String outFilePath) throws IOException {
-        // TODO: unzip file
-
         ZipInputStream inStream = new ZipInputStream(new FileInputStream(inFilePath));
         BufferedOutputStream outStream = null;
 
