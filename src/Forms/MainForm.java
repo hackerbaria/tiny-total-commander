@@ -295,15 +295,6 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     /**
-     * Get selected item file name (with or without extension)
-     * @param withExt
-     * @return
-     */
-    //public String getSelectedItemFileName(Boolean withExt) {
-    //    return focusPanel.getActiveTab().getSelectedItemFileName(withExt);
-    //}
-
-    /**
      * Refresh 
      */
     private void refresh() {
@@ -428,9 +419,9 @@ public class MainForm extends JFrame implements ActionListener{
         } else if (command.equals("dftp")){
                 dftp();
         } else if (command.equals("selectall")){
-            focusPanel.getActiveTab().selectAllRow();
+            focusPanel.selectAllRow();
         } else if (command.equals("unselectall")){            
-            focusPanel.getActiveTab().DeSelectAll();
+            focusPanel.deSelectAll();
         } else if (command.equals("newtab")){
             focusPanel.createNewTab();
         }
@@ -524,7 +515,7 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void deleteFilesFolders() {        
-        ArrayList<String> selectedItems = focusPanel.getActiveTab().getSelectedItems();
+        ArrayList<String> selectedItems = focusPanel.getSelectedItems();
         String msg = "Do you really want to delete the " + selectedItems.size() + " selected item(s) \n";
         for(int i = 0; i < selectedItems.size(); ++i) {
             msg += FileHelper.getFileName(selectedItems.get(i)) + "\n";
@@ -568,7 +559,7 @@ public class MainForm extends JFrame implements ActionListener{
             public void myEventOccurred(MyEvent evt) {
                 String path = evt.getData();
 
-                ArrayList<String> selectedItems = focusPanel.getActiveTab().getSelectedItems();
+                ArrayList<String> selectedItems = focusPanel.getSelectedItems();
                 for(String item : selectedItems) {
                     if(FileHelper.isFile(item)) {
                         // copy file
@@ -608,7 +599,7 @@ public class MainForm extends JFrame implements ActionListener{
             public void myEventOccurred(MyEvent evt) {
                 String path = evt.getData();
 
-                ArrayList<String> selectedItems = focusPanel.getActiveTab().getSelectedItems();
+                ArrayList<String> selectedItems = focusPanel.getSelectedItems();
                 for(String item : selectedItems) {
                     if(FileHelper.isFile(item)) {
                         // move file
@@ -718,9 +709,9 @@ public class MainForm extends JFrame implements ActionListener{
                 ftp = new FtpResource(url, password, username);
                 try {
                     if (ftp.connect()) {
-                        focusPanel.getActiveTab().setftpMode(true);
-                        focusPanel.getActiveTab().setFtpResource(ftp);
-                        focusPanel.getActiveTab().refreshTable("");
+                        focusPanel.setftpMode(true);
+                        focusPanel.setFtpResource(ftp);
+                        focusPanel.refresh("");
                         focusPanel.setCurrentPath(ftp.getWorkingDir());
                         btnFTPDiscnn.setEnabled(true);
                     }
@@ -737,14 +728,14 @@ public class MainForm extends JFrame implements ActionListener{
                 ftp.disConnect();
         if(leftPanel.getCurrentPath().startsWith(ftp.getRootPath()))
         {
-            leftPanel.getActiveTab().setftpMode(false);
-            leftPanel.getActiveTab().refreshTable("C:\\");
+            leftPanel.setftpMode(false);
+            leftPanel.refresh("C:\\");
             leftPanel.setCurrentPath("C:\\");
         }
         if(rightPanel.getCurrentPath().startsWith(ftp.getRootPath()))
         {
-            rightPanel.getActiveTab().setftpMode(false);
-            rightPanel.getActiveTab().refreshTable("C:\\");
+            rightPanel.setftpMode(false);
+            rightPanel.refresh("C:\\");
             rightPanel.setCurrentPath("C:\\");
         }
         btnFTPDiscnn.setEnabled(false);

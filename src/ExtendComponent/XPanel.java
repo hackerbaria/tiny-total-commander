@@ -8,6 +8,7 @@ package ExtendComponent;
 import utils.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.*;
 
 /**
@@ -35,40 +36,13 @@ public class XPanel extends JPanel implements FocusListener {
     private XTab _activeTab;
     
  // <editor-fold defaultstate="collapsed" desc="Properties">
-    public JPanel getBody() {
-        return _body;
-    }
-   
-    public JLabel getDiskInfo() {
-        return _diskInfo;
-    }
-
-    public JComboBox getDiskList() {
-        return _diskList;
-    }
-
-    public Color getFocusColor() {
-        return _focusColor;
-    }
-
-    public JPanel getFoot() {
-        return _foot;
-    }
-
-    public JPanel getHead() {
-        return _head;
-    }
-
-    public Color getLostfocusColor() {
-        return _lostfocusColor;
-    }
     
     public XTab getTab(int index)
     {
         return (XTab)_tabPane.getComponentAt(index);
     }
 
-    public XTab getActiveTab()
+    private XTab getActiveTab()
     {
         return getTab(getCurrentIndex());
     }
@@ -139,8 +113,47 @@ public class XPanel extends JPanel implements FocusListener {
          return getActiveTab().getCurrentPath();
      }
 
+     /**
+      * Get selected item path
+      */
      public String getSelectedItemPath() {
          return getActiveTab().getSelectedItemPath();
+     }
+
+     /**
+      * Get selected items
+      * @return
+      */
+     public ArrayList<String> getSelectedItems() {
+         return getActiveTab().getSelectedItems();
+     }
+
+     /**
+      * Set ftp mode
+      */
+     public void setftpMode(Boolean value){
+        getActiveTab().setftpMode(value);
+     }
+
+     /**
+      * Set ftp resource
+      */
+     public void setFtpResource(FtpResource _ftpResource) {
+        getActiveTab().setFtpResource(_ftpResource);
+     }
+
+     /**
+      * Select all rows
+      */
+     public void selectAllRow() {
+         getActiveTab().selectAllRow();
+     }
+
+     /**
+      * Unselect
+      */
+     public void deSelectAll() {
+         getActiveTab().deSelectAll();
      }
 
     /**

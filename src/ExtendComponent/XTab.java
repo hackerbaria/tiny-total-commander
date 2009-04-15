@@ -141,11 +141,11 @@ public class XTab extends JPanel implements FocusListener {
             // ignore :)
 
         } else if(e.getClickCount() == 2) { // double click
-
-              if(_ftpMode)
+              if(_ftpMode) {
                   ProcessRowClickInFtpMode();
-              else
+              } else {
                   ProcessRowClickInNormalMode();
+              }
               addTableEvent(new XComponentEvent(getCurrentPath(), true));
         }
     }
@@ -206,7 +206,7 @@ public class XTab extends JPanel implements FocusListener {
     /**
      * unselect any row in table
      */
-    public void DeSelectAll() {
+    public void deSelectAll() {
         _dirTable.clearSelection();
     }
     
