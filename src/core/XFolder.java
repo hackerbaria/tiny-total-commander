@@ -6,12 +6,19 @@
 package core;
 
 import java.io.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Folder
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public class XFolder {
+    /**
+     * Buffer size
+     */
+    private static final int BUFFER = 1024;
+
     /**
      * Create a new folder
      */
@@ -101,8 +108,31 @@ public class XFolder {
     /**
      * Zip a folder
      */
-    public static void zip(String folderPath) throws IOException {
+    public static void zip(String inFolderPath, String outFilePath) throws IOException {
         // TODO: zip folder
+        zipInternal(new File(inFolderPath), new File(outFilePath));
+    }
+
+    private static void zipInternal(File inFolder, File outFile) throws IOException {
+        BufferedInputStream inStream = null;
+        ZipOutputStream outStream = new ZipOutputStream(
+                                        new BufferedOutputStream(
+                                              new FileOutputStream(outFile)));
+
+        byte[] data = new byte[BUFFER];
+        String[] files = inFolder.list();
+
+        for(int i = 0; i < files.length; ++i) {
+            inStream = new BufferedInputStream(new FileInputStream(inFolder.getPath() + "/" + files[i]), BUFFER);
+            outStream.putNextEntry(new ZipEntry(files[i]));
+            int count = 0;
+            while((count = inStream.read(data)) > 0) {
+                outStream.write(data, 0, count);
+            }
+        }
+
+        inStream.close();
+        outStream.close();
     }
 
     /**

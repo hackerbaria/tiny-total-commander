@@ -17,7 +17,7 @@ import java.util.zip.ZipOutputStream;
 public class XFile {
 
     /**
-     * Buffer used in reading file
+     * Buffer size
      */
     private static final int BUFFER = 1024;
 

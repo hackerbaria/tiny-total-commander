@@ -412,7 +412,7 @@ public class MainForm extends JFrame implements ActionListener{
         } else if(command.equals("Edit_File")) {
             editFile();
         } else if(command.equals("Zip_File")) {
-            zipFile();
+            zipFilesFolders();
         } else if(command.equals("Unzip_File")) {
             unzipFile();
         } else if(command.equals("Exit")) {
@@ -622,7 +622,7 @@ public class MainForm extends JFrame implements ActionListener{
         }
     }
 
-    private void zipFile() {
+    private void zipFilesFolders() {
         MiniForm frm = new MiniForm();
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setTextboxText("Pack file(s) to the archive");
@@ -634,10 +634,11 @@ public class MainForm extends JFrame implements ActionListener{
             public void myEventOccurred(XEvent evt) {
                 String fullPath = evt.getData();
                 try {
-                    XFile.zip(getSelectedItemPath(), fullPath);
-                } catch (IOException ex) {
+                    XZiper.zipFolder(getSelectedItemPath(), fullPath);
+                } catch (Exception ex) {
                     Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
+               
                 refresh();
             }
         });

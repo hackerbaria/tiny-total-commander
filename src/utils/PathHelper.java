@@ -59,6 +59,9 @@ public class PathHelper {
      */
     public static String getFileNameWithoutExt(String path) {
         String filename = getFileName(path);
+        if(filename.lastIndexOf(".") < 0) {
+            return filename;
+        }
         return filename.substring(0, filename.lastIndexOf("."));
     }
 }
