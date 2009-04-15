@@ -5,6 +5,7 @@
 
 package Forms;
 
+import ExtendComponent.XButton;
 import ExtendComponent.XPanel;
 import ExtendComponent.XPanelEvent;
 import ExtendComponent.XPanelEventListener;
@@ -95,7 +96,9 @@ public class MainForm extends JFrame implements ActionListener{
     private JMenu helpMenu;
     private JMenu temporaryMenu;
     private JToolBar mainToolbar;
-    private JButton btnFTP;
+    private XButton btnFTP;
+    private XButton btnFTPDiscnn;
+
     private JPanel createHeadPanel()
     {
         JPanel panel = new JPanel();
@@ -202,14 +205,12 @@ public class MainForm extends JFrame implements ActionListener{
         mainToolbar.setRollover(true);
         mainToolbar.setName("toolbar");
 
-        btnFTP = new JButton("Ftp Connect");
-        btnFTP.setBorderPainted(false);
-        btnFTP.setFocusPainted(false);
-        btnFTP.setActionCommand("ftp");
+        btnFTP = new XButton("Ftp Connect","ftp");
         btnFTP.addActionListener(this);
-        JButton btn2 = new JButton("Button2");
+        btnFTPDiscnn = new XButton("Ftp Disconnect","dftp");
+        btnFTPDiscnn.addActionListener(this);
         mainToolbar.add(btnFTP);
-        mainToolbar.add(btn2);
+        mainToolbar.add(btnFTPDiscnn);
        
         panel.add(mainToolbar, BorderLayout.SOUTH);
         //~setup toolbar
@@ -427,27 +428,10 @@ public class MainForm extends JFrame implements ActionListener{
             zipFile();
         } else if(command.equals("Exit")) {
             System.exit(0);
-        } else if(command.equals("ftp")) {
-             if(btnFTP.getText().equals("FTP Disconnect"))
-                {
-                    if(ftp != null)
-                        ftp.disConnect();
-                    if(leftPanel.get_currentPath().startsWith(ftp.get_rootPath()))
-                    {
-                        leftPanel.setftpMode(false);
-                        leftPanel.refreshTable("C:\\");
-                        leftPanel.set_currentPath("C:\\");
-                    }
-                    if(rightPanel.get_currentPath().startsWith(ftp.get_rootPath()))
-                    {
-                        rightPanel.setftpMode(false);
-                        rightPanel.refreshTable("C:\\");
-                        rightPanel.set_currentPath("C:\\");
-                    }
-                    btnFTP.setText("FTP Connect");
-                }
-             else
+        } else if(command.equals("ftp")) { 
                 ftp();
+        } else if (command.equals("dftp")){
+                dftp();
         }
 
     }
@@ -544,7 +528,6 @@ public class MainForm extends JFrame implements ActionListener{
                 break;
             }
         }
-
         // delete 'em all!
         if(MsgboxHelper.confirm(msg) == true) {
             for(String item : selectedItems) {
@@ -634,7 +617,6 @@ public class MainForm extends JFrame implements ActionListener{
                         }
                     }
                 }
-
                 refresh();
             }
 
@@ -703,8 +685,7 @@ public class MainForm extends JFrame implements ActionListener{
                         focusPanel.setftpMode(true);
                         focusPanel.set_ftpResource(ftp);
                         focusPanel.refreshTable("wwwroot/");
-                        focusPanel.set_currentPath(ftp.get_workingDir());
-                        btnFTP.setText("FTP Disconnect");
+                        focusPanel.set_currentPath(ftp.get_workingDir());                       
 
                     }
                 } catch (Exception ex) {
@@ -713,6 +694,23 @@ public class MainForm extends JFrame implements ActionListener{
                 }           
             }
         });
+    }
+
+    private void dftp() {
+        if(ftp != null)
+                ftp.disConnect();
+        if(leftPanel.get_currentPath().startsWith(ftp.get_rootPath()))
+        {
+            leftPanel.setftpMode(false);
+            leftPanel.refreshTable("C:\\");
+            leftPanel.set_currentPath("C:\\");
+        }
+        if(rightPanel.get_currentPath().startsWith(ftp.get_rootPath()))
+        {
+            rightPanel.setftpMode(false);
+            rightPanel.refreshTable("C:\\");
+            rightPanel.set_currentPath("C:\\");
+        }           
     }
     //</editor-fold>
 }
