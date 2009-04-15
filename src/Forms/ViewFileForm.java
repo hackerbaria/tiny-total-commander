@@ -4,7 +4,7 @@
  */
 
 /*
- * frmViewFile.java
+ * ViewFileForm.java
  *
  * Created on Apr 8, 2009, 11:20:22 PM
  */
@@ -20,10 +20,10 @@ import java.util.logging.Logger;
  *
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
-public class frmViewFile extends javax.swing.JFrame {
+public class ViewFileForm extends javax.swing.JFrame {
     
-    /** Creates new form frmViewFile */
-    public frmViewFile(String path){
+    /** Creates new form ViewFileForm */
+    public ViewFileForm(String path){
         initComponents();
         setLocationRelativeTo(this);            // center the form
         
@@ -31,7 +31,7 @@ public class frmViewFile extends javax.swing.JFrame {
             setTitle(getTitle() + " - [" + path + "]");    // set title
             txtContent.setText(XFile.getContent(path));    // show content
         } catch (IOException ex) {
-            Logger.getLogger(frmViewFile.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ViewFileForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

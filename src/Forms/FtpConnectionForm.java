@@ -4,7 +4,7 @@
  */
 
 /*
- * frmFtpConnection.java
+ * FtpConnectionForm.java
  *
  * Created on Apr 14, 2009, 8:34:37 AM
  */
@@ -19,7 +19,7 @@ import core.XEvent;
  *
  * @author pmchanh
  */
-public class frmFtpConnection extends javax.swing.JFrame {
+public class FtpConnectionForm extends javax.swing.JFrame {
     protected javax.swing.event.EventListenerList listenerList = new EventListenerList();
     
     public void addMyEventListener(XEventListener mel) {
@@ -30,8 +30,8 @@ public class frmFtpConnection extends javax.swing.JFrame {
         listenerList.remove(XEventListener.class, mel);
     }
 
-    /** Creates new form frmFtpConnection */
-    public frmFtpConnection() {
+    /** Creates new form FtpConnectionForm */
+    public FtpConnectionForm() {
         initComponents();
 
         getRootPane().setDefaultButton(jButton1);

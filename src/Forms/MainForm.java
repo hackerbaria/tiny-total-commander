@@ -481,7 +481,7 @@ public class MainForm extends JFrame implements ActionListener{
             return;
         }
 
-        frmViewFile frm = new frmViewFile(getSelectedItemPath());
+        ViewFileForm frm = new ViewFileForm(getSelectedItemPath());
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setVisible(true);
     }
@@ -666,7 +666,7 @@ public class MainForm extends JFrame implements ActionListener{
 
     private void ftp()
     {
-        frmFtpConnection frm = new frmFtpConnection();
+        FtpConnectionForm frm = new FtpConnectionForm();
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setVisible(true);
         frm.addMyEventListener(new XEventListener() {
