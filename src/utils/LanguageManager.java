@@ -17,6 +17,7 @@ public class LanguageManager {
         Locale.ENGLISH,
         new Locale("en", "US"),
         new Locale("es", "ES"),
+        new Locale("fr", "FR"),
         new Locale("vi", "VN")
     };
 
@@ -46,10 +47,15 @@ public class LanguageManager {
             labels =
            ResourceBundle.getBundle("Languages\\LanguageSupport",supportedLocale[2]);
         }
-        else if (Lang.compareTo("vietnam") == 0){
+        else if(Lang.compareTo("french") == 0){
 
             labels =
            ResourceBundle.getBundle("Languages\\LanguageSupport",supportedLocale[3]);
+        }
+        else if (Lang.compareTo("vietnam") == 0){
+
+            labels =
+           ResourceBundle.getBundle("Languages\\LanguageSupport",supportedLocale[4]);
         }
         else {
 

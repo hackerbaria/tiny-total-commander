@@ -41,7 +41,7 @@ public class MainForm extends JFrame implements ActionListener{
         super();
         InitializeComponent();
        // readDiskListToCombobox();4
-        changeLanguage();
+        //changeLanguage();
 
     }
 
@@ -99,6 +99,12 @@ public class MainForm extends JFrame implements ActionListener{
         menuBar = new JMenuBar();
         panel.add(menuBar, BorderLayout.NORTH);
 
+        //  Load Menu moi lan thay doi ngon ngu
+        //
+        loadMenu();
+
+        
+        /*
         // menu file
         fileMenu = new JMenu("File");
         
@@ -204,6 +210,8 @@ public class MainForm extends JFrame implements ActionListener{
         temporaryMenu.add(createMenuItem("Explore Zip File", "Explore_Zip"));
         //~temporary menu
 
+        */
+
         //setup toolbar
         mainToolbar = new JToolBar();
         mainToolbar.setFloatable(false);
@@ -222,6 +230,117 @@ public class MainForm extends JFrame implements ActionListener{
         //~setup toolbar
         
         return panel;
+    }
+
+    private JMenuBar loadMenu(){
+
+        //  Xoa Menu neu co
+        menuBar.removeAll();
+        
+        // menu file
+        fileMenu = new JMenu(LangManager.TranslateLang("menuFile"));
+        fileMenu.setMnemonic(KeyEvent.VK_F);
+        menuBar.add(fileMenu);
+
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("menuFile_ChangeAttrib"), "Change_Attribute"));
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("menuFile_Properties"), "Properties",KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, ActionEvent.ALT_MASK)));
+        fileMenu.add(new JSeparator());
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("menuFile_Pack"),"Pack",
+                KeyStroke.getKeyStroke(KeyEvent.VK_F5, ActionEvent.ALT_MASK)));
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("menuFile_Unpack"),"Unpack",
+                KeyStroke.getKeyStroke(KeyEvent.VK_F9, ActionEvent.ALT_MASK)));
+        fileMenu.add(new JSeparator());
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("menuFile_Quit"), "Exit",
+                KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK)));
+
+       // menuItem = new JMenuItem("change attributes...");
+
+        // ~menu file
+
+        // menu mark
+        markMenu = new JMenu(LangManager.TranslateLang("memuMark"));
+        markMenu.setMnemonic(KeyEvent.VK_M);
+        menuBar.add(markMenu);
+
+        markMenu.add(createMenuItem(LangManager.TranslateLang("menuMark_SelectAll"), "selectall",
+                KeyStroke.getKeyStroke(KeyEvent.VK_ADD, ActionEvent.CTRL_MASK)));
+        markMenu.add(createMenuItem(LangManager.TranslateLang("menuMark_UnSelectAll"), "unselectall",
+                KeyStroke.getKeyStroke(KeyEvent.VK_SUBTRACT, ActionEvent.CTRL_MASK)));
+        // ~menu mark
+
+        // command menu
+        commandMenu = new JMenu(LangManager.TranslateLang("menuCommands"));
+        menuBar.add(commandMenu);
+
+        commandMenu.add(createMenuItem(LangManager.TranslateLang("menuCommands_Search"), "search",
+                KeyStroke.getKeyStroke(KeyEvent.VK_F7, ActionEvent.ALT_MASK)));
+        commandMenu.add(createMenuItem(LangManager.TranslateLang("menuCommands_SysInfo"),"systeminfo"));
+        commandMenu.add(new JSeparator());
+        commandMenu.add(createMenuItem(LangManager.TranslateLang("menuCommands_Desktop"), "opendesktop"));
+
+        // ~command menu
+
+        // show menu
+        showMenu = new JMenu(LangManager.TranslateLang("menuShow"));
+        menuBar.add(showMenu);
+
+        showMenu.add(createMenuItem(LangManager.TranslateLang("menuShow_Brief"), "brief",
+                KeyStroke.getKeyStroke(KeyEvent.VK_F1, ActionEvent.CTRL_MASK)));
+        showMenu.add(createMenuItem(LangManager.TranslateLang("menuShow_Full"), "Full",
+                KeyStroke.getKeyStroke(KeyEvent.VK_F2, ActionEvent.CTRL_MASK)));
+        showMenu.add(createMenuItem(LangManager.TranslateLang("menuShow_NewTab"), "newtab",
+                KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK)));
+        // ~show menu
+
+        // config menu
+        configMenu = new JMenu(LangManager.TranslateLang("menuConf"));
+        menuBar.add(configMenu);
+        configMenu.add(createMenuItem(LangManager.TranslateLang("menuConf_Opt"), "option"));
+
+
+        // ~config menu
+
+        // help menu
+        helpMenu = new JMenu(LangManager.TranslateLang("menuHelp"));
+        menuBar.add(helpMenu);
+
+        helpMenu.add(createMenuItem(LangManager.TranslateLang("menuHelp_Index"), "index", KeyEvent.VK_F1));
+        helpMenu.add(createMenuItem(LangManager.TranslateLang("menuHelp_Keybard"), "keyboard"));
+        helpMenu.add(new JSeparator());
+        helpMenu.add(createMenuItem(LangManager.TranslateLang("menuHelp_About"), "about"));
+        // ~help menu
+
+        // language menu
+        languageMenu = new JMenu(LangManager.TranslateLang("menuLang"));
+        menuBar.add(languageMenu);
+
+        languageMenu.add(createMenuItem(LangManager.TranslateLang("menuLang_En"), "Change_English"));
+        languageMenu.add(createMenuItem(LangManager.TranslateLang("menuLang_US"), "Change_UnitedState"));
+        languageMenu.add(createMenuItem(LangManager.TranslateLang("menuLang_ES"), "Change_Spanish"));
+        languageMenu.add(createMenuItem(LangManager.TranslateLang("menuLang_FR"), "Change_French"));
+        languageMenu.add(createMenuItem(LangManager.TranslateLang("menuLang_VN"), "Change_VietNamese"));
+        // ~language menu
+
+        // temporary menu
+        temporaryMenu = new JMenu(LangManager.TranslateLang("memuTemp"));
+        menuBar.add(temporaryMenu);
+
+        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_NewFile"), "New_File"));
+        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_ViewFile"), "View_File"));
+        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_RenameFile"), "Rename_File"));
+        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_Delete"), "Delete_File"));
+        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_Copy"), "Copy_File"));
+        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_Move"), "Move_File"));
+        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_Edit"), "Edit_File"));
+        temporaryMenu.add(new JSeparator());
+        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_NewFolder"), "New_Folder"));
+        temporaryMenu.add(new JSeparator());
+        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_Zip"), "Zip_File"));
+        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_UnZip"), "Unzip_File"));
+        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_AppendZip"), "Append_Zip"));
+        //~temporary menu
+        
+        return menuBar;
     }
 
     private JMenuItem createMenuItem(String text,String commandText, KeyStroke stroke) {
@@ -465,6 +584,9 @@ public class MainForm extends JFrame implements ActionListener{
             changeLanguage();
         } else if (command.equals("Change_Spanish")){
             LangManager.ChangeLanguage("spain");
+            changeLanguage();
+        } else if (command.equals("Change_French")){
+            LangManager.ChangeLanguage("french");
             changeLanguage();
         } else if (command.equals("Change_VietNamese")){
             LangManager.ChangeLanguage("vietnam");
@@ -832,6 +954,11 @@ public class MainForm extends JFrame implements ActionListener{
 
         JButton btn7 = (JButton)footPanel.getComponent(6);
         btn7.setText(LangManager.TranslateLang("btn7_MainForm"));
+
+        // Thay doi text tren Menu
+        loadMenu();
+        //enuBar.paintImmediately(headPanel.getX(), headPanel.getY(), headPanel.getWidth(), headPanel.getHeight());
+
     }
     //</editor-fold>
 }
