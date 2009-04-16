@@ -299,7 +299,6 @@ public class MainForm extends JFrame implements ActionListener{
 
     /**
      * Get current path in main form
-     * @return
      */
     public String getCurrentPath() {
         return focusPanel.getCurrentPath();
@@ -307,7 +306,6 @@ public class MainForm extends JFrame implements ActionListener{
 
     /**
      * Get selected item's path
-     * @return
      */
     public String getSelectedItemPath() {
         return focusPanel.getSelectedItemPath();

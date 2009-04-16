@@ -122,7 +122,6 @@ public class XPanel extends JPanel implements FocusListener {
 
      /**
       * Get selected items
-      * @return
       */
      public ArrayList<String> getSelectedItems() {
          return getActiveTab().getSelectedItems();

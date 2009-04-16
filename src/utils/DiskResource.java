@@ -15,7 +15,6 @@ import javax.swing.filechooser.FileSystemView;
 public class DiskResource {
     /**
      * Get all drives on computer
-     * @return
      */
     public static String[] getAll() {
         File[] fs = File.listRoots();

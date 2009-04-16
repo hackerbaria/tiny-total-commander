@@ -25,7 +25,6 @@ public class XEvent extends EventObject {
 
     /**
      * Get data list
-     * @return
      */
     public ArrayList<String> getDataList() {
         return _dataList;
@@ -33,7 +32,6 @@ public class XEvent extends EventObject {
 
     /**
      * Get data (the first item in data list)
-     * @return
      */
     public String getData() {
         return _dataList.get(0);
@@ -41,7 +39,6 @@ public class XEvent extends EventObject {
 
     /**
      * Add data to data list
-     * @param data
      */
     public void addData(String data) {
         _dataList.add(data);

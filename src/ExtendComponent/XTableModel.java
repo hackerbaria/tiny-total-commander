@@ -11,7 +11,7 @@ import javax.swing.table.AbstractTableModel;
 /**
  *
  * @author pmchanh
- * @ref: http://www.coderanch.com/t/333947/Swing-AWT-SWT-JFace/java/Add-Row-with-AbstractTableModel
+ * ref: http://www.coderanch.com/t/333947/Swing-AWT-SWT-JFace/java/Add-Row-with-AbstractTableModel
  */
 public class XTableModel extends AbstractTableModel{
     private Vector _data;

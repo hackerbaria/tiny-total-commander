@@ -68,7 +68,7 @@ public class XFile {
 
     /**
      * Execute a file
-     * @ref http://tinyurl.com/executefile
+     * ref: http://tinyurl.com/executefile
      */
     public static void execute(String filePath) throws IOException {
         Runtime.getRuntime().exec("cmd /c start " + filePath);

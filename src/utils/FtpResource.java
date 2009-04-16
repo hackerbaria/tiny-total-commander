@@ -26,10 +26,9 @@ import sun.awt.shell.ShellFolder;
 
 
 /**
- *
+ * Ftp
  * @author pmchanh
- * @thamKhaoCodeFTP http://www.kodejava.org/examples/357.html
- * @cachLayIconFileTrenFtp http://blog.codebeach.com/2008/02/get-file-type-icon-with-java.html
+ * ref: http://www.kodejava.org/examples/357.html and http://blog.codebeach.com/2008/02/get-file-type-icon-with-java.html
  */
 public class FtpResource {
     private String _url;
@@ -43,8 +42,7 @@ public class FtpResource {
     }
 
     /**
-     * get working directory
-     * @return
+     * Get working directory
      */
      public String getWorkingDir() throws Exception {
         try {
