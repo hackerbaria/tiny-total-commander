@@ -231,20 +231,20 @@ public class XTab extends JPanel implements FocusListener {
            if(name.equals("[...]")) {
                // double click on [...] => up one level
                String parent = PathHelper.getParentPath(fullpath);
-               refreshTable(parent+ "\\");
+               refreshTable(parent + "\\");
                setCurrentPath(parent + "\\");
            } else {
                // double click on file or folder ...
-               fullpath = fullpath + "\\" + name;
+               fullpath = fullpath + name;
                String extention = (String) _model.getValueAt(rowSelectedIndex, 1);
                if(extention.length() > 1) {
                    fullpath = fullpath + "." + extention;
                }
 
                 if(PathHelper.isFolder(fullpath)) {
-                // double click on folder => go inside
-                refreshTable(fullpath);
-                setCurrentPath(fullpath + "\\");
+                    // double click on folder => go inside
+                    refreshTable(fullpath);
+                    setCurrentPath(fullpath + "\\");
                } else {
                     try {
                         // double click on file => lauch file

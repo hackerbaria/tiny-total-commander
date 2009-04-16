@@ -209,7 +209,7 @@ public class XPanel extends JPanel implements FocusListener {
         if(_activeTab.getftpMode()) {
             initTab();
             setCurrentPath("C:\\");
-            refresh("C:\\");            
+            refresh("C:\\");
         } else {
             XTab newTab = new XTab();
             newTab.addFocusListener(new XComponentEventListener() {

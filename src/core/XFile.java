@@ -6,10 +6,6 @@
 package core;
 
 import java.io.*;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-import java.util.zip.ZipOutputStream;
-import utils.Konstant;
 
 /**
  * File
@@ -17,6 +13,11 @@ import utils.Konstant;
  */
 public class XFile {
 
+    /**
+     * Buffer size
+     */
+    private static final int BUFFER = 1024;
+    
     /**
      * Create a new file
      */
@@ -49,7 +50,7 @@ public class XFile {
         OutputStream out = new FileOutputStream(destFile);
 
         // Copy the bits from instream to outstream
-        byte[] buf = new byte[Konstant.BUFFER];
+        byte[] buf = new byte[BUFFER];
         int len;
         while ((len = in.read(buf)) > 0) {
             out.write(buf, 0, len);

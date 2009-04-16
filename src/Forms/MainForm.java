@@ -201,6 +201,7 @@ public class MainForm extends JFrame implements ActionListener{
         temporaryMenu.add(createMenuItem("Zip File", "Zip_File"));
         temporaryMenu.add(createMenuItem("Unzip File", "Unzip_File"));
         temporaryMenu.add(createMenuItem("Append Zip File", "Append_Zip"));
+        temporaryMenu.add(createMenuItem("Explore Zip File", "Explore_Zip"));
         //~temporary menu
 
         //setup toolbar
@@ -438,6 +439,8 @@ public class MainForm extends JFrame implements ActionListener{
             unzipFile();
         } else if(command.equals("Append_Zip")) {
             appendZip();
+        } else if(command.equals("Explore_Zip")) {
+            exploreZip();
         } else if(command.equals("Exit")) {
             System.exit(0);
         } else if(command.equals("ftp")) { 
@@ -740,6 +743,17 @@ public class MainForm extends JFrame implements ActionListener{
                 refresh();
             }
         });
+    }
+
+    private void exploreZip() {
+        try {
+            String tempDir = "F:\\" + PathHelper.getFileNameWithoutExt(getSelectedItemPath());
+            XZiper.unzip(getSelectedItemPath(), tempDir);
+            focusPanel.setCurrentPath(tempDir + "\\");
+            focusPanel.refresh(tempDir + "\\");
+        } catch (Exception ex) {
+            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     // TODO: Chánh - bug ftp

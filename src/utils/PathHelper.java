@@ -32,19 +32,29 @@ public class PathHelper {
      * Get parent path
      */
     public static String getParentPath(String path) {
-        return path.substring(0, path.lastIndexOf("\\\\"));
+        if(path.charAt(path.length() - 1) == '\\') {
+            path = path.substring(0, path.length() - 1);
+        }
+
+        int index = path.lastIndexOf("\\");
+        if(index < 0)
+            return path;
+        
+        return path.substring(0, path.lastIndexOf("\\"));
     }
 
     /**
      * Get parent name
      */
-    public static String getParentName(String path)
-    {
-        int i = path.lastIndexOf("\\\\");
-        if(i<0)
+    public static String getParentName(String path) {
+        if(path.charAt(path.length() - 1) == '\\') {
+            path = path.substring(0, path.length() - 1);
+        }
+        int index = path.lastIndexOf("\\");
+        if(index < 0)
             return path;
-        else
-            return path.substring(i + 2, path.length()-1);
+        
+        return path.substring(path.lastIndexOf("\\") + 1, path.length());
     }
 
     /**

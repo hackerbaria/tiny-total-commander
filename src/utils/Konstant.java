@@ -20,9 +20,4 @@ public class Konstant {
      * Application's version
      */
     public static final String APP_VER = "1.0";
-
-    /**
-     * Buffer size
-     */
-    public static final int BUFFER = 1024;
 }

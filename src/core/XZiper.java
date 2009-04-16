@@ -7,9 +7,9 @@ package core;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.zip.*;
-import utils.Konstant;
 import utils.PathHelper;
 
 /**
@@ -17,6 +17,13 @@ import utils.PathHelper;
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public class XZiper {
+
+    /**
+     * Buffer size
+     */
+    private static final int BUFFER = 1024;
+    public static File SYSTEM_TMP_DIR = new File(System.getProperty("java.io.tmpdir"));
+    
     /**
      * Zip file + folder
      */
@@ -51,7 +58,7 @@ public class XZiper {
         while((entry = in.getNextEntry()) != null)
         {
             int count;
-            byte data[] = new byte[Konstant.BUFFER];
+            byte data[] = new byte[BUFFER];
 
             String fullpath = outFolder.getPath() + "\\" + entry.getName();
             String dirs = fullpath.substring(0, fullpath.lastIndexOf("\\"));
@@ -89,7 +96,7 @@ public class XZiper {
         }
 
         FileInputStream inStream = null;
-        byte[] data = new byte[Konstant.BUFFER];
+        byte[] data = new byte[BUFFER];
         ZipFile zipFile = new ZipFile(zip);
         Enumeration entries = zipFile.entries();
 
@@ -128,6 +135,13 @@ public class XZiper {
         zip.delete();
         XFile.copy(tempPath, sourceZip);
     }
+
+    public static String createTempDir() {
+		File dir = new File(SYSTEM_TMP_DIR, "abc" + new Date().getTime() + (Math.ceil(10000f * Math.random())));
+		dir.mkdirs();
+
+		return dir.getPath();
+	}
     
     private static void listFiles(ArrayList<File> files, File folder) {
 
