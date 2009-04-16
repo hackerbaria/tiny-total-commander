@@ -73,15 +73,16 @@ public class XZiper {
         out.close();
     }
 
-    // TODO: Cường - append zip file
-
     // TODO: Cường - explore zip file
 
+    /**
+     * Append file/folder to zip file
+     */
     public static void appendZip(String appendFiles, String sourceZip) throws IOException {
-
         File zip = new File(sourceZip);
         File fileAppend = new File(appendFiles);
 
+        // files will be appended to zip file
         ArrayList<File> files = new ArrayList<File>();
         if(PathHelper.isFile(appendFiles)) {
             files.add(fileAppend);
@@ -94,7 +95,9 @@ public class XZiper {
         ZipFile zipFile = new ZipFile(zip);
         Enumeration entries = zipFile.entries();
 
-        ZipOutputStream outStream = new ZipOutputStream(new FileOutputStream(sourceZip));
+        // create another zip file in temporary folder
+        String tempPath = System.getProperty("java.io.tmpdir") + zip.getName();
+        ZipOutputStream outStream = new ZipOutputStream(new FileOutputStream(tempPath));
 
         while(entries.hasMoreElements()) {
             ZipEntry entry = (ZipEntry) entries.nextElement();
@@ -122,6 +125,10 @@ public class XZiper {
         }
         outStream.flush();
         outStream.close();
+
+        // delete the old zip then copy the new one from temporary folder
+        zip.delete();
+        XFile.copy(tempPath, sourceZip);
     }
 
     /**
