@@ -16,13 +16,12 @@ import utils.PathHelper;
  * Ziper
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
-public class XZiper {
+public class XZipper {
 
     /**
      * Buffer size
      */
     private static final int BUFFER = 1024;
-    public static File SYSTEM_TMP_DIR = new File(System.getProperty("java.io.tmpdir"));
     
     /**
      * Zip file + folder
@@ -48,6 +47,15 @@ public class XZiper {
      * Unzip file + folder
      */
     public static void unzip(String srcZipFile, String destItem) throws Exception {
+
+        ZipFile zipfile = new ZipFile(srcZipFile);
+		for (Enumeration<? extends ZipEntry> e = zipfile.entries(); e.hasMoreElements();) {
+			ZipEntry entry = (ZipEntry) e.nextElement();
+            int a = 0;
+            
+		}
+
+        
         File inFile = new File(srcZipFile);
         File outFolder = new File(destItem);
 
@@ -135,13 +143,6 @@ public class XZiper {
         zip.delete();
         XFile.copy(tempPath, sourceZip);
     }
-
-    public static String createTempDir() {
-		File dir = new File(SYSTEM_TMP_DIR, "abc" + new Date().getTime() + (Math.ceil(10000f * Math.random())));
-		dir.mkdirs();
-
-		return dir.getPath();
-	}
     
     private static void listFiles(ArrayList<File> files, File folder) {
 

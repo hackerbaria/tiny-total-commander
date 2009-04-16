@@ -28,6 +28,8 @@ import sun.awt.shell.ShellFolder;
  * @author pmchanh
  */
 public class FileResource {
+    private static File SYSTEM_TMP_DIR = new File(System.getProperty("java.io.tmpdir"));
+
     /**
      * List all files
      */
@@ -82,6 +84,13 @@ public class FileResource {
         return rs;
 
     }
+
+    public static String createTempDir() {
+		File dir = new File(SYSTEM_TMP_DIR, "abc" + new Date().getTime() + (Math.ceil(10000f * Math.random())));
+		dir.mkdirs();
+
+		return dir.getPath() + "\\";
+	}
 
     //<editor-fold defaultstate="collapsed" desc="Housekeeping ...">
 

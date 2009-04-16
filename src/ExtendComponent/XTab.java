@@ -40,6 +40,7 @@ public class XTab extends JPanel implements FocusListener {
     private Boolean _ftpMode;
     private FtpResource _ftpResource;
 
+
     public void setftpMode(Boolean value){
         _ftpMode = value;
     }
@@ -216,12 +217,12 @@ public class XTab extends JPanel implements FocusListener {
     public void deSelectAll() {
         _dirTable.clearSelection();
     }
-    
+
     /**
      *  xu ly double click tren row o che do binh thuong ( khong phai ftp)
      */
     private void ProcessRowClickInNormalMode()
-    {
+    {       
           // get selected row
            int rowSelectedIndex = _dirTable.getSelectedRow();
            TextImageObj tmodel = (TextImageObj) _model.getValueAt(rowSelectedIndex, 0);
@@ -231,8 +232,8 @@ public class XTab extends JPanel implements FocusListener {
            if(name.equals("[...]")) {
                // double click on [...] => up one level
                String parent = PathHelper.getParentPath(fullpath);
-               refreshTable(parent + "\\");
-               setCurrentPath(parent + "\\");
+               refreshTable(parent);
+               setCurrentPath(parent);
            } else {
                // double click on file or folder ...
                fullpath = fullpath + name;

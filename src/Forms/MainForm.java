@@ -811,7 +811,7 @@ public class MainForm extends JFrame implements ActionListener{
             public void myEventOccurred(XEvent evt) {
                 String fullPath = evt.getData();
                 try {
-                    XZiper.zip(getSelectedItemPath(), fullPath);
+                    XZipper.zip(getSelectedItemPath(), fullPath);
                 } catch (Exception ex) {
                     Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -833,7 +833,7 @@ public class MainForm extends JFrame implements ActionListener{
             public void myEventOccurred(XEvent evt) {
                 String fullPath = evt.getData();
                 try {
-                    XZiper.appendZip(getSelectedItemPath(), fullPath);
+                    XZipper.appendZip(getSelectedItemPath(), fullPath);
                 } catch (Exception ex) {
                     Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -857,7 +857,7 @@ public class MainForm extends JFrame implements ActionListener{
             public void myEventOccurred(XEvent evt) {
                 String fullPath = evt.getData();
                 try {
-                    XZiper.unzip(getSelectedItemPath(), fullPath);
+                    XZipper.unzip(getSelectedItemPath(), fullPath);
                 } catch (Exception ex) {
                     Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -869,10 +869,11 @@ public class MainForm extends JFrame implements ActionListener{
 
     private void exploreZip() {
         try {
-            String tempDir = "F:\\" + PathHelper.getFileNameWithoutExt(getSelectedItemPath());
-            XZiper.unzip(getSelectedItemPath(), tempDir);
-            focusPanel.setCurrentPath(tempDir + "\\");
-            focusPanel.refresh(tempDir + "\\");
+
+            String tempDir = FileResource.createTempDir();
+            XZipper.unzip(getSelectedItemPath(), tempDir);
+            focusPanel.setCurrentPath(tempDir);
+            focusPanel.refresh(tempDir);
         } catch (Exception ex) {
             Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
         }
