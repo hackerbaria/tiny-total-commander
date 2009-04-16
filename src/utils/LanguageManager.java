@@ -26,7 +26,7 @@ public class LanguageManager {
     public LanguageManager(){
 
         labels =
-            ResourceBundle.getBundle("Languages\\LanguageSupport",supportedLocale[0]);
+            ResourceBundle.getBundle("Languages\\LanguageSupport",supportedLocale[1]);
     }
 
     public void ChangeLanguage(int index){
@@ -37,12 +37,7 @@ public class LanguageManager {
 
     public void ChangeLanguage(String Lang){
 
-        if(Lang.compareTo("united state") == 0){
-
-            labels =
-           ResourceBundle.getBundle("Languages\\LanguageSupport",supportedLocale[1]);
-        }
-        else if(Lang.compareTo("spain") == 0){
+        if(Lang.compareTo("spain") == 0){
 
             labels =
            ResourceBundle.getBundle("Languages\\LanguageSupport",supportedLocale[2]);
@@ -60,7 +55,7 @@ public class LanguageManager {
         else {
 
             labels =
-           ResourceBundle.getBundle("Languages\\LanguageSupport",supportedLocale[0]);
+           ResourceBundle.getBundle("Languages\\LanguageSupport",supportedLocale[1]);
         }
 
     }

@@ -315,7 +315,6 @@ public class MainForm extends JFrame implements ActionListener{
         menuBar.add(languageMenu);
 
         languageMenu.add(createMenuItem(LangManager.TranslateLang("menuLang_En"), "Change_English"));
-        languageMenu.add(createMenuItem(LangManager.TranslateLang("menuLang_US"), "Change_UnitedState"));
         languageMenu.add(createMenuItem(LangManager.TranslateLang("menuLang_ES"), "Change_Spanish"));
         languageMenu.add(createMenuItem(LangManager.TranslateLang("menuLang_FR"), "Change_French"));
         languageMenu.add(createMenuItem(LangManager.TranslateLang("menuLang_VN"), "Change_VietNamese"));
@@ -578,9 +577,6 @@ public class MainForm extends JFrame implements ActionListener{
             focusPanel.createNewTab();
         } else if (command.equals("Change_English")){
             LangManager.ChangeLanguage("english");
-            changeLanguage();
-        } else if (command.equals("Change_UnitedState")){
-            LangManager.ChangeLanguage("united state");
             changeLanguage();
         } else if (command.equals("Change_Spanish")){
             LangManager.ChangeLanguage("spain");
