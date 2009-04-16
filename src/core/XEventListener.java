@@ -12,5 +12,9 @@ import java.util.EventListener;
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public interface XEventListener extends EventListener{
+    /**
+     * Event occurred
+     * @param evt
+     */
     public void myEventOccurred(XEvent evt);
 }

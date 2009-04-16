@@ -9,17 +9,13 @@ import java.io.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
+import utils.Konstant;
 
 /**
  * File
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public class XFile {
-
-    /**
-     * Buffer size
-     */
-    private static final int BUFFER = 1024;
 
     /**
      * Create a new file
@@ -53,7 +49,7 @@ public class XFile {
         OutputStream out = new FileOutputStream(dest);
 
         // Copy the bits from instream to outstream
-        byte[] buf = new byte[BUFFER];
+        byte[] buf = new byte[Konstant.BUFFER];
         int len;
         while ((len = in.read(buf)) > 0) {
             out.write(buf, 0, len);
@@ -99,49 +95,5 @@ public class XFile {
     public static void rename(String oldPath, String newPath) throws IOException {
         java.io.File file = new java.io.File(oldPath);
         file.renameTo(new java.io.File(newPath));
-    }
-
-    /**
-     * Zip a file
-     */
-    public static void zip(String inFilePath, String outFilePath) throws IOException {
-        zipInternal(new File(inFilePath), new File(outFilePath));
-    }
-
-     public static void zipInternal(File inFile, File outFile) throws IOException {
-        InputStream inStream = new FileInputStream(inFile);
-        ZipOutputStream outStream = new ZipOutputStream(new FileOutputStream(outFile));
-
-        outStream.putNextEntry(new ZipEntry(inFile.getName()));
-        byte[] buf = new byte[BUFFER];
-        int len = 0;
-        while((len = inStream.read(buf)) > 0) {
-            outStream.write(buf, 0, len);
-        }
-        outStream.closeEntry();
-
-        inStream.close();
-        outStream.close();
-    }
-
-    /**
-     * Unzip a file
-     */
-    public static void unzip(String inFilePath, String outFilePath) throws IOException {
-        ZipInputStream inStream = new ZipInputStream(new FileInputStream(inFilePath));
-        BufferedOutputStream outStream = null;
-
-        ZipEntry entry = null;
-        int count = 0;
-        while((entry = inStream.getNextEntry()) != null) {
-            byte buffer[] = new byte[BUFFER];
-            outStream = new BufferedOutputStream(new FileOutputStream(outFilePath + "/" + entry.getName()), BUFFER);
-            while((count = inStream.read(buffer)) > 0) {
-                outStream.write(buffer, 0, count);
-            }
-        }
-
-        inStream.close();
-        outStream.close();
     }
 }

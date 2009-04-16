@@ -9,31 +9,51 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.zip.*;
+import utils.Konstant;
 import utils.PathHelper;
 
 /**
- *
+ * Ziper
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public class XZiper {
     /**
-     * Buffer size
-     */
-    private static final int BUFFER = 1024;
-
-    /**
      * Zip file + folder
      */
     public static void zip(String srcItem, String destZipFile) throws Exception {
-        ZipOutputStream zip = null;
-        FileOutputStream fileWriter = null;
+        File item = new File(srcItem);
+        File zip = new File(destZipFile);
 
-        fileWriter = new FileOutputStream(destZipFile);
-        zip = new ZipOutputStream(fileWriter);
+        // files will be appended to the zip file
+        ArrayList<File> files = new ArrayList<File>();
+        if(PathHelper.isFile(srcItem)) {
+            files.add(item);
+        } else {
+            listFiles(files, item);
+        }
 
-        addToZip("", srcItem, zip);
-        zip.flush();
-        zip.close();
+        // TODO: Cường - bug zip file
+        // Mô tả: các folder rỗng bị bỏ qua, ko có trong file zip
+
+        FileInputStream inStream = null;
+        ZipOutputStream outStream = new ZipOutputStream(new FileOutputStream(zip.getPath()));
+        byte[] data = new byte[Konstant.BUFFER];
+
+        for(int i = 0; i < files.size(); ++i) {
+            File file = files.get(i);
+            inStream = new FileInputStream(file);
+            outStream.putNextEntry(new ZipEntry(file.getPath()));
+            int count = 0;
+            while ((count = inStream.read(data)) > 0) {
+                 outStream.write(data, 0, count);
+            }
+
+            outStream.closeEntry();
+            inStream.close();
+        }
+
+        outStream.flush();
+        outStream.close();
     }
 
     /**
@@ -43,17 +63,17 @@ public class XZiper {
         File inFile = new File(srcZipFile);
         File outFolder = new File(destItem);
 
-        BufferedOutputStream out = null;
-        ZipInputStream  in = new ZipInputStream(
-                                     new BufferedInputStream(
-                                          new FileInputStream(inFile)));
+        ZipInputStream  in = new ZipInputStream( new FileInputStream(inFile));
+        OutputStream out = null;
+        
         ZipEntry entry;
         while((entry = in.getNextEntry()) != null)
         {
             int count;
-            byte data[] = new byte[BUFFER];
+            byte data[] = new byte[Konstant.BUFFER];
 
-            String fullpath = outFolder.getPath() + "\\" + entry.getName();
+            String relativepath = entry.getName().substring(3, entry.getName().length());
+            String fullpath = outFolder.getPath() + "\\" + relativepath;
             String dirs = fullpath.substring(0, fullpath.lastIndexOf("\\"));
             
             File file = new File(dirs);
@@ -62,9 +82,7 @@ public class XZiper {
             }
 
             // write the files to the disk
-            out = new BufferedOutputStream(
-                      new FileOutputStream(outFolder.getPath() + "\\" + entry.getName()),BUFFER);
-
+            out = new FileOutputStream(fullpath);
             while ((count = in.read(data)) > 0) {
                  out.write(data, 0, count);
             }
@@ -82,7 +100,7 @@ public class XZiper {
         File zip = new File(sourceZip);
         File fileAppend = new File(appendFiles);
 
-        // files will be appended to zip file
+        // files will be appended to the zip file
         ArrayList<File> files = new ArrayList<File>();
         if(PathHelper.isFile(appendFiles)) {
             files.add(fileAppend);
@@ -91,11 +109,11 @@ public class XZiper {
         }
 
         FileInputStream inStream = null;
-        byte[] data = new byte[BUFFER];
+        byte[] data = new byte[Konstant.BUFFER];
         ZipFile zipFile = new ZipFile(zip);
         Enumeration entries = zipFile.entries();
 
-        // create another zip file in temporary folder
+        // create a temp zip file
         String tempPath = System.getProperty("java.io.tmpdir") + zip.getName();
         ZipOutputStream outStream = new ZipOutputStream(new FileOutputStream(tempPath));
 
@@ -105,7 +123,7 @@ public class XZiper {
             outStream.putNextEntry(entry);
 
             int count = 0;
-            while ((count = is.read(data, 0, BUFFER)) >0)  {
+            while ((count = is.read(data)) >0)  {
                 outStream.write(data, 0, count);
             }
             outStream.closeEntry();
@@ -117,7 +135,7 @@ public class XZiper {
             inStream = new FileInputStream(file);
             outStream.putNextEntry(new ZipEntry(file.getPath()));
             int count = 0;
-            while ((count = inStream.read(data, 0, BUFFER)) != -1)  {
+            while ((count = inStream.read(data)) != -1)  {
                 outStream.write(data, 0, count);
             }
             outStream.closeEntry();
@@ -126,43 +144,11 @@ public class XZiper {
         outStream.flush();
         outStream.close();
 
-        // delete the old zip then copy the new one from temporary folder
+        // delete the temp zip file then copy to the right location
         zip.delete();
         XFile.copy(tempPath, sourceZip);
     }
-
-    /**
-     * Add folder to zip
-     */
-    private static void addFolderToZip(String path, String srcFolder, ZipOutputStream zip) throws Exception {
-        File folder = new File(srcFolder);
-        for (String fileName : folder.list()) {
-            if (path.equals("")) {
-                addToZip(folder.getName(), srcFolder + "\\" + fileName, zip);
-            } else {
-                addToZip(path + "\\" + folder.getName(), srcFolder + "\\" + fileName, zip);
-            }
-        }
-    }
-
-    /**
-     * Add file to zip
-     */
-    static private void addToZip(String path, String srcItem, ZipOutputStream zip) throws Exception {
-        File folder = new File(srcItem);
-        if (folder.isDirectory()) {
-            addFolderToZip(path, srcItem, zip);
-        } else {
-            byte[] buf = new byte[1024];
-            int len;
-            FileInputStream in = new FileInputStream(srcItem);
-            zip.putNextEntry(new ZipEntry(path + "\\" + folder.getName()));
-            while ((len = in.read(buf)) > 0) {
-                zip.write(buf, 0, len);
-            }
-        }
-    }
-
+    
     private static void listFiles(ArrayList<File> files, File folder) {
         for(File item: folder.listFiles()) {
             if(item.isFile()) {

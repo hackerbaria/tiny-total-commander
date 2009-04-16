@@ -6,19 +6,12 @@
 package core;
 
 import java.io.*;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 /**
  * Folder
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public class XFolder {
-    /**
-     * Buffer size
-     */
-    private static final int BUFFER = 1024;
-
     /**
      * Create a new folder
      */
