@@ -152,8 +152,8 @@ public class FtpConnectionForm extends javax.swing.JFrame {
      */
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         XEvent event = new XEvent(txtUrl.getText());       // url
-        event.addData(txtUsername.getText());                // username
-        event.addData(txtPassword.getPassword().toString()); // password
+        event.addData(txtUsername.getText());                // username       
+        event.addData(new String(txtPassword.getPassword())); // password
 
         Object[] listeners = listenerList.getListenerList();
         for (int i = 0; i < listeners.length; i += 2) {

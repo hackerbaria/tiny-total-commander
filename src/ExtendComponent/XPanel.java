@@ -275,7 +275,7 @@ public class XPanel extends JPanel implements FocusListener {
             // thành ổ đĩa trước khi select change
             _diskList.setSelectedIndex(findIndex(s));
             // xuất thông báo lỗi không đọc được ổ đĩa
-            MsgboxHelper.showError("Drive not found!");
+            MsgboxHelper.showError("Drive not found!");            
         }
     }
 

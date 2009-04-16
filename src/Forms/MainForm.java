@@ -441,7 +441,11 @@ public class MainForm extends JFrame implements ActionListener{
         } else if(command.equals("ftp")) { 
                 ftp();
         } else if (command.equals("dftp")){
+            try {
                 dftp();
+            } catch (Exception ex) {
+                Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else if (command.equals("selectall")){
             focusPanel.selectAllRow();
         } else if (command.equals("unselectall")){            
@@ -737,13 +741,13 @@ public class MainForm extends JFrame implements ActionListener{
                     }
                 } catch (Exception ex) {
                     Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-                    //utils.MsgboxHelper.showError(ex.getMessage());
+                    utils.MsgboxHelper.showError(ex.getMessage());
                 }
             }
         });
     }
 
-    private void dftp() {
+    private void dftp() throws Exception {
         if(ftp != null)
                 ftp.disConnect();
         if(leftPanel.getCurrentPath().startsWith(ftp.getRootPath())) {

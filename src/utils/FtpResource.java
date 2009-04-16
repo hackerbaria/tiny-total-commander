@@ -46,12 +46,12 @@ public class FtpResource {
      * get working directory
      * @return
      */
-     public String getWorkingDir() {
+     public String getWorkingDir() throws Exception {
         try {
             return _ftpClient.printWorkingDirectory();
         } catch (IOException ex) {
             Logger.getLogger(FtpResource.class.getName()).log(Level.SEVERE, null, ex);
-            return "";
+            throw new Exception(ex.getMessage());
         }
     }
 
@@ -87,13 +87,14 @@ public class FtpResource {
     /**
      * disconnect from server
      */
-    public void disConnect()
+    public void disConnect() throws Exception
     {
         try {
             _ftpClient.logout();
             _ftpClient.disconnect();
         } catch (IOException ex) {
             Logger.getLogger(FtpResource.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Exception(ex.getMessage());
         }
         _ftpClient = null;
     }
@@ -101,13 +102,13 @@ public class FtpResource {
     /**
      *  change working directory
      */ 
-    public Boolean changeDir(String remotePath){
+    public Boolean changeDir(String remotePath) throws Exception{
         if(_ftpClient != null){
             try {
                 _ftpClient.cwd(remotePath);
             } catch (IOException ex) {
-                Logger.getLogger(FtpResource.class.getName()).log(Level.SEVERE, null, ex);
-                return false;
+                //Logger.getLogger(FtpResource.class.getName()).log(Level.SEVERE, null, ex);
+                throw new Exception(ex.getMessage());
             }
         }
         return true;
@@ -131,7 +132,7 @@ public class FtpResource {
     /**
      *  get all files from current dir in server
      */
-    public Vector getAllFiles(String wd)
+    public Vector getAllFiles(String wd) throws Exception
     {
         Vector rs = new Vector();
         if(_ftpClient != null && _ftpClient.isConnected())
@@ -172,7 +173,8 @@ public class FtpResource {
                     rs.add(iterFile.next());
                 
             } catch (IOException ex) {
-                Logger.getLogger(FtpResource.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(FtpResource.class.getName()).log(Level.SEVERE, null, ex);
+                throw new Exception(ex.getMessage());
             }
         }
 
