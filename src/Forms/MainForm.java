@@ -141,6 +141,7 @@ public class MainForm extends JFrame implements ActionListener{
         commandMenu.add(createMenuItem("System Information","systeminfo"));
         commandMenu.add(new JSeparator());
         commandMenu.add(createMenuItem("Open Desktop folder", "opendesktop"));
+        
         // ~command menu
 
         // show menu
@@ -197,8 +198,9 @@ public class MainForm extends JFrame implements ActionListener{
         temporaryMenu.add(new JSeparator());
         temporaryMenu.add(createMenuItem("New Folder", "New_Folder"));
         temporaryMenu.add(new JSeparator());
-        temporaryMenu.add(createMenuItem("Zip file", "Zip_File"));
-        temporaryMenu.add(createMenuItem("Unzip file", "Unzip_File"));
+        temporaryMenu.add(createMenuItem("Zip File", "Zip_File"));
+        temporaryMenu.add(createMenuItem("Unzip File", "Unzip_File"));
+        temporaryMenu.add(createMenuItem("Append Zip File", "Append_Zip"));
         //~temporary menu
 
         //setup toolbar
@@ -436,6 +438,8 @@ public class MainForm extends JFrame implements ActionListener{
             zipFilesFolders();
         } else if(command.equals("Unzip_File")) {
             unzipFile();
+        } else if(command.equals("Append_Zip")) {
+            appendZip();
         } else if(command.equals("Exit")) {
             System.exit(0);
         } else if(command.equals("ftp")) { 
@@ -694,6 +698,28 @@ public class MainForm extends JFrame implements ActionListener{
         });
     }
 
+    private void appendZip() {
+        MiniForm frm = new MiniForm();
+        frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frm.setTextboxText("Pack file(s) to the archive");
+        frm.setTextboxText(getLostFocusPath() + PathHelper.getFileNameWithoutExt(getSelectedItemPath()) + ".zip");
+        frm.setVisible(true);
+
+        frm.addMyEventListener(new XEventListener() {
+
+            public void myEventOccurred(XEvent evt) {
+                String fullPath = evt.getData();
+                try {
+                    XZiper.appendZip(getSelectedItemPath(), fullPath);
+                } catch (Exception ex) {
+                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                refresh();
+            }
+        });
+    }
+
     private void unzipFile() {
         //MiniForm frm = new MiniForm();
         MiniForm frm = new MiniForm(LangManager);
@@ -717,6 +743,14 @@ public class MainForm extends JFrame implements ActionListener{
             }
         });
     }
+
+    // TODO: Chánh - bug ftp
+    // Qui trình gây lỗi:
+        // 1. Login vào ftp
+        // 2. Click lên combo disks
+        // 3. Disconnect ftp
+        // 4. Click lên combo disks lần nữa
+        // ... bị đơ
 
     private void ftp()
     {

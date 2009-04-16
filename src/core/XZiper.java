@@ -6,7 +6,10 @@
 package core;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.zip.*;
+import utils.PathHelper;
 
 /**
  *
@@ -70,6 +73,57 @@ public class XZiper {
         out.close();
     }
 
+    // TODO: Cường - append zip file
+
+    // TODO: Cường - explore zip file
+
+    public static void appendZip(String appendFiles, String sourceZip) throws IOException {
+
+        File zip = new File(sourceZip);
+        File fileAppend = new File(appendFiles);
+
+        ArrayList<File> files = new ArrayList<File>();
+        if(PathHelper.isFile(appendFiles)) {
+            files.add(fileAppend);
+        } else {
+            listFiles(files, fileAppend);
+        }
+
+        FileInputStream inStream = null;
+        byte[] data = new byte[BUFFER];
+        ZipFile zipFile = new ZipFile(zip);
+        Enumeration entries = zipFile.entries();
+
+        ZipOutputStream outStream = new ZipOutputStream(new FileOutputStream(sourceZip));
+
+        while(entries.hasMoreElements()) {
+            ZipEntry entry = (ZipEntry) entries.nextElement();
+            InputStream is = zipFile.getInputStream(entry);
+            outStream.putNextEntry(entry);
+
+            int count = 0;
+            while ((count = is.read(data, 0, BUFFER)) >0)  {
+                outStream.write(data, 0, count);
+            }
+            outStream.closeEntry();
+            is.close();
+        }
+
+        for(int i = 0; i < files.size(); ++i) {
+            File file = files.get(i);
+            inStream = new FileInputStream(file);
+            outStream.putNextEntry(new ZipEntry(file.getPath()));
+            int count = 0;
+            while ((count = inStream.read(data, 0, BUFFER)) != -1)  {
+                outStream.write(data, 0, count);
+            }
+            outStream.closeEntry();
+            inStream.close();
+        }
+        outStream.flush();
+        outStream.close();
+    }
+
     /**
      * Add folder to zip
      */
@@ -98,6 +152,16 @@ public class XZiper {
             zip.putNextEntry(new ZipEntry(path + "\\" + folder.getName()));
             while ((len = in.read(buf)) > 0) {
                 zip.write(buf, 0, len);
+            }
+        }
+    }
+
+    private static void listFiles(ArrayList<File> files, File folder) {
+        for(File item: folder.listFiles()) {
+            if(item.isFile()) {
+                files.add(item);
+            } else {
+                listFiles(files, item);
             }
         }
     }

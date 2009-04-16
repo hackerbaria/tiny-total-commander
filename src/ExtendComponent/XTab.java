@@ -142,7 +142,11 @@ public class XTab extends JPanel implements FocusListener {
 
         } else if(e.getClickCount() == 2) { // double click
               if(_ftpMode) {
-                  ProcessRowClickInFtpMode();
+                try {
+                    ProcessRowClickInFtpMode();
+                } catch (Exception ex) {
+                    Logger.getLogger(XTab.class.getName()).log(Level.SEVERE, null, ex);
+                }
               } else {
                   ProcessRowClickInNormalMode();
               }
@@ -153,8 +157,7 @@ public class XTab extends JPanel implements FocusListener {
     /*
      * xu ly double click tren row o che do ftpmode
     */
-    private void ProcessRowClickInFtpMode()
-    {
+    private void ProcessRowClickInFtpMode() throws Exception {
         // get selected row
            int rowSelectedIndex = _dirTable.getSelectedRow();
            TextImageObj tmodel = (TextImageObj) _model.getValueAt(rowSelectedIndex, 0);
@@ -177,7 +180,11 @@ public class XTab extends JPanel implements FocusListener {
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         Vector v = new Vector();
         if(_ftpMode) {
-            v = _ftpResource.getAllFiles(pathname);
+            try {
+                v = _ftpResource.getAllFiles(pathname);
+            } catch (Exception ex) {
+                Logger.getLogger(XTab.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             v = FileResource.listFiles(pathname);
         }
