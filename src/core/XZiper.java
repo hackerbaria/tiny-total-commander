@@ -21,39 +21,20 @@ public class XZiper {
      * Zip file + folder
      */
     public static void zip(String srcItem, String destZipFile) throws Exception {
-        File item = new File(srcItem);
-        File zip = new File(destZipFile);
+        ZipOutputStream zip = null;
+        FileOutputStream fileWriter = null;
 
-        // files will be appended to the zip file
-        ArrayList<File> files = new ArrayList<File>();
+        fileWriter = new FileOutputStream(destZipFile);
+        zip = new ZipOutputStream(fileWriter);
+
         if(PathHelper.isFile(srcItem)) {
-            files.add(item);
+            addFileToZip("", srcItem, zip);
         } else {
-            listFiles(files, item);
+            addFolderToZip("", srcItem, zip);
         }
 
-        // TODO: Cường - bug zip file
-        // Mô tả: các folder rỗng bị bỏ qua, ko có trong file zip
-
-        FileInputStream inStream = null;
-        ZipOutputStream outStream = new ZipOutputStream(new FileOutputStream(zip.getPath()));
-        byte[] data = new byte[Konstant.BUFFER];
-
-        for(int i = 0; i < files.size(); ++i) {
-            File file = files.get(i);
-            inStream = new FileInputStream(file);
-            outStream.putNextEntry(new ZipEntry(file.getPath()));
-            int count = 0;
-            while ((count = inStream.read(data)) > 0) {
-                 outStream.write(data, 0, count);
-            }
-
-            outStream.closeEntry();
-            inStream.close();
-        }
-
-        outStream.flush();
-        outStream.close();
+        zip.flush();
+        zip.close();
     }
 
     /**
@@ -72,8 +53,7 @@ public class XZiper {
             int count;
             byte data[] = new byte[Konstant.BUFFER];
 
-            String relativepath = entry.getName().substring(3, entry.getName().length());
-            String fullpath = outFolder.getPath() + "\\" + relativepath;
+            String fullpath = outFolder.getPath() + "\\" + entry.getName();
             String dirs = fullpath.substring(0, fullpath.lastIndexOf("\\"));
             
             File file = new File(dirs);
@@ -150,11 +130,38 @@ public class XZiper {
     }
     
     private static void listFiles(ArrayList<File> files, File folder) {
-        for(File item: folder.listFiles()) {
-            if(item.isFile()) {
-                files.add(item);
+
+            for(File item: folder.listFiles()) {
+                if(item.isFile()) {
+                    files.add(item);
+                } else {
+                    listFiles(files, item);
+                }
+            }
+    }
+
+    static private void addFileToZip(String path, String srcFile, ZipOutputStream zip) throws Exception {
+        File folder = new File(srcFile);
+        if (folder.isDirectory()) {
+            addFolderToZip(path, srcFile, zip);
+        } else {
+            byte[] buf = new byte[1024];
+            int len;
+            FileInputStream in = new FileInputStream(srcFile);
+            zip.putNextEntry(new ZipEntry(path + "\\" + folder.getName()));
+            while ((len = in.read(buf)) > 0) {
+                zip.write(buf, 0, len);
+            }
+        }
+    }
+
+    static private void addFolderToZip(String path, String srcFolder, ZipOutputStream zip) throws Exception {
+        File folder = new File(srcFolder);
+        for (String fileName : folder.list()) {
+            if (path.equals("")) {
+                addFileToZip(folder.getName(), srcFolder + "\\" + fileName, zip);
             } else {
-                listFiles(files, item);
+                addFileToZip(path + "\\" + folder.getName(), srcFolder + "\\" + fileName, zip);
             }
         }
     }

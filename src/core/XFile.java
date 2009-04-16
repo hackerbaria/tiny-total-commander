@@ -37,16 +37,16 @@ public class XFile {
      * Copy a file
      */
     public static void copy(String source, String dest) throws IOException {
-        copyInternal(new File(source), new File(dest));
-    }
 
-    private static void copyInternal(File source, File dest) throws IOException {
-        if(!dest.exists()) {
-            dest.createNewFile();
+        File srcFile = new File(source);
+        File destFile = new File(dest);
+
+        if(!destFile.exists()) {
+            destFile.createNewFile();
         }
 
-        InputStream in = new FileInputStream(source);
-        OutputStream out = new FileOutputStream(dest);
+        InputStream in = new FileInputStream(srcFile);
+        OutputStream out = new FileOutputStream(destFile);
 
         // Copy the bits from instream to outstream
         byte[] buf = new byte[Konstant.BUFFER];
