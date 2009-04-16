@@ -86,8 +86,6 @@ public class XZipper {
         out.close();
     }
 
-    // TODO: Cường - explore zip file
-
     /**
      * Append file/folder to zip file
      */

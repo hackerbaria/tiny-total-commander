@@ -20,6 +20,12 @@ public class Main {
        form.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        form.setExtendedState(JFrame.MAXIMIZED_BOTH);
        form.setVisible(true);
+
+       // TODO: Hiếu - Look and Feel
+
+       // TODO: Hiếu - Compare File
+
+       // TODO: Chánh - 3 views : Brief + Tree + Thumbnail
     }
 
 }
