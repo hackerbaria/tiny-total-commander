@@ -576,17 +576,21 @@ public class MainForm extends JFrame implements ActionListener{
         } else if (command.equals("newtab")){
             focusPanel.createNewTab();
         } else if (command.equals("Change_English")){
-            LangManager.ChangeLanguage("english");
-            changeLanguage();
+            if(LangManager.ChangeLanguage("english")) {
+                changeLanguage();
+            }
         } else if (command.equals("Change_Spanish")){
-            LangManager.ChangeLanguage("spain");
-            changeLanguage();
+            if(LangManager.ChangeLanguage("spain")) {
+                changeLanguage();
+            }
         } else if (command.equals("Change_French")){
-            LangManager.ChangeLanguage("french");
-            changeLanguage();
+            if(LangManager.ChangeLanguage("french")) {
+                changeLanguage();
+            }
         } else if (command.equals("Change_VietNamese")){
-            LangManager.ChangeLanguage("vietnam");
-            changeLanguage();
+            if(LangManager.ChangeLanguage("vietnam")) {
+                changeLanguage();
+            }
         }
 
 
