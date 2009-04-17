@@ -338,7 +338,9 @@ public class MainForm extends JFrame implements ActionListener{
         temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_Zip"), "Zip_File"));
         temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_UnZip"), "Unzip_File"));
         temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_AppendZip"), "Append_Zip"));
+        temporaryMenu.add(new JSeparator());
         temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_SplitFile"), "Split_File"));
+        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_MergeFile"), "Merge_File"));
         //~temporary menu
         
         return menuBar;
@@ -563,6 +565,8 @@ public class MainForm extends JFrame implements ActionListener{
             exploreZip();
         } else if(command.equals("Split_File")) {
             splitFile();
+        } else if(command.equals("Merge_File")){
+            mergeFile();
         } else if(command.equals("Exit")) {
             System.exit(0);
         } else if(command.equals("ftp")) { 
@@ -881,7 +885,6 @@ public class MainForm extends JFrame implements ActionListener{
 
     private void exploreZip() {
         try {
-
             String tempDir = FileResource.createTempDir();
             XZipper.unzip(getSelectedItemPath(), tempDir);
             focusPanel.setCurrentPath(tempDir);
@@ -894,6 +897,16 @@ public class MainForm extends JFrame implements ActionListener{
     private void splitFile() {
         try {
             XSplitter.split(getSelectedItemPath(), getLostFocusPath());
+        } catch (IOException ex) {
+            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        refresh();
+    }
+
+    private void mergeFile() {
+        try {
+            XSplitter.merge(focusPanel.getSelectedItems(), getLostFocusPath());
         } catch (IOException ex) {
             Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
         }

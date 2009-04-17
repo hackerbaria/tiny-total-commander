@@ -8,7 +8,7 @@ package utils;
 import java.util.*;
 
 /**
- *
+ * Language manager
  * @author Spazee
  */
 public class LanguageManager {
@@ -26,7 +26,6 @@ public class LanguageManager {
     private ResourceBundle labels;
 
     public LanguageManager(){
-
         labels =
             ResourceBundle.getBundle("Languages\\LanguageSupport",supportedLocale[1]);
 
@@ -34,15 +33,15 @@ public class LanguageManager {
         currLanguage = supportedLocale[1].getLanguage();
     }
 
+    /**
+     * Change language
+     */
     public Boolean ChangeLanguage(int index){
-
         // kiem tra gia tri hien tai
-        //
         String newCountry = supportedLocale[index].getCountry();
         String newLanguage = supportedLocale[index].getLanguage();
 
-        if((currCountry != newCountry) && (currLanguage != newLanguage)) {
-            
+        if(!currCountry.equals(newCountry) && !currLanguage.equals(newLanguage)) {
             labels =
                 ResourceBundle.getBundle("Languages\\LanguageSupport",supportedLocale[index]);
 
@@ -55,34 +54,31 @@ public class LanguageManager {
         return false;
     }
 
+    /**
+     * Change language
+     */
     public Boolean ChangeLanguage(String Lang){
-
         Locale newLocale;
         String newCountry = "";
         String newLanguage = "";
    
         if(Lang.compareTo("spain") == 0){
-
             newLocale = supportedLocale[2];
         }
         else if(Lang.compareTo("french") == 0){
-
             newLocale = supportedLocale[3];
         }
         else if (Lang.compareTo("vietnam") == 0){
-
             newLocale = supportedLocale[4];
         }
         else {
-
             newLocale = supportedLocale[1];
         }
 
         newCountry = newLocale.getCountry();
         newLanguage = newLocale.getLanguage();
 
-        if((currCountry != newCountry) && (currLanguage != newLanguage)){
-
+        if(!currCountry.equals(newCountry) && !currLanguage.equals(newLanguage)){
             labels =
                  ResourceBundle.getBundle("Languages\\LanguageSupport",newLocale);
 
@@ -95,8 +91,10 @@ public class LanguageManager {
         return false;
     }
 
+    /**
+     * Translate
+     */
     public String TranslateLang(String NameComponent){
-
         return labels.getString(NameComponent);
     }
 }
