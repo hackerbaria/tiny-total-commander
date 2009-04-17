@@ -29,7 +29,7 @@ public class XFile {
      * Delete a file
      */
     public static void delete(String path) throws IOException {
-        new java.io.File(path).delete();
+        new File(path).delete();
     }
 
     /**

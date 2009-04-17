@@ -1,6 +1,6 @@
 /*
  * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * and open the template inStream the editor.
  */
 
 package core;
@@ -12,60 +12,91 @@ import java.io.*;
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public class XFolder {
+    // buffer size
+    private static final int BUFFER = 1024;
+
     /**
-     * Create a new folder
+     * Create a new item
      */
     public static void create(String path) throws IOException {
         java.io.File file = new java.io.File(path);
 
-        // create folder
-        if(path.contains("\\")) {   // folder and sub folders
+        // create item
+        if(path.contains("\\")) {   // item and sub folders
             file.mkdirs();
-        } else {                    // single folder
+        } else {                    // single item
             file.mkdir();
         }
     }
 
      /**
-     * Rename a folder
+     * Rename a item
      */
     public static void rename(String oldPath, String newPath) throws IOException {
         XFile.rename(oldPath, newPath);
     }
 
     /**
-     * Delete a folder
-     * @param folderPath
+     * Delete a item
+     * @param itemPath
      */
-    public static void delete(String folderPath) throws IOException {
-        java.io.File folder = new java.io.File(folderPath);
-
-        if(folder.exists()) {
-            deleteFiles(folder);  // delete all sub items
-            folder.delete();      // delete folder itself
+    public static void delete(String itemPath) throws IOException {
+        java.io.File item = new java.io.File(itemPath);
+        if(item.isFile()) {
+            // delete file
+            item.delete();
+        } else {
+            // delete folder
+            deleteFiles(item);  // delete all sub items
+            item.delete();      // delete item itself
         }
     }
 
     private static void deleteFiles(java.io.File folder) {
         for (java.io.File item : folder.listFiles()) {
             if(item.isDirectory()) {
-                // item is a non-empty folder
+                // item is a non-empty item
                 deleteFiles(item);
             } 
-            // item is a file or an empty folder
+            // item is a file or an empty item
             item.delete();
         }
     }
 
     /**
-     * Copy a folder
+     * Copy a item
      */
-    public static void copy(String sourceDir, String destDir) throws IOException {
-        copyInternal(new File(sourceDir), new File(destDir));
+    public static void copy(String srcItemPath, String destItemPath) throws IOException {
+        File srcItem = new File(srcItemPath);
+        File destItem = new File(destItemPath);
+        
+        if(srcItem.isFile()) {
+            // copy file
+            copyFile(srcItem, destItem);
+        } else {
+            // copy folder
+            copyFolder(srcItem, destItem);
+        }
     }
 
-    private static void copyInternal(File sourceDir, File destDir) throws IOException {
-        // create folder if not exist
+    private static void copyFile(File srcFile, File destFile) throws IOException {
+        if(!destFile.exists()) {
+            destFile.createNewFile();
+        }
+
+        InputStream inStream = new FileInputStream(srcFile);
+        OutputStream outStream = new FileOutputStream(destFile);
+
+        byte[] buf = new byte[BUFFER];
+        int len;
+        while ((len = inStream.read(buf)) > 0) {
+            outStream.write(buf, 0, len);
+        }
+        inStream.close();
+        outStream.close();
+    }
+
+    private static void copyFolder(File sourceDir, File destDir) throws IOException {
         if(!destDir.exists()) {
             destDir.mkdir();
         }
@@ -75,19 +106,19 @@ public class XFolder {
             File destChild = new File(destDir, sourceChild.getName());
             if(sourceChild.isDirectory()) {
                 // sub folders => recursion
-                copyInternal(sourceChild, destChild);
+                copyFolder(sourceChild, destChild);
             } else {
                 // file => copy
-                XFile.copy(sourceChild.getAbsolutePath(), destChild.getAbsolutePath());
+                copyFile(sourceChild, destChild);
             }
         }
     }
 
     /**
-     * Move a folder
+     * Move a item
      */
     public static void move(String oldPath, String newPath) throws IOException{
-        // make a copy then delete the old folder
+        // make a copy then delete the old item
         copy(oldPath, newPath);
         delete(oldPath);
     }

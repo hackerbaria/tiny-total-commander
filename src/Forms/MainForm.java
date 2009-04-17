@@ -243,9 +243,13 @@ public class MainForm extends JFrame implements ActionListener{
         fileMenu.add(createMenuItem(LangManager.TranslateLang("NewFile"), "New_File",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.SHIFT_MASK)));
         fileMenu.add(createMenuItem(LangManager.TranslateLang("ViewFile"), "View_File",
-                KeyStroke.getKeyStroke(KeyEvent.VK_F3, ActionEvent.SHIFT_MASK)));
+                KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0)));
         fileMenu.add(createMenuItem(LangManager.TranslateLang("Rename"), "Rename",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F6, ActionEvent.SHIFT_MASK)));
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("Delete"), "Delete",
+                KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0)));
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("Copy"), "Copy",
+                KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0)));
         fileMenu.add(new JSeparator());
         fileMenu.add(createMenuItem(LangManager.TranslateLang("menuFile_Pack"),"Pack",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F5, ActionEvent.ALT_MASK)));
@@ -319,8 +323,6 @@ public class MainForm extends JFrame implements ActionListener{
         menuBar.add(languageMenu);
 
         languageMenu.add(createMenuItem(LangManager.TranslateLang("menuLang_En"), "Change_English"));
-        languageMenu.add(createMenuItem(LangManager.TranslateLang("menuLang_ES"), "Change_Spanish"));
-        languageMenu.add(createMenuItem(LangManager.TranslateLang("menuLang_FR"), "Change_French"));
         languageMenu.add(createMenuItem(LangManager.TranslateLang("menuLang_VN"), "Change_VietNamese"));
         // ~language menu
 
@@ -549,10 +551,10 @@ public class MainForm extends JFrame implements ActionListener{
             viewFile();
         } else if(command.equals("Rename")) {
             rename();
-        } else if(command.equals("Delete_File")) {
-            deleteFilesFolders();
-        } else if(command.equals("Copy_File")) {
-            copyFilesFolders();
+        } else if(command.equals("Delete")) {
+            delete();
+        } else if(command.equals("Copy")) {
+            copy();
         } else if(command.equals("Move_File")) {
             moveFilesFolders();
         } else if(command.equals("Edit_File")) {
@@ -681,8 +683,7 @@ public class MainForm extends JFrame implements ActionListener{
             public void myEventOccurred(XEvent evt) {
                 String fullPath = getCurrentPath() + evt.getData();
                 try {
-                    XFile.rename(getSelectedItemPath(), fullPath);
-                    //XFolder.rename(getSelectedItemPath(), fullPath); // the same
+                    XFolder.rename(getSelectedItemPath(), fullPath);
                 } catch (IOException ex) {
                     MsgboxHelper.showError(ex.getMessage());
                 }
@@ -691,10 +692,9 @@ public class MainForm extends JFrame implements ActionListener{
         });
     }
 
-    private void deleteFilesFolders() {        
+    private void delete() {
         ArrayList<String> selectedItems = focusPanel.getSelectedItems();
-        //String msg = "Do you really want to delete the " + selectedItems.size() + " selected item(s) \n";
-        String msg = LangManager.TranslateLang("label1_frmDel") + selectedItems.size() + " " + LangManager.TranslateLang("label2_frmDel");
+        String msg = LangManager.TranslateLang("label1_frmDel") + " " + selectedItems.size() + " " + LangManager.TranslateLang("label2_frmDel");
         for(int i = 0; i < selectedItems.size(); ++i) {
             msg += PathHelper.getFileName(selectedItems.get(i)) + "\n";
             if(i >= 4) {       // so many items (>5 items) then ...
@@ -705,20 +705,10 @@ public class MainForm extends JFrame implements ActionListener{
         // delete 'em all!
         if(MsgboxHelper.confirm(msg) == true) {
             for(String item : selectedItems) {
-                if(FileResource.isFile(item)) {
-                    // delete file
-                    try {
-                        XFile.delete(item);
-                    } catch (IOException ex) {
-                        Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                } else if(FileResource.isFolder(item)) {
-                    // delete folder
-                    try {
-                        XFolder.delete(item);
-                    } catch (IOException ex) {
-                        Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                try {
+                    XFolder.delete(item);
+                } catch (IOException ex) {
+                    MsgboxHelper.showError(ex.getMessage());
                 }
             }
             refresh();
@@ -726,11 +716,9 @@ public class MainForm extends JFrame implements ActionListener{
         
     }
 
-    private void copyFilesFolders() {
-        //MiniForm frm = new MiniForm();
+    private void copy() {
         MiniForm frm = new MiniForm(LangManager);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        //frm.setLabelText("Copy To");
         frm.setLabelText(LangManager.TranslateLang("label1_frmCopy"));
         frm.setTextboxText(getLostFocusPath());
         frm.setVisible(true);
@@ -740,21 +728,11 @@ public class MainForm extends JFrame implements ActionListener{
                 String path = evt.getData();
 
                 ArrayList<String> selectedItems = focusPanel.getSelectedItems();
-                for(String item : selectedItems) {
-                    if(FileResource.isFile(item)) {
-                        // copy file
-                        try {
-                            XFile.copy(item, path + PathHelper.getFileName(item));
-                        } catch (IOException ex) {
-                            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    } else if(FileResource.isFolder(item)) {
-                        // copy folder
-                        try {
-                            XFolder.copy(item, path + PathHelper.getFileName(item));
-                        } catch (IOException ex) {
-                            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                for(String item : selectedItems) { 
+                    try {
+                        XFolder.copy(item, path + PathHelper.getFileName(item));
+                    } catch (IOException ex) {
+                        MsgboxHelper.showError(ex.getMessage());
                     }
                 }
                 

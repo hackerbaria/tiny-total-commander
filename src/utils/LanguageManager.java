@@ -54,12 +54,8 @@ public class LanguageManager {
         String newCountry = "";
         String newLanguage = "";
    
-        if(Lang.compareTo("spain") == 0){
+        if (Lang.compareTo("vietnam") == 0){
             newLocale = supportedLocale[2];
-        } else if(Lang.compareTo("french") == 0){
-            newLocale = supportedLocale[3];
-        } else if (Lang.compareTo("vietnam") == 0){
-            newLocale = supportedLocale[4];
         } else {
             newLocale = supportedLocale[1];
         }
