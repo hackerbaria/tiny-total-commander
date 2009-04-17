@@ -308,5 +308,18 @@ public class XPanel extends JPanel implements FocusListener {
     public void refresh(String path){
         _activeTab.refreshTable(path);
     }
-    
+
+   /**
+     * set list file item to brief view
+     */
+    public void setBriefView(){
+        getActiveTab().setBriefView();
+    }
+
+    /**
+     * set list file item to full view
+     */
+    public void setFullView(){
+        getActiveTab().setFullView();
+    }
 }

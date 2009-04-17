@@ -115,6 +115,5 @@ public class XTable extends  JTable{
          for(int i = removedColumn.size()-1; i >= 0;i--)
              addColumn((TableColumn) removedColumn.get(i));
          removedColumn.clear();
-
     }
 }

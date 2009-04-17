@@ -592,9 +592,9 @@ public class MainForm extends JFrame implements ActionListener{
                 changeLanguage();
             }
         } else if (command.equals("brief")){
-            focusPanel.getActiveTab().setBriefView();
+            focusPanel.setBriefView();
         } else if (command.equals("full")){
-            focusPanel.getActiveTab().setFullView();
+            focusPanel.setFullView();
         }
 
 
