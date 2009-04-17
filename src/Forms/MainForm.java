@@ -84,6 +84,7 @@ public class MainForm extends JFrame implements ActionListener{
     private JMenu helpMenu;
     private JMenu languageMenu;
     private JMenu temporaryMenu;
+    private JMenu themeMenu;
     private JToolBar mainToolbar;
     private XButton btnFTP;
     private XButton btnFTPDiscnn;
@@ -333,6 +334,19 @@ public class MainForm extends JFrame implements ActionListener{
         languageMenu.add(createMenuItem(LangManager.TranslateLang("menuLang_VN"), "Change_VietNamese"));
         // ~language menu
 
+        //theme
+        themeMenu = new JMenu(LangManager.TranslateLang("menuTheme"));
+        menuBar.add(themeMenu);
+
+        themeMenu.add(createMenuItem(LangManager.TranslateLang("menuTheme_MetalOcean"), "Theme_MetalOcean"));
+        themeMenu.add(createMenuItem(LangManager.TranslateLang("menuTheme_MetalDefault"), "Theme_MetalDefault"));
+        themeMenu.add(createMenuItem(LangManager.TranslateLang("menuTheme_Motif"), "Theme_Motif"));
+        themeMenu.add(createMenuItem(LangManager.TranslateLang("menuTheme_System"), "Theme_System"));
+        themeMenu.add(createMenuItem(LangManager.TranslateLang("menuTheme_GTK"), "Theme_GTK"));
+        themeMenu.add(createMenuItem(LangManager.TranslateLang("menuTheme_Windows"), "Theme_Windows"));
+        themeMenu.add(createMenuItem(LangManager.TranslateLang("menuTheme_Nimbus"), "Theme_Nimbus"));
+        //~theme
+
         // temporary menu
         temporaryMenu = new JMenu(LangManager.TranslateLang("memuTemp"));
         menuBar.add(temporaryMenu);
@@ -353,7 +367,7 @@ public class MainForm extends JFrame implements ActionListener{
         temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_SplitFile"), "Split_File"));
         temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_MergeFile"), "Merge_File"));
         //~temporary menu
-        
+
         return menuBar;
     }
 
@@ -610,6 +624,40 @@ public class MainForm extends JFrame implements ActionListener{
         } else if (command.equals("Change_VietNamese")){
             if(LangManager.ChangeLanguage("vietnam")) {
                 changeLanguage();
+            }
+        } else if (command.equals("Theme_MetalOcean")){
+            if(ThemeManager.changeLookAndFeel("Metal", "Ocean")) {
+                SwingUtilities.updateComponentTreeUI(this);
+                //this.pack();
+            }
+        }  else if (command.equals("Theme_MetalDefault")){
+            if(ThemeManager.changeLookAndFeel("Metal", "DefaultMetalTheme")) {
+                SwingUtilities.updateComponentTreeUI(this);
+                //this.pack();
+            }
+        }  else if (command.equals("Theme_Motif")){
+            if(ThemeManager.changeLookAndFeel("Motif", "")) {
+                SwingUtilities.updateComponentTreeUI(this);
+                //this.pack();
+            }
+        }  else if (command.equals("Theme_System")){
+            if(ThemeManager.changeLookAndFeel("System", "")) {
+                SwingUtilities.updateComponentTreeUI(this);
+                //this.pack();
+            }
+        }  else if (command.equals("Theme_GTK")){
+            if(ThemeManager.changeLookAndFeel("GTK", "")) {
+                SwingUtilities.updateComponentTreeUI(this);
+                //this.pack();
+            }
+        }  else if (command.equals("Theme_Windows")){
+            if(ThemeManager.changeLookAndFeel("Windows", "")) {
+                SwingUtilities.updateComponentTreeUI(this);
+                //this.pack();
+            }
+        }  else if (command.equals("Theme_Nimbus")){
+            if(ThemeManager.changeLookAndFeel("Nimbus", "")) {
+                SwingUtilities.updateComponentTreeUI(this);
             }
         } else if (command.equals("brief")){
             focusPanel.setBriefView();

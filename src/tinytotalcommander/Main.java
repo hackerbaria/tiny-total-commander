@@ -21,6 +21,10 @@ public class Main {
        form.setExtendedState(JFrame.MAXIMIZED_BOTH);
        form.setVisible(true);
 
+       
+        //frame.pack();
+
+
        // TODO: Hiếu - Look and Feel
 
        // TODO: Hiếu - Compare File
