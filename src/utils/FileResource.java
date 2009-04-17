@@ -5,9 +5,7 @@
 
 package utils;
 
-import utils.Comparer;
 import ExtendComponent.TextImageObj;
-import java.awt.Image;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -26,10 +24,12 @@ import sun.awt.shell.ShellFolder;
 
 
 /**
- *
+ * File util
  * @author pmchanh
  */
 public class FileResource {
+
+    // temp dir
     private static File SYSTEM_TMP_DIR = new File(System.getProperty("java.io.tmpdir"));
 
     /**
@@ -51,12 +51,9 @@ public class FileResource {
                     icon = view.getSystemIcon(files[i]);
                 }
                 else{
-
                     try {
-                       // chanhpm: da fix
                        sf = ShellFolder.getShellFolder(files[i]);
                        icon = new ImageIcon(sf.getIcon(true));
-
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(FileResource.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -71,7 +68,6 @@ public class FileResource {
                     dirArr.add(item);
                 else
                     firArr.add(item);
-
             }
 
             Collections.sort(dirArr, new Comparer());
@@ -80,17 +76,19 @@ public class FileResource {
             Iterator iterFile = firArr.iterator();
 
             Vector rs = new Vector();
-            if(f.getParent()!= null)
-            {
+            if(f.getParent()!= null) {
                 Object[] emptyRow = {TextImageObj.createEmptyObj(),"","","",""};
                 rs.add(emptyRow);
             }
 
-            while(iterDir.hasNext())
+            while(iterDir.hasNext()) {
                 rs.add(iterDir.next());
-
-            while(iterFile.hasNext())
+            }
+                
+            while(iterFile.hasNext()) {
                 rs.add(iterFile.next());
+            }
+                
             return rs;
         }
         return null;
@@ -108,19 +106,17 @@ public class FileResource {
 	}
 
     /**
-     * Is it a file?
+     * An item is a file?
      */
     public static Boolean isFile(String path) {
-        File file = new File(path);
-        return file.isFile();
+        return new File(path).isFile();
     }
 
     /**
-     * Is it a folder?
+     * An item is a folder?
      */
     public static Boolean isFolder(String path) {
-        File folder = new File(path);
-        return folder.isDirectory();
+        return new File(path).isDirectory();
     }
 
     //<editor-fold defaultstate="collapsed" desc="Housekeeping ...">

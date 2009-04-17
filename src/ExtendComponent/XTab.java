@@ -160,12 +160,12 @@ public class XTab extends JPanel implements FocusListener {
        if(e.getClickCount() == 2) { // double click
               if(_ftpMode) {
                 try {
-                    ProcessRowClickInFtpMode();
+                    processRowClickInFtpMode();
                 } catch (Exception ex) {
                     Logger.getLogger(XTab.class.getName()).log(Level.SEVERE, null, ex);
                 }
               } else {
-                  ProcessRowClickInNormalMode();
+                  processRowClickInNormalMode();
               }
               addTableEvent(new XComponentEvent(getCurrentPath(), true));
         }
@@ -174,7 +174,7 @@ public class XTab extends JPanel implements FocusListener {
     /*
      * xu ly double click tren row o che do ftpmode
     */
-    private void ProcessRowClickInFtpMode() throws Exception {
+    private void processRowClickInFtpMode() throws Exception {
         // get selected row
            int rowSelectedIndex = _dirTable.getSelectedRow();
            TextImageObj tmodel = (TextImageObj) _model.getValueAt(rowSelectedIndex, 0);
@@ -238,7 +238,7 @@ public class XTab extends JPanel implements FocusListener {
     /**
      *  xu ly double click tren row o che do binh thuong ( khong phai ftp)
      */
-    private void ProcessRowClickInNormalMode()
+    private void processRowClickInNormalMode()
     {       
           // get selected row
            int rowSelectedIndex = _dirTable.getSelectedRow();

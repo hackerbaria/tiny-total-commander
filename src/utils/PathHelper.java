@@ -5,10 +5,8 @@
 
 package utils;
 
-import java.io.File;
-
 /**
- * Path utils
+ * Path util
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public class PathHelper {

@@ -6,7 +6,7 @@
 package utils;
 
 /**
- *
+ * Konstant
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public class Konstant {
@@ -20,4 +20,9 @@ public class Konstant {
      * Application's version
      */
     public static final String APP_VER = "1.0";
+
+    /**
+     * Application's author(s)
+     */
+    public static final String APP_AUTHOR = "";
 }

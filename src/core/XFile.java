@@ -22,23 +22,20 @@ public class XFile {
      * Create a new file
      */
     public static void create(String path) throws IOException {
-        java.io.File file = new java.io.File(path);
-        file.createNewFile();
+        new File(path).createNewFile();
     }
 
     /**
      * Delete a file
      */
     public static void delete(String path) throws IOException {
-        java.io.File file = new java.io.File(path);
-        file.delete();
+        new java.io.File(path).delete();
     }
 
     /**
      * Copy a file
      */
     public static void copy(String source, String dest) throws IOException {
-
         File srcFile = new File(source);
         File destFile = new File(dest);
 
@@ -49,7 +46,6 @@ public class XFile {
         InputStream in = new FileInputStream(srcFile);
         OutputStream out = new FileOutputStream(destFile);
 
-        // Copy the bits from instream to outstream
         byte[] buf = new byte[BUFFER];
         int len;
         while ((len = in.read(buf)) > 0) {
@@ -63,8 +59,8 @@ public class XFile {
      * Move a file
      */
     public static void move(String oldPath, String newPath) throws IOException {
-        copy(oldPath, newPath);
-        delete(oldPath);
+        copy(oldPath, newPath);        // create a copy
+        delete(oldPath);               // delete the old one
     }
 
     /**
@@ -83,6 +79,7 @@ public class XFile {
     public static String getContent(String filePath) throws IOException{
         StringBuilder builder = new StringBuilder();
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
+
         String line = null;
         while((line = reader.readLine()) != null) {
             builder.append(line);
@@ -96,7 +93,6 @@ public class XFile {
      * Rename a file
      */
     public static void rename(String oldPath, String newPath) throws IOException {
-        java.io.File file = new java.io.File(oldPath);
-        file.renameTo(new java.io.File(newPath));
+        new java.io.File(oldPath).renameTo(new File(newPath));
     }
 }

@@ -5,9 +5,7 @@
 
 package utils;
 
-import utils.Comparer;
 import ExtendComponent.TextImageObj;
-import java.awt.Image;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,7 +26,7 @@ import sun.awt.shell.ShellFolder;
 
 
 /**
- * Ftp
+ * Ftp util
  * @author pmchanh
  * ref: http://www.kodejava.org/examples/357.html and http://blog.codebeach.com/2008/02/get-file-type-icon-with-java.html
  */

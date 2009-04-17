@@ -9,7 +9,7 @@ import javax.swing.JComboBox;
 import javax.swing.filechooser.FileSystemView;
 
 /**
- *
+ * Disk util
  * @author pmchanh
  */
 public class DiskResource {

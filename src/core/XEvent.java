@@ -13,9 +13,7 @@ import java.util.EventObject;
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public class XEvent extends EventObject {
-    /**
-     * Data list
-     */
+    // data list
     private ArrayList<String> _dataList = new ArrayList<String>();
 
     public XEvent(String data) {

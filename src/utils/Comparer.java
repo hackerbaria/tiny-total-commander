@@ -9,7 +9,7 @@ import ExtendComponent.TextImageObj;
 import java.util.Comparator;
 
 /**
- *
+ * Comparer
  * @author pmchanh
  */
 public class Comparer implements Comparator {

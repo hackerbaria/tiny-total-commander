@@ -26,9 +26,7 @@ public class LanguageManager {
     private ResourceBundle labels;
 
     public LanguageManager(){
-        labels =
-            ResourceBundle.getBundle("Languages\\LanguageSupport",supportedLocale[1]);
-
+        labels = ResourceBundle.getBundle("Languages\\LanguageSupport",supportedLocale[1]);
         currCountry = supportedLocale[1].getCountry();
         currLanguage = supportedLocale[1].getLanguage();
     }
@@ -42,15 +40,11 @@ public class LanguageManager {
         String newLanguage = supportedLocale[index].getLanguage();
 
         if(!currCountry.equals(newCountry) && !currLanguage.equals(newLanguage)) {
-            labels =
-                ResourceBundle.getBundle("Languages\\LanguageSupport",supportedLocale[index]);
-
+            labels = ResourceBundle.getBundle("Languages\\LanguageSupport",supportedLocale[index]);
             currCountry = newCountry;
             currLanguage = newLanguage;
-
             return true;
         }
-
         return false;
     }
 
@@ -64,14 +58,11 @@ public class LanguageManager {
    
         if(Lang.compareTo("spain") == 0){
             newLocale = supportedLocale[2];
-        }
-        else if(Lang.compareTo("french") == 0){
+        } else if(Lang.compareTo("french") == 0){
             newLocale = supportedLocale[3];
-        }
-        else if (Lang.compareTo("vietnam") == 0){
+        } else if (Lang.compareTo("vietnam") == 0){
             newLocale = supportedLocale[4];
-        }
-        else {
+        } else {
             newLocale = supportedLocale[1];
         }
 
@@ -79,15 +70,11 @@ public class LanguageManager {
         newLanguage = newLocale.getLanguage();
 
         if(!currCountry.equals(newCountry) && !currLanguage.equals(newLanguage)){
-            labels =
-                 ResourceBundle.getBundle("Languages\\LanguageSupport",newLocale);
-
+            labels = ResourceBundle.getBundle("Languages\\LanguageSupport",newLocale);
             currCountry = newCountry;
             currLanguage = newLanguage;
-
             return true;
         }
-
         return false;
     }
 
