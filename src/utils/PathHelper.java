@@ -13,22 +13,6 @@ import java.io.File;
  */
 public class PathHelper {
     /**
-     * Is it a file?
-     */
-    public static Boolean isFile(String path) {
-        File file = new File(path);
-        return file.isFile();
-    }
-
-    /**
-     * Is it a folder?
-     */
-    public static Boolean isFolder(String path) {
-        File folder = new File(path);
-        return folder.isDirectory();
-    }
-
-    /**
      * Get parent path
      */
     public static String getParentPath(String path) {

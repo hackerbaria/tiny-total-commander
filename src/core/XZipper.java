@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.zip.*;
+import utils.FileResource;
 import utils.PathHelper;
 
 /**
@@ -33,7 +34,7 @@ public class XZipper {
         fileWriter = new FileOutputStream(destZipFile);
         zip = new ZipOutputStream(fileWriter);
 
-        if(PathHelper.isFile(srcItem)) {
+        if(FileResource.isFile(srcItem)) {
             addFileToZip("", srcItem, zip);
         } else {
             addFolderToZip("", srcItem, zip);
@@ -95,7 +96,7 @@ public class XZipper {
 
         // files will be appended to the zip file
         ArrayList<File> files = new ArrayList<File>();
-        if(PathHelper.isFile(appendFiles)) {
+        if(FileResource.isFile(appendFiles)) {
             files.add(fileAppend);
         } else {
             listFiles(files, fileAppend);

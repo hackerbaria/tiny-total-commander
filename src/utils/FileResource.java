@@ -5,6 +5,7 @@
 
 package utils;
 
+import utils.Comparer;
 import ExtendComponent.TextImageObj;
 import java.awt.Image;
 import java.io.File;
@@ -96,12 +97,31 @@ public class FileResource {
 
     }
 
+    /**
+     * Create a temp directory
+     */
     public static String createTempDir() {
 		File dir = new File(SYSTEM_TMP_DIR, "abc" + new Date().getTime() + (Math.ceil(10000f * Math.random())));
 		dir.mkdirs();
 
 		return dir.getPath() + "\\";
 	}
+
+    /**
+     * Is it a file?
+     */
+    public static Boolean isFile(String path) {
+        File file = new File(path);
+        return file.isFile();
+    }
+
+    /**
+     * Is it a folder?
+     */
+    public static Boolean isFolder(String path) {
+        File folder = new File(path);
+        return folder.isDirectory();
+    }
 
     //<editor-fold defaultstate="collapsed" desc="Housekeeping ...">
 

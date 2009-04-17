@@ -338,6 +338,7 @@ public class MainForm extends JFrame implements ActionListener{
         temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_Zip"), "Zip_File"));
         temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_UnZip"), "Unzip_File"));
         temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_AppendZip"), "Append_Zip"));
+        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_SplitFile"), "Split_File"));
         //~temporary menu
         
         return menuBar;
@@ -560,6 +561,8 @@ public class MainForm extends JFrame implements ActionListener{
             appendZip();
         } else if(command.equals("Explore_Zip")) {
             exploreZip();
+        } else if(command.equals("Split_File")) {
+            splitFile();
         } else if(command.equals("Exit")) {
             System.exit(0);
         } else if(command.equals("ftp")) { 
@@ -653,7 +656,7 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void viewFile() {
-        if(PathHelper.isFolder(getSelectedItemPath())) {
+        if(FileResource.isFolder(getSelectedItemPath())) {
             MsgboxHelper.inform(LangManager.TranslateLang("alert_nofile"));
             return;
         }
@@ -699,14 +702,14 @@ public class MainForm extends JFrame implements ActionListener{
         // delete 'em all!
         if(MsgboxHelper.confirm(msg) == true) {
             for(String item : selectedItems) {
-                if(PathHelper.isFile(item)) {
+                if(FileResource.isFile(item)) {
                     // delete file
                     try {
                         XFile.delete(item);
                     } catch (IOException ex) {
                         Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } else if(PathHelper.isFolder(item)) {
+                } else if(FileResource.isFolder(item)) {
                     // delete folder
                     try {
                         XFolder.delete(item);
@@ -735,14 +738,14 @@ public class MainForm extends JFrame implements ActionListener{
 
                 ArrayList<String> selectedItems = focusPanel.getSelectedItems();
                 for(String item : selectedItems) {
-                    if(PathHelper.isFile(item)) {
+                    if(FileResource.isFile(item)) {
                         // copy file
                         try {
                             XFile.copy(item, path + PathHelper.getFileName(item));
                         } catch (IOException ex) {
                             Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    } else if(PathHelper.isFolder(item)) {
+                    } else if(FileResource.isFolder(item)) {
                         // copy folder
                         try {
                             XFolder.copy(item, path + PathHelper.getFileName(item));
@@ -773,14 +776,14 @@ public class MainForm extends JFrame implements ActionListener{
 
                 ArrayList<String> selectedItems = focusPanel.getSelectedItems();
                 for(String item : selectedItems) {
-                    if(PathHelper.isFile(item)) {
+                    if(FileResource.isFile(item)) {
                         // move file
                         try {
                             XFile.move(item, path + PathHelper.getFileName(item));
                         } catch (IOException ex) {
                             Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    } else if(PathHelper.isFolder(item)) {
+                    } else if(FileResource.isFolder(item)) {
                         // move folder
                         try {
                             XFolder.move(item, path + PathHelper.getFileName(item));
@@ -795,7 +798,7 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void editFile() {
-        if(PathHelper.isFolder(getSelectedItemPath())) {
+        if(FileResource.isFolder(getSelectedItemPath())) {
             MsgboxHelper.inform(LangManager.TranslateLang("alert_nofile"));
             return;
         }
@@ -886,6 +889,16 @@ public class MainForm extends JFrame implements ActionListener{
         } catch (Exception ex) {
             Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void splitFile() {
+        try {
+            XSplitter.split(getSelectedItemPath(), getLostFocusPath());
+        } catch (IOException ex) {
+            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        refresh();
     }
 
     private void ftp()

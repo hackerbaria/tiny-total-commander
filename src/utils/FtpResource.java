@@ -5,6 +5,7 @@
 
 package utils;
 
+import utils.Comparer;
 import ExtendComponent.TextImageObj;
 import java.awt.Image;
 import java.io.File;

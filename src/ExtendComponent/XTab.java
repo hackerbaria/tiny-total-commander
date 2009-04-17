@@ -259,7 +259,7 @@ public class XTab extends JPanel implements FocusListener {
                    fullpath = fullpath + "." + extention;
                }
 
-                if(PathHelper.isFolder(fullpath)) {
+                if(FileResource.isFolder(fullpath)) {
                     // double click on folder => go inside
                     refresh(fullpath);
                     setCurrentPath(fullpath + "\\");
