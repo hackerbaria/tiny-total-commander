@@ -6,7 +6,7 @@
 package utils;
 import javax.swing.*;
 /**
- *
+ * Message box util
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public class MsgboxHelper

@@ -236,13 +236,16 @@ public class MainForm extends JFrame implements ActionListener{
         menuBar.removeAll();
         
         // menu file
-        fileMenu = new JMenu(LangManager.TranslateLang("menuFile"));
+        fileMenu = new JMenu(LangManager.TranslateLang("File"));
         fileMenu.setMnemonic(KeyEvent.VK_F);
         menuBar.add(fileMenu);
 
-        fileMenu.add(createMenuItem(LangManager.TranslateLang("menuFile_ChangeAttrib"), "Change_Attribute"));
-        fileMenu.add(createMenuItem(LangManager.TranslateLang("menuFile_Properties"), "Properties",
-                KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, ActionEvent.ALT_MASK)));
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("NewFile"), "New_File",
+                KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.SHIFT_MASK)));
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("ViewFile"), "View_File",
+                KeyStroke.getKeyStroke(KeyEvent.VK_F3, ActionEvent.SHIFT_MASK)));
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("Rename"), "Rename",
+                KeyStroke.getKeyStroke(KeyEvent.VK_F6, ActionEvent.SHIFT_MASK)));
         fileMenu.add(new JSeparator());
         fileMenu.add(createMenuItem(LangManager.TranslateLang("menuFile_Pack"),"Pack",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F5, ActionEvent.ALT_MASK)));
@@ -325,8 +328,7 @@ public class MainForm extends JFrame implements ActionListener{
         temporaryMenu = new JMenu(LangManager.TranslateLang("memuTemp"));
         menuBar.add(temporaryMenu);
 
-        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_NewFile"), "New_File"));
-        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_ViewFile"), "View_File"));
+        
         temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_RenameFile"), "Rename_File"));
         temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_Delete"), "Delete_File"));
         temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_Copy"), "Copy_File"));
@@ -545,8 +547,8 @@ public class MainForm extends JFrame implements ActionListener{
             newFolder();
         } else if(command.equals("View_File")) {
             viewFile();
-        } else if(command.equals("Rename_File")) {
-            renameFile();
+        } else if(command.equals("Rename")) {
+            rename();
         } else if(command.equals("Delete_File")) {
             deleteFilesFolders();
         } else if(command.equals("Copy_File")) {
@@ -617,10 +619,8 @@ public class MainForm extends JFrame implements ActionListener{
     //<editor-fold defaultstate="collapsed" desc="Functions">
 
     private void newFile() {
-        //MiniForm frm = new MiniForm();
         MiniForm frm = new MiniForm(LangManager);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        //frm.setLabelText("New File");
         frm.setLabelText(LangManager.TranslateLang("label1_frmNewFile"));
         frm.setVisible(true);
         
@@ -670,11 +670,9 @@ public class MainForm extends JFrame implements ActionListener{
         frm.setVisible(true);
     }
 
-    private void renameFile() {
-        //MiniForm frm = new MiniForm();
+    private void rename() {
         MiniForm frm = new MiniForm(LangManager);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        //frm.setLabelText("New Name");
         frm.setLabelText(LangManager.TranslateLang("label1_frmRenameFile"));
         frm.setTextboxText(PathHelper.getFileName(getSelectedItemPath()));
         frm.setVisible(true);
@@ -684,8 +682,9 @@ public class MainForm extends JFrame implements ActionListener{
                 String fullPath = getCurrentPath() + evt.getData();
                 try {
                     XFile.rename(getSelectedItemPath(), fullPath);
+                    //XFolder.rename(getSelectedItemPath(), fullPath); // the same
                 } catch (IOException ex) {
-                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                    MsgboxHelper.showError(ex.getMessage());
                 }
                 refresh();
             }

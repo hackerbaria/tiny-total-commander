@@ -93,6 +93,10 @@ public class XFile {
      * Rename a file
      */
     public static void rename(String oldPath, String newPath) throws IOException {
-        new java.io.File(oldPath).renameTo(new File(newPath));
+        File oldFile = new File(oldPath);
+        File newFile = new File(newPath);
+        if(!oldFile.renameTo(newFile)) {
+            throw new IOException("Cannot rename the item.");
+        }
     }
 }

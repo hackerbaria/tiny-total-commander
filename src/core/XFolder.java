@@ -29,14 +29,8 @@ public class XFolder {
      /**
      * Rename a folder
      */
-    public static void rename(String oldName, String newName) throws IOException {
-        java.io.File file = new java.io.File(oldName);
-
-        // get partial path (parent folder)
-        String partialPath = oldName.substring(0, oldName.lastIndexOf("/"));
-
-        // rename
-        file.renameTo(new java.io.File(partialPath + newName));
+    public static void rename(String oldPath, String newPath) throws IOException {
+        XFile.rename(oldPath, newPath);
     }
 
     /**

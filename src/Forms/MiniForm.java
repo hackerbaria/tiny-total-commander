@@ -56,6 +56,7 @@ public class MiniForm extends javax.swing.JFrame {
 
     public void setTextboxText(String text) {
         txtPath.setText(text);
+        txtPath.selectAll();
     }
 
     /** This method is called from within the constructor to

@@ -16,8 +16,6 @@ public class LanguageManager {
     private Locale[] supportedLocale = {
         Locale.ENGLISH,
         new Locale("en", "US"),
-        new Locale("es", "ES"),
-        new Locale("fr", "FR"),
         new Locale("vi", "VN")
     };
 
