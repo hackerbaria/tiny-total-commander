@@ -141,14 +141,15 @@ public class FtpResource {
                 ArrayList<Object[]> firArr = new ArrayList<Object[]>();
                 FTPFile[] ftpFiles = _ftpClient.listFiles();
                 for(FTPFile file:ftpFiles) {
-                    Object[] item = new Object[5];                     
+                    Object[] item = new Object[4];
                     Icon icon = getIcon(file);
-                    
-                    item[0] = new TextImageObj(getName(file), icon);// filename
-                    item[1] = getExtension(file);
+
+                    String ext = getExtension(file);
+                    item[0] = new TextImageObj(getName(file), icon, ext);// filename
+                    item[1] = ext;
                     item[2] = getSize(file); // file size
                     item[3] = getDate(file.getTimestamp());
-                    item[4] = ""; // attribute
+                    //item[4] = ""; // attribute
                     if(file.isDirectory())
                         dirArr.add(item);
                     else

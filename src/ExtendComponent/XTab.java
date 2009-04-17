@@ -28,8 +28,10 @@ import utils.FtpResource;
  *
  * @author pmchanh
  */
-public class XTab extends JPanel implements FocusListener {
 
+public class XTab extends JPanel implements FocusListener {
+    
+    public enum View {Full, Brief};
     private JPanel _currentPathPanel;
     private JLabel _currentPathLabel;    
     private XTable _dirTable;
@@ -39,7 +41,7 @@ public class XTab extends JPanel implements FocusListener {
     private Color _lostfocusColor = Color.decode("#66CCFF");
     private Boolean _ftpMode;
     private FtpResource _ftpResource;
-
+    private View _view;
 
     public void setftpMode(Boolean value){
         _ftpMode = value;
@@ -53,6 +55,13 @@ public class XTab extends JPanel implements FocusListener {
 
     public XTable getDirTable() {
         return _dirTable;
+    }
+
+    public View getView(){
+        return _view;
+    }
+    public void setView(View value){
+        _view = value;
     }
 
     public XTableModel getModel(){
@@ -69,6 +78,7 @@ public class XTab extends JPanel implements FocusListener {
     {
         this.setLayout(new BorderLayout());
         _ftpMode = false;
+        _view = View.Full;
         createHeader();
         createBody();
     }
@@ -100,8 +110,8 @@ public class XTab extends JPanel implements FocusListener {
      */
     public void createBody()
     {
-        String[] columnName = {"Name","Ext","Size","Date","Attr"};
-        Object[] obj = {new TextImageObj("", null),"2","3","4","5"};
+        String[] columnName = {"Name","Ext","Size","Date"};
+        Object[] obj = {new TextImageObj("", null,""),"2","3","4"};
         Vector temp = new Vector();
         temp.add(obj);
         _model = new XTableModel(temp, columnName);
@@ -194,6 +204,7 @@ public class XTab extends JPanel implements FocusListener {
                 _model.fillData(v);
             }
         setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        changeView();
     }
      /**
      * Xoa tat ca cac row trong table hien danh sach file
@@ -237,7 +248,7 @@ public class XTab extends JPanel implements FocusListener {
            } else {
                // double click on file or folder ...
                fullpath = fullpath + name;
-               String extention = (String) _model.getValueAt(rowSelectedIndex, 1);
+               String extention = (String) tmodel.getExtend();
                if(extention.length() > 1) {
                    fullpath = fullpath + "." + extention;
                }
@@ -267,7 +278,7 @@ public class XTab extends JPanel implements FocusListener {
         for(int row : selectedRows) {
             TextImageObj tmodel = (TextImageObj) _model.getValueAt(row, 0);
             String name = (String) tmodel.getText();
-            String ext = (String) _model.getValueAt(row, 1);
+            String ext = (String) tmodel.getExtend();
             if(ext.length() > 1) {
                 selectedItems.add(getCurrentPath() + name + "." + ext);
             } else {
@@ -284,7 +295,7 @@ public class XTab extends JPanel implements FocusListener {
        int rowSelectedIndex = _dirTable.getSelectedRow();
        TextImageObj tmodel = (TextImageObj) _model.getValueAt(rowSelectedIndex, 0);
        String name = (String) tmodel.getText();
-       String extention = (String) _model.getValueAt(rowSelectedIndex, 1);
+       String extention =  (String) (String) tmodel.getExtend();
        if(extention.length() > 1) {
            return getCurrentPath() + name + "." + extention;
        }
@@ -333,4 +344,31 @@ public class XTab extends JPanel implements FocusListener {
         _currentPathPanel.setBackground(_lostfocusColor);
         _dirTable.setRowSelectionAllowed(false);
     }
+
+    /**
+     * set list file item to brief view
+     */
+    public void setBriefView(){
+        _view = View.Brief;
+        changeView();
+    }
+
+    /**
+     * set list file item to full view
+     */
+    public void setFullView(){
+         _view = View.Full;
+         changeView();
+    }
+
+    /**
+     * change view
+     */
+    public void changeView(){
+      if(_view == View.Brief)
+          _dirTable.hideAll();
+      else
+          _dirTable.showAll();
+    }
+
 }

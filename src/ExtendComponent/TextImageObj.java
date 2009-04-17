@@ -16,7 +16,7 @@ import javax.swing.ImageIcon;
 public class TextImageObj {
     private String _text;
     private Icon _icon;
-    
+    private Object _extend;
     public String getText() {
         return _text;
     }
@@ -25,13 +25,22 @@ public class TextImageObj {
         return _icon;
     }
 
-    public TextImageObj(String text, Icon icon) {
+    public TextImageObj(String text, Icon icon, Object extend) {
         _text = text;
         _icon = icon;
+        _extend = extend;
+    }
+
+    public Object getExtend() {
+        return _extend;
+    }
+
+    public void setExtend(Object _extend) {
+        this._extend = _extend;
     }
 
     public static TextImageObj createEmptyObj() {
         Icon icon = new ImageIcon("Resource/up.gif");
-        return new TextImageObj("[...]",icon);
+        return new TextImageObj("[...]",icon,"");
     }
 }

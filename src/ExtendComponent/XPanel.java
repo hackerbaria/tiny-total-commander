@@ -42,7 +42,7 @@ public class XPanel extends JPanel implements FocusListener {
         return (XTab)_tabPane.getComponentAt(index);
     }
 
-    private XTab getActiveTab()
+    public XTab getActiveTab()
     {
         return getTab(getCurrentIndex());
     }
@@ -263,9 +263,10 @@ public class XPanel extends JPanel implements FocusListener {
         // get path (selected disk)
         String path = DiskResource.getSelectedDisk(_diskList);
         try {
-             getActiveTab().refreshTable(path);
              _diskInfo.setText(DiskResource.getInfo(path));
              setCurrentPath(path);
+             getActiveTab().refreshTable(path);
+            
         } catch(Exception ex) {
             // lấy ổ đĩa trong đường dẫn hiện hành ở label màu xanh trong tabpane
             //String s = _currentPathLabel.getText().substring(0, 1);
@@ -307,4 +308,5 @@ public class XPanel extends JPanel implements FocusListener {
     public void refresh(String path){
         _activeTab.refreshTable(path);
     }
+    
 }

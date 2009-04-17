@@ -286,7 +286,7 @@ public class MainForm extends JFrame implements ActionListener{
 
         showMenu.add(createMenuItem(LangManager.TranslateLang("menuShow_Brief"), "brief",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F1, ActionEvent.CTRL_MASK)));
-        showMenu.add(createMenuItem(LangManager.TranslateLang("menuShow_Full"), "Full",
+        showMenu.add(createMenuItem(LangManager.TranslateLang("menuShow_Full"), "full",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F2, ActionEvent.CTRL_MASK)));
         showMenu.add(createMenuItem(LangManager.TranslateLang("menuShow_NewTab"), "newtab",
                 KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK)));
@@ -591,6 +591,10 @@ public class MainForm extends JFrame implements ActionListener{
             if(LangManager.ChangeLanguage("vietnam")) {
                 changeLanguage();
             }
+        } else if (command.equals("brief")){
+            focusPanel.getActiveTab().setBriefView();
+        } else if (command.equals("full")){
+            focusPanel.getActiveTab().setFullView();
         }
 
 

@@ -35,53 +35,56 @@ public class FileResource {
      */
     public static Vector listFiles(String pathname) {
         File f = new File(pathname);
-        File[] files = f.listFiles();
-        int n = files.length;        
-        ArrayList<Object[]> dirArr = new ArrayList<Object[]>();
-        ArrayList<Object[]> firArr = new ArrayList<Object[]>();
-        for(int i = 0; i < n; i++ ) {
-            Object[] item = new Object[5];
-            ShellFolder sf;
-            Icon icon = null;
-            try {
-               // chanhpm: da fix
-               sf = ShellFolder.getShellFolder(files[i]);
-               icon = new ImageIcon(sf.getIcon(true).getScaledInstance(19, 19, Image.SCALE_SMOOTH));
+        if(f != null){
+            File[] files = f.listFiles();
+            int n = files.length;
+            ArrayList<Object[]> dirArr = new ArrayList<Object[]>();
+            ArrayList<Object[]> firArr = new ArrayList<Object[]>();
+            for(int i = 0; i < n; i++ ) {
+                Object[] item = new Object[4];
+                ShellFolder sf;
+                Icon icon = null;
+                try {
+                   // chanhpm: da fix
+                   sf = ShellFolder.getShellFolder(files[i]);
+                   icon = new ImageIcon(sf.getIcon(true).getScaledInstance(19, 19, Image.SCALE_SMOOTH));
 
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(FileResource.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(FileResource.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                String ext =  getExtension(files[i]);
+                item[0] = new TextImageObj(getName(files[i]), icon,ext);
+                item[1] = ext;
+                item[2] = getSize(files[i]);
+                item[3] = getDate(files[i]);
+                if(files[i].isDirectory())
+                    dirArr.add(item);
+                else
+                    firArr.add(item);
+
             }
 
-            item[0] = new TextImageObj(getName(files[i]), icon);
-            item[1] = getExtension(files[i]);
-            item[2] = getSize(files[i]);
-            item[3] = getDate(files[i]);
-            item[4] = "";
-            if(files[i].isDirectory())
-                dirArr.add(item);
-            else
-                firArr.add(item);
-            
+            Collections.sort(dirArr, new Comparer());
+            Collections.sort(firArr, new Comparer());
+            Iterator iterDir = dirArr.iterator();
+            Iterator iterFile = firArr.iterator();
+
+            Vector rs = new Vector();
+            if(f.getParent()!= null)
+            {
+                Object[] emptyRow = {TextImageObj.createEmptyObj(),"","","",""};
+                rs.add(emptyRow);
+            }
+
+            while(iterDir.hasNext())
+                rs.add(iterDir.next());
+
+            while(iterFile.hasNext())
+                rs.add(iterFile.next());
+            return rs;
         }
-        
-        Collections.sort(dirArr, new Comparer());
-        Collections.sort(firArr, new Comparer());
-        Iterator iterDir = dirArr.iterator();
-        Iterator iterFile = firArr.iterator();
-        
-        Vector rs = new Vector();
-        if(f.getParent()!= null)
-        {
-            Object[] emptyRow = {TextImageObj.createEmptyObj(),"","","",""};           
-            rs.add(emptyRow);
-        }
-        
-        while(iterDir.hasNext())
-            rs.add(iterDir.next());
-        
-        while(iterFile.hasNext())
-            rs.add(iterFile.next());
-        return rs;
+        return null;
 
     }
 
