@@ -9,6 +9,10 @@ import core.XFile;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.Label;
+import java.awt.Rectangle;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
@@ -31,7 +35,7 @@ import utils.FtpResource;
 
 public class XTab extends JPanel implements FocusListener {
     
-    public enum View {Full, Brief};
+    public enum View {Full, Brief, Thumbnail};
     private JPanel _currentPathPanel;
     private JLabel _currentPathLabel;    
     private XTable _dirTable;
@@ -42,6 +46,8 @@ public class XTab extends JPanel implements FocusListener {
     private Boolean _ftpMode;
     private FtpResource _ftpResource;
     private View _view;
+
+    private JPanel _thumbnailPanel;
 
     public void setftpMode(Boolean value){
         _ftpMode = value;
@@ -81,8 +87,12 @@ public class XTab extends JPanel implements FocusListener {
     public void InitializeComponent()
     {
         this.setLayout(new BorderLayout());
+        _scrollpane = new JScrollPane();
+
         _ftpMode = false;
         _view = View.Full;
+        _thumbnailPanel = new JPanel(new GridLayout(0, 2));
+        _thumbnailPanel.setBackground(Color.WHITE);
         createHeader();
         createBody();
     }
@@ -134,7 +144,7 @@ public class XTab extends JPanel implements FocusListener {
         });
 
         setColumnWidth(0, 200);
-        _scrollpane = new JScrollPane(_dirTable);
+       _scrollpane.setViewportView(_dirTable);
         this.add(_scrollpane, BorderLayout.CENTER);
     }
     /**
@@ -152,10 +162,7 @@ public class XTab extends JPanel implements FocusListener {
      * @param e
      */
     private void dirTableRowClicked(MouseEvent e) {
-        if(e.getClickCount() == 1) {        // single click
-            // ignore :)
-
-        } else if(e.getClickCount() == 2) { // double click
+       if(e.getClickCount() == 2) { // double click
               if(_ftpMode) {
                 try {
                     ProcessRowClickInFtpMode();
@@ -179,11 +186,11 @@ public class XTab extends JPanel implements FocusListener {
            String name = (String) tmodel.getText();
            if(name.equals("[...]")){
                _ftpResource.goUp();
-               refreshTable(_ftpResource.getWorkingDir());
+               refresh(_ftpResource.getWorkingDir());
                setCurrentPath(_ftpResource.getWorkingDir());
            } else {
                _ftpResource.changeDir(name);
-               refreshTable(_ftpResource.getWorkingDir());
+               refresh(_ftpResource.getWorkingDir());
                setCurrentPath(_ftpResource.getWorkingDir());
            }
     }
@@ -191,24 +198,24 @@ public class XTab extends JPanel implements FocusListener {
      * Refresh lai table hien danh sach file sau moi lan chon item
      * @param pathname
      */
-    public void refreshTable(String pathname) {
+    private void refreshTable(String pathname) {
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         Vector v = new Vector();
         if(_ftpMode) {
             try {
-                v = _ftpResource.getAllFiles(pathname);
+                v = _ftpResource.getAllFiles(pathname, true);
             } catch (Exception ex) {
                 Logger.getLogger(XTab.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            v = FileResource.listFiles(pathname);
+            v = FileResource.listFiles(pathname,true);
         }
         if(v.size() > 0) {
                 removeAllRow();
                 _model.fillData(v);
             }
         setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        changeView();
+        //changeView();
     }
      /**
      * Xoa tat ca cac row trong table hien danh sach file
@@ -247,7 +254,7 @@ public class XTab extends JPanel implements FocusListener {
            if(name.equals("[...]")) {
                // double click on [...] => up one level
                String parent = PathHelper.getParentPath(fullpath);
-               refreshTable(parent);
+               refresh(parent);
                setCurrentPath(parent);
            } else {
                // double click on file or folder ...
@@ -259,7 +266,7 @@ public class XTab extends JPanel implements FocusListener {
 
                 if(PathHelper.isFolder(fullpath)) {
                     // double click on folder => go inside
-                    refreshTable(fullpath);
+                    refresh(fullpath);
                     setCurrentPath(fullpath + "\\");
                } else {
                     try {
@@ -366,13 +373,28 @@ public class XTab extends JPanel implements FocusListener {
     }
 
     /**
+     * set list file items to thumbnail view
+     */
+    public void setThumbnailView(){
+        _view = View.Thumbnail;
+        changeView();
+    }
+    /**
      * change view
      */
     public void changeView(){
-      if(_view == View.Brief)
+      if(_view == View.Brief){
+          _scrollpane.setViewportView(_dirTable);
           _dirTable.hideAll();
-      else
+      }
+      else if (_view == View.Full){
+           _scrollpane.setViewportView(_dirTable);
           _dirTable.showAll();
+      }
+      else if (_view == View.Thumbnail){
+         _scrollpane.setViewportView(_thumbnailPanel);
+         refreshThumbnail(getCurrentPath());
+      }     
     }
 
     /**
@@ -381,8 +403,114 @@ public class XTab extends JPanel implements FocusListener {
     public String openDeskTop(){
         String path = System.getProperty("user.home") + "\\Desktop\\";
         path = path.replace("\\\\", "\\");
-        refreshTable(path);
+        refresh(path);
         return path;
+    }
+    public void refreshThumbnail(String path) {
+        _thumbnailPanel.removeAll();
+        Vector v = null;
+        if(!_ftpMode)
+            v = FileResource.listFiles(path,false);
+        else
+            try {
+            v = _ftpResource.getAllFiles(path, false);
+        } catch (Exception ex) {
+            Logger.getLogger(XTab.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
+        for(int i = 0; i < v.size(); i++){
+            {
+                Object[] e = (Object[]) v.elementAt(i);
+                TextImageObj e0 = (TextImageObj) e[0];
+                XLabel label = new XLabel();
+                label.setText(e0.getText());
+                label.setIcon(e0.getIcon());
+                label.setTag(e0.getExtend());
+                label.setBounds(new Rectangle(20, 20));
+                
+                label.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent evt){
+                         if(evt.getClickCount() == 2)
+                         {
+                             if(_ftpMode)
+                                 try {
+                                ProcessItemClickInFtpMode((XLabel) evt.getSource());
+                            } catch (Exception ex) {
+                                Logger.getLogger(XTab.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                             else
+                                ProcessItemClickInNormalMode((XLabel)evt.getSource());
+
+                             addTableEvent(new XComponentEvent(getCurrentPath(), true));
+                         }
+                    }
+                });
+               
+                _thumbnailPanel.add(label);
+            }
+        }
+    }
+    /**
+     *  xu ly double click tren item o che do binh thuong ( khong phai ftp)
+     *  thumbnail
+     */
+    private void ProcessItemClickInNormalMode(XLabel labelClicked)
+    {
+           String name = (String) labelClicked.getText();
+           String fullpath = getCurrentPath();
+
+           if(name.equals("[...]")) {
+               // double click on [...] => up one level
+               String parent = PathHelper.getParentPath(fullpath);
+               refresh(parent);
+               setCurrentPath(parent);
+           } else {
+               // double click on file or folder ...
+               fullpath = fullpath + name;
+               String extention = (String) labelClicked.getTag();
+               if(extention.length() > 1) {
+                   fullpath = fullpath + "." + extention;
+               }
+
+                if(PathHelper.isFolder(fullpath)) {
+                    // double click on folder => go inside
+                    refresh(fullpath);
+                    setCurrentPath(fullpath + "\\");
+               } else {
+                    try {
+                        // double click on file => lauch file
+                        XFile.execute(fullpath);
+                    } catch (IOException ex) {
+                        Logger.getLogger(XPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+               }
+           }
+    }
+
+     /*
+     * xu ly double click tren row o che do ftpmode
+     * Thumbnail
+    */
+    private void ProcessItemClickInFtpMode(XLabel panelclicked) throws Exception {
+        // get selected row
+           String name = (String) panelclicked.getText();
+           if(name.equals("[...]")){
+               _ftpResource.goUp();
+               refresh(_ftpResource.getWorkingDir());
+               setCurrentPath(_ftpResource.getWorkingDir());
+           } else {
+               _ftpResource.changeDir(name);
+               refresh(_ftpResource.getWorkingDir());
+               setCurrentPath(_ftpResource.getWorkingDir());
+           }
+    }
+
+    public void refresh(String path){
+        if(_view == View.Thumbnail)
+            refreshThumbnail(path);
+        else
+            refreshTable(path);
     }
 
 }

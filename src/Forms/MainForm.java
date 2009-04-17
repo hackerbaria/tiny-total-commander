@@ -5,8 +5,6 @@
 
 package Forms;
 
-import core.XEventListener;
-import core.XEvent;
 import ExtendComponent.*;
 import core.*;
 import java.awt.*;
@@ -289,6 +287,8 @@ public class MainForm extends JFrame implements ActionListener{
                 KeyStroke.getKeyStroke(KeyEvent.VK_F1, ActionEvent.CTRL_MASK)));
         showMenu.add(createMenuItem(LangManager.TranslateLang("menuShow_Full"), "full",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F2, ActionEvent.CTRL_MASK)));
+        showMenu.add(createMenuItem(LangManager.TranslateLang("menuShow_Thumbnail"), "thumbnail",
+                KeyStroke.getKeyStroke(KeyEvent.VK_F3, ActionEvent.CTRL_MASK)));
         showMenu.add(createMenuItem(LangManager.TranslateLang("menuShow_NewTab"), "newtab",
                 KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK)));
         // ~show menu
@@ -380,7 +380,7 @@ public class MainForm extends JFrame implements ActionListener{
 
         leftPanel = new XPanel();
         leftPanel.focusRender();
-        focusPanel = leftPanel;
+        focusPanel = leftPanel;       
 
         leftPanel.addFocusListener(new XComponentEventListener() {
             public void myEventOccurred(XComponentEvent evt) {
@@ -598,6 +598,8 @@ public class MainForm extends JFrame implements ActionListener{
             focusPanel.setFullView();
         } else if (command.equals("opendesktop")){
             focusPanel.openDeskTop();
+        } else if (command.equals("thumbnail")){
+            focusPanel.setThumbnailView();
         }
 
 

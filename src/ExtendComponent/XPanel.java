@@ -32,9 +32,7 @@ public class XPanel extends JPanel implements FocusListener {
     private JComboBox _diskList;
     private JLabel _diskInfo;
 
-    private JTabbedPane _tabPane;   
-    private Color _focusColor = Color.BLUE;
-    private Color _lostfocusColor = Color.decode("#66CCFF");
+    private JTabbedPane _tabPane;      
     private XTab _activeTab;
     
  // <editor-fold defaultstate="collapsed" desc="Properties">
@@ -80,23 +78,21 @@ public class XPanel extends JPanel implements FocusListener {
      *  xu ly su kien mat focus
      */
     public void focusLost(FocusEvent e) {
-        addGlobalFocusEvent(new XComponentEvent(this, true));        
+        addGlobalFocusEvent(new XComponentEvent(this, false));
     }
     
     /**
      * Tô background cho biet component nay dang duoc focus
      */
     public void focusRender() {
-       ((XTab)_tabPane.getComponentAt(
-                 _tabPane.getSelectedIndex())).focusRender();
+        getActiveTab().focusRender();
     }
 
     /**
      * Tô lai mau background cho biet component mat focus
      */
     public void lostfocusRender() {
-       ((XTab)_tabPane.getComponentAt(
-                 _tabPane.getSelectedIndex())).lostfocusRender();
+       getActiveTab().lostfocusRender();
     }
     /**
      *  thiet lap duong dan hien hanh
@@ -149,7 +145,7 @@ public class XPanel extends JPanel implements FocusListener {
      public void selectAllRow() {
          getActiveTab().selectAllRow();
      }
-
+     
      /**
       * Unselect
       */
@@ -175,7 +171,13 @@ public class XPanel extends JPanel implements FocusListener {
           _diskList = new JComboBox();
           _diskList.setFont(new Font("Arial", Font.PLAIN,10));
           _diskList.addFocusListener(this);
-          
+          _diskList.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                diskSelectedChange(e);
+            }
+        });
+        
         
         _diskInfo = new JLabel("label");
         _head.add(_diskList);
@@ -269,7 +271,7 @@ public class XPanel extends JPanel implements FocusListener {
         try {
              _diskInfo.setText(DiskResource.getInfo(path));
              setCurrentPath(path);
-             getActiveTab().refreshTable(path);
+             getActiveTab().refresh(path);
             
         } catch(Exception ex) {
             // lấy ổ đĩa trong đường dẫn hiện hành ở label màu xanh trong tabpane
@@ -303,12 +305,6 @@ public class XPanel extends JPanel implements FocusListener {
         _diskList.removeAllItems();
         for(int i = 0; i < disks.length; i++)
             _diskList.insertItemAt(disks[i], i);        
-        _diskList.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                diskSelectedChange(e);
-            }
-        });
         _diskList.setSelectedIndex(0);
     }
 
@@ -316,7 +312,7 @@ public class XPanel extends JPanel implements FocusListener {
      * Refresh panel
      */
     public void refresh(String path){
-        _activeTab.refreshTable(path);
+        _activeTab.refresh(path);
     }
 
    /**
@@ -331,6 +327,10 @@ public class XPanel extends JPanel implements FocusListener {
      */
     public void setFullView(){
         getActiveTab().setFullView();
+    }
+
+    public void setThumbnailView(){
+        getActiveTab().setThumbnailView();
     }
 
     /**

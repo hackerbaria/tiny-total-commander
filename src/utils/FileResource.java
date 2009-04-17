@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.filechooser.FileSystemView;
 import sun.awt.shell.ShellFolder;
 
 
@@ -33,7 +34,7 @@ public class FileResource {
     /**
      * List all files
      */
-    public static Vector listFiles(String pathname) {
+    public static Vector listFiles(String pathname, Boolean isSmallIcon) {
         File f = new File(pathname);
         if(f != null){
             File[] files = f.listFiles();
@@ -44,13 +45,20 @@ public class FileResource {
                 Object[] item = new Object[4];
                 ShellFolder sf;
                 Icon icon = null;
-                try {
-                   // chanhpm: da fix
-                   sf = ShellFolder.getShellFolder(files[i]);
-                   icon = new ImageIcon(sf.getIcon(true).getScaledInstance(19, 19, Image.SCALE_SMOOTH));
+                if(isSmallIcon){
+                    FileSystemView view = FileSystemView.getFileSystemView();
+                    icon = view.getSystemIcon(files[i]);
+                }
+                else{
 
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(FileResource.class.getName()).log(Level.SEVERE, null, ex);
+                    try {
+                       // chanhpm: da fix
+                       sf = ShellFolder.getShellFolder(files[i]);
+                       icon = new ImageIcon(sf.getIcon(true));
+
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(FileResource.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
 
                 String ext =  getExtension(files[i]);

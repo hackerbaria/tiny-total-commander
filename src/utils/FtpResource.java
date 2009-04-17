@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.filechooser.FileSystemView;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import sun.awt.shell.ShellFolder;
@@ -130,7 +131,7 @@ public class FtpResource {
     /**
      *  get all files from current dir in server
      */
-    public Vector getAllFiles(String wd) throws Exception
+    public Vector getAllFiles(String wd, Boolean isSmallIcon) throws Exception
     {
         Vector rs = new Vector();
         if(_ftpClient != null && _ftpClient.isConnected())
@@ -142,7 +143,7 @@ public class FtpResource {
                 FTPFile[] ftpFiles = _ftpClient.listFiles();
                 for(FTPFile file:ftpFiles) {
                     Object[] item = new Object[4];
-                    Icon icon = getIcon(file);
+                    Icon icon = getIcon(file,isSmallIcon);
 
                     String ext = getExtension(file);
                     item[0] = new TextImageObj(getName(file), icon, ext);// filename
@@ -185,7 +186,7 @@ public class FtpResource {
      * Lay icon file
      * Thamkhao: http://blog.codebeach.com/2008/02/get-file-type-icon-with-java.html
      */
-    private Icon getIcon(FTPFile file)
+    private Icon getIcon(FTPFile file, Boolean smallIcon)
     {
         File temp = null;
         Icon ico = null;
@@ -201,12 +202,18 @@ public class FtpResource {
         }
 
         ShellFolder sf;
-        try {
-            sf = ShellFolder.getShellFolder(temp);
-            ico = new ImageIcon(sf.getIcon(true).getScaledInstance(19, 19, Image.SCALE_SMOOTH));
-            temp.delete();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(FtpResource.class.getName()).log(Level.SEVERE, null, ex);
+        if(smallIcon){
+            FileSystemView view = FileSystemView.getFileSystemView();
+            ico = view.getSystemIcon(temp);
+        }
+        else{
+            try {
+                sf = ShellFolder.getShellFolder(temp);
+                ico = new ImageIcon(sf.getIcon(true));
+                temp.delete();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(FtpResource.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return ico;
     }

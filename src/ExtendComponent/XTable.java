@@ -94,7 +94,7 @@ public class XTable extends  JTable{
             }
         });*/
     }
-   
+
     public void hideAll()
     {
         if(!removedColumn.isEmpty())
