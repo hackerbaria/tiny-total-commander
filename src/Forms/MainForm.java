@@ -240,20 +240,23 @@ public class MainForm extends JFrame implements ActionListener{
         fileMenu.setMnemonic(KeyEvent.VK_F);
         menuBar.add(fileMenu);
 
-        fileMenu.add(createMenuItem(LangManager.TranslateLang("NewFile"), "New_File",
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("NewFile"), "NewFile",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.SHIFT_MASK)));
-        fileMenu.add(createMenuItem(LangManager.TranslateLang("ViewFile"), "View_File",
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("NewFolder"), "NewFolder",
+                KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0)));
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("ViewFile"), "ViewFile",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0)));
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("EditFile"), "EditFile",
+                KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0)));
+        fileMenu.add(new JSeparator());
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("Copy"), "Copy",
+                KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0)));
         fileMenu.add(createMenuItem(LangManager.TranslateLang("Rename"), "Rename",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F6, ActionEvent.SHIFT_MASK)));
         fileMenu.add(createMenuItem(LangManager.TranslateLang("Delete"), "Delete",
                 KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0)));
-        fileMenu.add(createMenuItem(LangManager.TranslateLang("Copy"), "Copy",
-                KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0)));
         fileMenu.add(createMenuItem(LangManager.TranslateLang("Move"), "Move",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0)));
-        fileMenu.add(createMenuItem(LangManager.TranslateLang("EditFile"), "Edit_File",
-                KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0)));
         fileMenu.add(new JSeparator());
         fileMenu.add(createMenuItem(LangManager.TranslateLang("menuFile_Pack"),"Pack",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F5, ActionEvent.ALT_MASK)));
@@ -550,9 +553,9 @@ public class MainForm extends JFrame implements ActionListener{
         String command = event.getActionCommand();
         if(command.equals("New_File")) {
             newFile();
-        } else if(command.equals("New_Folder")) {
+        } else if(command.equals("NewFolder")) {
             newFolder();
-        } else if(command.equals("View_File")) {
+        } else if(command.equals("ViewFile")) {
             viewFile();
         } else if(command.equals("Rename")) {
             rename();
@@ -562,7 +565,7 @@ public class MainForm extends JFrame implements ActionListener{
             copy();
         } else if(command.equals("Move")) {
             move();
-        } else if(command.equals("Edit_File")) {
+        } else if(command.equals("EditFile")) {
             editFile();
         } else if(command.equals("Zip_File")) {
             zipFilesFolders();
@@ -646,10 +649,8 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void newFolder() {
-        //MiniForm frm = new MiniForm();
         MiniForm frm = new MiniForm(LangManager);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        //frm.setLabelText("New Directory
         frm.setLabelText(LangManager.TranslateLang("label1_frmNewFolder"));
         frm.setVisible(true);
         frm.addMyEventListener(new XEventListener() {

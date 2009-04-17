@@ -19,13 +19,13 @@ public class XFolder {
      * Create a new item
      */
     public static void create(String path) throws IOException {
-        java.io.File file = new java.io.File(path);
+        File folder = new File(path);
 
         // create item
         if(path.contains("\\")) {   // item and sub folders
-            file.mkdirs();
+            folder.mkdirs();
         } else {                    // single item
-            file.mkdir();
+            folder.mkdir();
         }
     }
 
@@ -43,7 +43,7 @@ public class XFolder {
     public static void delete(String itemPath) throws IOException {
         java.io.File item = new java.io.File(itemPath);
         if(item.isFile()) {
-            // delete file
+            // delete folder
             item.delete();
         } else {
             // delete folder
@@ -58,7 +58,7 @@ public class XFolder {
                 // item is a non-empty item
                 deleteFiles(item);
             } 
-            // item is a file or an empty item
+            // item is a folder or an empty item
             item.delete();
         }
     }
@@ -71,7 +71,7 @@ public class XFolder {
         File destItem = new File(destItemPath);
         
         if(srcItem.isFile()) {
-            // copy file
+            // copy folder
             copyFile(srcItem, destItem);
         } else {
             // copy folder
@@ -108,7 +108,7 @@ public class XFolder {
                 // sub folders => recursion
                 copyFolder(sourceChild, destChild);
             } else {
-                // file => copy
+                // folder => copy
                 copyFile(sourceChild, destChild);
             }
         }
