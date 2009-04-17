@@ -70,12 +70,12 @@ public class XFile {
 
     /**
      * Execute a file
-     * ref: http://tinyurl.com/executefile
+     * ref: http://frank.neatstep.com/node/84
      */
     public static void execute(String filePath) throws IOException {
-        //Runtime.getRuntime().exec("cmd /c start " + filePath);
-        File f = new File(filePath);
-        Desktop.getDesktop().open(f);
+        // sample: cmd /c "start c:\My" "Documents\Some" "File.txt"
+        filePath = filePath.replace(" ", "\" \"");
+        Runtime.getRuntime().exec("cmd /c \"start " + filePath + "\"");
     }
 
     /**
