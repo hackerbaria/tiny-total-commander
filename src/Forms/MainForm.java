@@ -252,6 +252,8 @@ public class MainForm extends JFrame implements ActionListener{
                 KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0)));
         fileMenu.add(createMenuItem(LangManager.TranslateLang("Move"), "Move",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0)));
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("EditFile"), "Edit_File",
+                KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0)));
         fileMenu.add(new JSeparator());
         fileMenu.add(createMenuItem(LangManager.TranslateLang("menuFile_Pack"),"Pack",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F5, ActionEvent.ALT_MASK)));
@@ -761,7 +763,7 @@ public class MainForm extends JFrame implements ActionListener{
                     try {
                         XFolder.move(item, path + PathHelper.getFileName(item));
                     } catch (IOException ex) {
-                        Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                        MsgboxHelper.showError(ex.getMessage());
                     }
                 }
                 refresh();
