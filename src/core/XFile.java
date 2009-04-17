@@ -5,6 +5,7 @@
 
 package core;
 
+import java.awt.Desktop;
 import java.io.*;
 
 /**
@@ -72,7 +73,9 @@ public class XFile {
      * ref: http://tinyurl.com/executefile
      */
     public static void execute(String filePath) throws IOException {
-        Runtime.getRuntime().exec("cmd /c start " + filePath);
+        //Runtime.getRuntime().exec("cmd /c start " + filePath);
+        File f = new File(filePath);
+        Desktop.getDesktop().open(f);
     }
 
     /**

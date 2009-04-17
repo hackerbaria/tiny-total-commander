@@ -9,10 +9,6 @@ import core.XFile;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.Label;
-import java.awt.Rectangle;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
@@ -404,9 +400,8 @@ public class XTab extends JPanel implements FocusListener {
     }
    
 
-    public void refresh(String path){
-        
-            refreshTable(path);
+    public void refresh(String path){        
+       refreshTable(path);
     }
 
 }
