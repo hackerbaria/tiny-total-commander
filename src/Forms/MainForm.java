@@ -250,6 +250,8 @@ public class MainForm extends JFrame implements ActionListener{
                 KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0)));
         fileMenu.add(createMenuItem(LangManager.TranslateLang("Copy"), "Copy",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0)));
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("Move"), "Move",
+                KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0)));
         fileMenu.add(new JSeparator());
         fileMenu.add(createMenuItem(LangManager.TranslateLang("menuFile_Pack"),"Pack",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F5, ActionEvent.ALT_MASK)));
@@ -416,7 +418,8 @@ public class MainForm extends JFrame implements ActionListener{
         splitPane.setResizeWeight(0.5);
         splitPane.setContinuousLayout(true);
         splitPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        splitPane.setOneTouchExpandable( true );        
+        splitPane.setOneTouchExpandable( true );
+        splitPane.setEnabled(false);
 
         panel.add(splitPane, BorderLayout.CENTER);
         return panel;
@@ -555,8 +558,8 @@ public class MainForm extends JFrame implements ActionListener{
             delete();
         } else if(command.equals("Copy")) {
             copy();
-        } else if(command.equals("Move_File")) {
-            moveFilesFolders();
+        } else if(command.equals("Move")) {
+            move();
         } else if(command.equals("Edit_File")) {
             editFile();
         } else if(command.equals("Zip_File")) {
@@ -742,11 +745,9 @@ public class MainForm extends JFrame implements ActionListener{
         });
     }
 
-    private void moveFilesFolders() {
-        //MiniForm frm = new MiniForm();
+    private void move() {
         MiniForm frm = new MiniForm(LangManager);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        //frm.setLabelText("Move To");
         frm.setLabelText(LangManager.TranslateLang("label1_frmMove"));
         frm.setTextboxText(getLostFocusPath());
         frm.setVisible(true);
@@ -757,20 +758,10 @@ public class MainForm extends JFrame implements ActionListener{
 
                 ArrayList<String> selectedItems = focusPanel.getSelectedItems();
                 for(String item : selectedItems) {
-                    if(FileResource.isFile(item)) {
-                        // move file
-                        try {
-                            XFile.move(item, path + PathHelper.getFileName(item));
-                        } catch (IOException ex) {
-                            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    } else if(FileResource.isFolder(item)) {
-                        // move folder
-                        try {
-                            XFolder.move(item, path + PathHelper.getFileName(item));
-                        } catch (IOException ex) {
-                            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                    try {
+                        XFolder.move(item, path + PathHelper.getFileName(item));
+                    } catch (IOException ex) {
+                        Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
                 refresh();
