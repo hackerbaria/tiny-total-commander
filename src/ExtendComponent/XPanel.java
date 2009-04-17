@@ -349,4 +349,12 @@ public class XPanel extends JPanel implements FocusListener {
             Logger.getLogger(XPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    /**
+     * open desktop folder
+     */
+    public void openDeskTop(){
+        String path = _activeTab.openDeskTop();
+        setCurrentPath(path);
+    }
 }

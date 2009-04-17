@@ -375,4 +375,14 @@ public class XTab extends JPanel implements FocusListener {
           _dirTable.showAll();
     }
 
+    /**
+     * open desktop folder
+     */
+    public String openDeskTop(){
+        String path = System.getProperty("user.home") + "\\Desktop\\";
+        path = path.replace("\\\\", "\\");
+        refreshTable(path);
+        return path;
+    }
+
 }

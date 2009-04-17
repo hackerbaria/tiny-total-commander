@@ -243,7 +243,8 @@ public class MainForm extends JFrame implements ActionListener{
         menuBar.add(fileMenu);
 
         fileMenu.add(createMenuItem(LangManager.TranslateLang("menuFile_ChangeAttrib"), "Change_Attribute"));
-        fileMenu.add(createMenuItem(LangManager.TranslateLang("menuFile_Properties"), "Properties",KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, ActionEvent.ALT_MASK)));
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("menuFile_Properties"), "Properties",
+                KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, ActionEvent.ALT_MASK)));
         fileMenu.add(new JSeparator());
         fileMenu.add(createMenuItem(LangManager.TranslateLang("menuFile_Pack"),"Pack",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F5, ActionEvent.ALT_MASK)));
@@ -595,6 +596,8 @@ public class MainForm extends JFrame implements ActionListener{
             focusPanel.setBriefView();
         } else if (command.equals("full")){
             focusPanel.setFullView();
+        } else if (command.equals("opendesktop")){
+            focusPanel.openDeskTop();
         }
 
 
