@@ -883,14 +883,6 @@ public class MainForm extends JFrame implements ActionListener{
         }
     }
 
-    // TODO: Chánh - bug ftp
-    // Qui trình gây lỗi:
-        // 1. Login vào ftp
-        // 2. Click lên combo disks
-        // 3. Disconnect ftp
-        // 4. Click lên combo disks lần nữa
-        // ... bị đơ
-
     private void ftp()
     {
         FtpConnectionForm frm = new FtpConnectionForm();
@@ -921,17 +913,12 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void dftp() throws Exception {
-        if(ftp != null)
-                ftp.disConnect();
+       
         if(leftPanel.getCurrentPath().startsWith(ftp.getRootPath())) {
-            leftPanel.setftpMode(false);
-            leftPanel.refresh("C:\\");
-            leftPanel.setCurrentPath("C:\\");
+           leftPanel.disconnectFromFtp(ftp);
         }
         if(rightPanel.getCurrentPath().startsWith(ftp.getRootPath())) {
-            rightPanel.setftpMode(false);
-            rightPanel.refresh("C:\\");
-            rightPanel.setCurrentPath("C:\\");
+           rightPanel.disconnectFromFtp(ftp);
         }
         btnFTPDiscnn.setEnabled(false);
     }

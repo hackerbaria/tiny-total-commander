@@ -5,6 +5,8 @@
 
 package ExtendComponent;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import utils.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -173,12 +175,7 @@ public class XPanel extends JPanel implements FocusListener {
           _diskList = new JComboBox();
           _diskList.setFont(new Font("Arial", Font.PLAIN,10));
           _diskList.addFocusListener(this);
-          _diskList.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                diskSelectedChange(e);
-            }
-        });
+          
         
         _diskInfo = new JLabel("label");
         _head.add(_diskList);
@@ -261,6 +258,13 @@ public class XPanel extends JPanel implements FocusListener {
     
     private void diskSelectedChange(ActionEvent e) {
         // get path (selected disk)
+        if(_activeTab.getftpMode()){
+            boolean confirm = utils.MsgboxHelper.confirm("Do you want to disconnect form current ftp server?");
+            if (confirm) // OK! disconnect
+                disconnectFromFtp(_activeTab.getFtpResource());
+            else // NO, no
+                return; 
+        }
         String path = DiskResource.getSelectedDisk(_diskList);
         try {
              _diskInfo.setText(DiskResource.getInfo(path));
@@ -298,7 +302,13 @@ public class XPanel extends JPanel implements FocusListener {
         String[] disks = DiskResource.getAll();
         _diskList.removeAllItems();
         for(int i = 0; i < disks.length; i++)
-            _diskList.insertItemAt(disks[i], i);
+            _diskList.insertItemAt(disks[i], i);        
+        _diskList.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                diskSelectedChange(e);
+            }
+        });
         _diskList.setSelectedIndex(0);
     }
 
@@ -321,5 +331,22 @@ public class XPanel extends JPanel implements FocusListener {
      */
     public void setFullView(){
         getActiveTab().setFullView();
+    }
+
+    /**
+     * disconnect form ftp
+     */
+
+    public void disconnectFromFtp(FtpResource ftp){
+        try {
+            if (ftp != null) {
+                ftp.disConnect();
+            }
+            setftpMode(false);
+            refresh("C:\\");
+            setCurrentPath("C:\\");
+        } catch (Exception ex) {
+            Logger.getLogger(XPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

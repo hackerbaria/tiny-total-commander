@@ -53,6 +53,10 @@ public class XTab extends JPanel implements FocusListener {
         this._ftpResource = _ftpResource;
     }
 
+    public FtpResource getFtpResource(){
+        return _ftpResource;
+
+    }
     public XTable getDirTable() {
         return _dirTable;
     }
