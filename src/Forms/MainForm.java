@@ -99,117 +99,7 @@ public class MainForm extends JFrame implements ActionListener{
         panel.add(menuBar, BorderLayout.NORTH);
 
         //  Load Menu moi lan thay doi ngon ngu
-        //
         loadMenu();
-
-        
-        /*
-        // menu file
-        fileMenu = new JMenu("File");
-        
-        fileMenu.setMnemonic(KeyEvent.VK_F);
-       
-        menuBar.add(fileMenu);
-
-        fileMenu.add(createMenuItem("Change Attributes", "Change_Attribute"));
-        fileMenu.add(createMenuItem("Properties", "Properties",KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, ActionEvent.ALT_MASK)));
-        fileMenu.add(new JSeparator());
-        fileMenu.add(createMenuItem("Pack...","Pack",
-                KeyStroke.getKeyStroke(KeyEvent.VK_F5, ActionEvent.ALT_MASK)));
-        fileMenu.add(createMenuItem("Unpack","Unpack",
-                KeyStroke.getKeyStroke(KeyEvent.VK_F9, ActionEvent.ALT_MASK)));
-        fileMenu.add(new JSeparator());
-        fileMenu.add(createMenuItem("Quit", "Exit",
-                KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK)));
-
-       // menuItem = new JMenuItem("change attributes...");
-
-        // ~menu file
-
-        // menu mark
-        markMenu = new JMenu("Mark");
-        markMenu.setMnemonic(KeyEvent.VK_M);
-        menuBar.add(markMenu);
-
-        markMenu.add(createMenuItem("Select all", "selectall", 
-                KeyStroke.getKeyStroke(KeyEvent.VK_ADD, ActionEvent.CTRL_MASK)));
-        markMenu.add(createMenuItem("UnSelect all", "unselectall",
-                KeyStroke.getKeyStroke(KeyEvent.VK_SUBTRACT, ActionEvent.CTRL_MASK)));
-        // ~menu mark
-
-        // command menu
-        commandMenu = new JMenu("Commands");
-        menuBar.add(commandMenu);
-
-        commandMenu.add(createMenuItem("Search", "search",
-                KeyStroke.getKeyStroke(KeyEvent.VK_F7, ActionEvent.ALT_MASK)));
-        commandMenu.add(createMenuItem("System Information","systeminfo"));
-        commandMenu.add(new JSeparator());
-        commandMenu.add(createMenuItem("Open Desktop folder", "opendesktop"));
-        
-        // ~command menu
-
-        // show menu
-        showMenu = new JMenu("Show");
-        menuBar.add(showMenu);
-
-        showMenu.add(createMenuItem("Brief", "brief",
-                KeyStroke.getKeyStroke(KeyEvent.VK_F1, ActionEvent.CTRL_MASK)));
-        showMenu.add(createMenuItem("Full", "Full",
-                KeyStroke.getKeyStroke(KeyEvent.VK_F2, ActionEvent.CTRL_MASK)));
-        showMenu.add(createMenuItem("New Folder Tab", "newtab",
-                KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK)));
-        // ~show menu
-
-        // config menu
-        configMenu = new JMenu("Configuration");
-        menuBar.add(configMenu);
-        configMenu.add(createMenuItem("Option", "option"));
-
-
-        // ~config menu
-
-        // help menu
-        helpMenu = new JMenu("Help");
-        menuBar.add(helpMenu);
-
-        helpMenu.add(createMenuItem("Index", "index", KeyEvent.VK_F1));
-        helpMenu.add(createMenuItem("Keyboard", "keyboard"));
-        helpMenu.add(new JSeparator());
-        helpMenu.add(createMenuItem("About", "about"));
-        // ~help menu
-
-        // language menu
-        languageMenu = new JMenu("Languages");
-        menuBar.add(languageMenu);
-
-        languageMenu.add(createMenuItem("English", "Change_English"));
-        languageMenu.add(createMenuItem("United State", "Change_UnitedState"));
-        languageMenu.add(createMenuItem("Spain", "Change_Spanish"));
-        languageMenu.add(createMenuItem("Viet Nam", "Change_VietNamese"));
-        // ~language menu
-
-        // temporary menu
-        temporaryMenu = new JMenu("Temporary");
-        menuBar.add(temporaryMenu);
-
-        temporaryMenu.add(createMenuItem("New File", "New_File"));
-        temporaryMenu.add(createMenuItem("View File", "View_File"));
-        temporaryMenu.add(createMenuItem("Rename File", "Rename_File"));
-        temporaryMenu.add(createMenuItem("Delete File(s)/Folder(s)", "Delete_File"));
-        temporaryMenu.add(createMenuItem("Copy File(s)/Folder(s)", "Copy_File"));
-        temporaryMenu.add(createMenuItem("Move File(s)/Folder(s)", "Move_File"));
-        temporaryMenu.add(createMenuItem("Edit File", "Edit_File"));
-        temporaryMenu.add(new JSeparator());
-        temporaryMenu.add(createMenuItem("New Folder", "New_Folder"));
-        temporaryMenu.add(new JSeparator());
-        temporaryMenu.add(createMenuItem("Zip File", "Zip_File"));
-        temporaryMenu.add(createMenuItem("Unzip File", "Unzip_File"));
-        temporaryMenu.add(createMenuItem("Append Zip File", "Append_Zip"));
-        temporaryMenu.add(createMenuItem("Explore Zip File", "Explore_Zip"));
-        //~temporary menu
-
-        */
 
         //setup toolbar
         mainToolbar = new JToolBar();
@@ -259,12 +149,12 @@ public class MainForm extends JFrame implements ActionListener{
         fileMenu.add(createMenuItem(LangManager.TranslateLang("Move"), "Move",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0)));
         fileMenu.add(new JSeparator());
-        fileMenu.add(createMenuItem(LangManager.TranslateLang("menuFile_Pack"),"Pack",
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("Pack"),"Pack",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F5, ActionEvent.ALT_MASK)));
-        fileMenu.add(createMenuItem(LangManager.TranslateLang("menuFile_Unpack"),"Unpack",
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("Unpack"),"Unpack",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F9, ActionEvent.ALT_MASK)));
         fileMenu.add(new JSeparator());
-        fileMenu.add(createMenuItem(LangManager.TranslateLang("menuFile_Quit"), "Exit",
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("Exit"), "Exit",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK)));
 
        // menuItem = new JMenuItem("change attributes...");
@@ -276,9 +166,9 @@ public class MainForm extends JFrame implements ActionListener{
         markMenu.setMnemonic(KeyEvent.VK_M);
         menuBar.add(markMenu);
 
-        markMenu.add(createMenuItem(LangManager.TranslateLang("menuMark_SelectAll"), "selectall",
+        markMenu.add(createMenuItem(LangManager.TranslateLang("SelectAll"), "SelectAll",
                 KeyStroke.getKeyStroke(KeyEvent.VK_ADD, ActionEvent.CTRL_MASK)));
-        markMenu.add(createMenuItem(LangManager.TranslateLang("menuMark_UnSelectAll"), "unselectall",
+        markMenu.add(createMenuItem(LangManager.TranslateLang("UnselectAll"), "UnselectAll",
                 KeyStroke.getKeyStroke(KeyEvent.VK_SUBTRACT, ActionEvent.CTRL_MASK)));
         // ~menu mark
 
@@ -338,13 +228,18 @@ public class MainForm extends JFrame implements ActionListener{
         themeMenu = new JMenu(LangManager.TranslateLang("menuTheme"));
         menuBar.add(themeMenu);
 
-        themeMenu.add(createMenuItem(LangManager.TranslateLang("menuTheme_MetalOcean"), "Theme_MetalOcean"));
+        String[] supportedLnf = ThemeManager.getSupportedLnf();
+        for(String lnfName : supportedLnf) {
+            themeMenu.add(createMenuItem(lnfName, lnfName));
+        }
+
+       /* themeMenu.add(createMenuItem(LangManager.TranslateLang("menuTheme_MetalOcean"), "Theme_MetalOcean"));
         themeMenu.add(createMenuItem(LangManager.TranslateLang("menuTheme_MetalDefault"), "Theme_MetalDefault"));
         themeMenu.add(createMenuItem(LangManager.TranslateLang("menuTheme_Motif"), "Theme_Motif"));
         themeMenu.add(createMenuItem(LangManager.TranslateLang("menuTheme_System"), "Theme_System"));
         themeMenu.add(createMenuItem(LangManager.TranslateLang("menuTheme_GTK"), "Theme_GTK"));
         themeMenu.add(createMenuItem(LangManager.TranslateLang("menuTheme_Windows"), "Theme_Windows"));
-        themeMenu.add(createMenuItem(LangManager.TranslateLang("menuTheme_Nimbus"), "Theme_Nimbus"));
+        themeMenu.add(createMenuItem(LangManager.TranslateLang("menuTheme_Nimbus"), "Theme_Nimbus")); */
         //~theme
 
         // temporary menu
@@ -562,10 +457,13 @@ public class MainForm extends JFrame implements ActionListener{
     }
     // </editor-fold>
 
+    // TODO: Các phím tắt có Alt không hoạt động
+    // Alt+F4, Alt+F5, Alt+F9
+
     //<editor-fold defaultstate="collapsed" desc="Event Processing">
     public void actionPerformed(ActionEvent event) {
         String command = event.getActionCommand();
-        if(command.equals("New_File")) {
+        if(command.equals("NewFile")) {
             newFile();
         } else if(command.equals("NewFolder")) {
             newFolder();
@@ -581,9 +479,9 @@ public class MainForm extends JFrame implements ActionListener{
             move();
         } else if(command.equals("EditFile")) {
             editFile();
-        } else if(command.equals("Zip_File")) {
-            zipFilesFolders();
-        } else if(command.equals("Unzip_File")) {
+        } else if(command.equals("Pack")) {
+            zip();
+        } else if(command.equals("Unpack")) {
             unzipFile();
         } else if(command.equals("Append_Zip")) {
             appendZip();
@@ -626,39 +524,7 @@ public class MainForm extends JFrame implements ActionListener{
                 changeLanguage();
             }
         } else if (command.equals("Theme_MetalOcean")){
-            if(ThemeManager.changeLookAndFeel("Metal", "Ocean")) {
-                SwingUtilities.updateComponentTreeUI(this);
-                //this.pack();
-            }
-        }  else if (command.equals("Theme_MetalDefault")){
-            if(ThemeManager.changeLookAndFeel("Metal", "DefaultMetalTheme")) {
-                SwingUtilities.updateComponentTreeUI(this);
-                //this.pack();
-            }
-        }  else if (command.equals("Theme_Motif")){
-            if(ThemeManager.changeLookAndFeel("Motif", "")) {
-                SwingUtilities.updateComponentTreeUI(this);
-                //this.pack();
-            }
-        }  else if (command.equals("Theme_System")){
-            if(ThemeManager.changeLookAndFeel("System", "")) {
-                SwingUtilities.updateComponentTreeUI(this);
-                //this.pack();
-            }
-        }  else if (command.equals("Theme_GTK")){
-            if(ThemeManager.changeLookAndFeel("GTK", "")) {
-                SwingUtilities.updateComponentTreeUI(this);
-                //this.pack();
-            }
-        }  else if (command.equals("Theme_Windows")){
-            if(ThemeManager.changeLookAndFeel("Windows", "")) {
-                SwingUtilities.updateComponentTreeUI(this);
-                //this.pack();
-            }
-        }  else if (command.equals("Theme_Nimbus")){
-            if(ThemeManager.changeLookAndFeel("Nimbus", "")) {
-                SwingUtilities.updateComponentTreeUI(this);
-            }
+            
         } else if (command.equals("brief")){
             focusPanel.setBriefView();
         } else if (command.equals("full")){
@@ -667,6 +533,13 @@ public class MainForm extends JFrame implements ActionListener{
             focusPanel.openDeskTop();
         } else if (command.equals("thumbnail")){
             focusPanel.setThumbnailView();
+        } else {
+            try {
+                // themes
+                ThemeManager.changeLookAndFeel(command, this);
+            } catch (Exception ex) {
+                Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
 
@@ -832,12 +705,10 @@ public class MainForm extends JFrame implements ActionListener{
         }
     }
 
-    private void zipFilesFolders() {
-        //MiniForm frm = new MiniForm();
+    private void zip() {
         MiniForm frm = new MiniForm(LangManager);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        //frm.setTextboxText("Pack file(s) to the archive");
-        frm.setTextboxText(LangManager.TranslateLang("label1_frmZip"));
+        frm.setLabelText(LangManager.TranslateLang("label1_frmZip"));
         frm.setTextboxText(getLostFocusPath() + PathHelper.getFileNameWithoutExt(getSelectedItemPath()) + ".zip");
         frm.setVisible(true);
 
@@ -879,10 +750,8 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void unzipFile() {
-        //MiniForm frm = new MiniForm();
         MiniForm frm = new MiniForm(LangManager);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        //frm.setTextboxText("Unpack specific files from archive to");
         frm.setTextboxText(LangManager.TranslateLang("label1_frmUnzip"));
         frm.setTextboxText(getLostFocusPath());
         frm.setVisible(true);

@@ -63,7 +63,7 @@ public class FtpResource {
     }
     
     /**
-     *  connect to server
+     *  Connect to server
      */
     public Boolean connect() throws Exception {
         try {
@@ -72,40 +72,33 @@ public class FtpResource {
             _ftpClient.login(_username, _password);
             _rootPath = _ftpClient.printWorkingDirectory();
             return true;
-        } catch (SocketException ex) {
-            //Logger.getLogger(FtpResource.class.getName()).log(Level.SEVERE, null, ex);
-            throw new Exception(ex.getMessage());
-        } catch (IOException ex) {
-           // Logger.getLogger(FtpResource.class.getName()).log(Level.SEVERE, null, ex);
-           // return false;
-             throw new Exception(ex.getMessage());  
+        } catch (Exception ex) {
+            throw new Exception("Cannot connect to server.");
         }
     }
 
     /**
-     * disconnect from server
+     * Disconnect from server
      */
     public void disConnect() throws Exception
     {
         try {
             _ftpClient.logout();
             _ftpClient.disconnect();
-        } catch (IOException ex) {
-            Logger.getLogger(FtpResource.class.getName()).log(Level.SEVERE, null, ex);
-            throw new Exception(ex.getMessage());
+        } catch (Exception ex) {
+            throw new Exception("Cannot disconnect from server.");
         }
         _ftpClient = null;
     }
     
     /**
-     *  change working directory
+     *  Change working directory
      */ 
-    public Boolean changeDir(String remotePath) throws Exception{
+    public Boolean changeDir(String remotePath) throws Exception {
         if(_ftpClient != null){
             try {
                 _ftpClient.cwd(remotePath);
             } catch (IOException ex) {
-                //Logger.getLogger(FtpResource.class.getName()).log(Level.SEVERE, null, ex);
                 throw new Exception(ex.getMessage());
             }
         }

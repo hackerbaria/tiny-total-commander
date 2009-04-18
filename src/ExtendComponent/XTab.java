@@ -37,8 +37,8 @@ public class XTab extends JPanel implements FocusListener {
     private XTable _dirTable;
     private XTableModel _model;
     private JScrollPane _scrollpane;
-    private Color _focusColor = Color.BLUE;
-    private Color _lostfocusColor = Color.decode("#66CCFF");
+    private Color _focusColor = Color.decode("#66CCFF");
+    private Color _lostfocusColor = Color.decode("#CCCCCC");
     private Boolean _ftpMode;
     private FtpResource _ftpResource;
     private View _view;
@@ -74,14 +74,12 @@ public class XTab extends JPanel implements FocusListener {
         return _model;
     }
 
-    public XTab()
-    {
+    public XTab(){
         super();
         InitializeComponent();
     }
 
-    public void InitializeComponent()
-    {
+    public void InitializeComponent() {
         this.setLayout(new BorderLayout());
         _scrollpane = new JScrollPane();
 
@@ -95,12 +93,11 @@ public class XTab extends JPanel implements FocusListener {
     /**
      * create header tab
      */
-    public void createHeader()
-    {
+    public void createHeader() {
         _currentPathPanel = new JPanel(new BorderLayout());
         _currentPathPanel.setBackground(_lostfocusColor);
         _currentPathLabel = new JLabel("C");
-        _currentPathLabel.setForeground(Color.WHITE);
+        //_currentPathLabel.setForeground(Color.WHITE);
         _currentPathPanel.add(_currentPathLabel, BorderLayout.CENTER);
 
         this.add(_currentPathPanel, BorderLayout.NORTH);
@@ -117,8 +114,7 @@ public class XTab extends JPanel implements FocusListener {
     /**
      * create bodytab
      */
-    public void createBody()
-    {
+    public void createBody() {
         String[] columnName = {"Name","Ext","Size","Date"};
         Object[] obj = {new TextImageObj("", null,""),"2","3","4"};
         Vector temp = new Vector();
