@@ -5,117 +5,87 @@
 
 package utils;
 
-import Forms.MainForm;
+import com.birosoft.liquid.LiquidLookAndFeel;
+import com.nilo.plaf.nimrod.NimRODLookAndFeel;
+import com.shfarr.ui.plaf.fh.FhLookAndFeel;
+import de.muntjak.tinylookandfeel.TinyLookAndFeel;
 import java.awt.Component;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.plaf.metal.DefaultMetalTheme;
-import javax.swing.plaf.metal.MetalLookAndFeel;
-import javax.swing.plaf.metal.OceanTheme;
+import net.infonode.gui.laf.InfoNodeLookAndFeel;
+import net.sourceforge.napkinlaf.NapkinLookAndFeel;
+import org.jvnet.substance.skin.SubstanceMagmaLookAndFeel;
 
 /**
- *
+ * Theme manager
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public class ThemeManager {
+    private static String[] _supportedLAF = new String[] {
+       "Metal",
+       "System",
+       "Nimbus",
+       "Motif",
+       "Napkin",
+       "Liquid",
+       "InfoNode",
+       "FH",
+       "Nimrod",
+       "Substance"
+    };
 
-    private static String currLookAndFeelName = "";
-    private static String currThemeName = "";
-
-    private static String currLookAndFeel = "";
-
-    public static void setSystemDefault(Component com) throws Exception {
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        SwingUtilities.updateComponentTreeUI(com);
-        currLookAndFeelName = "System";
+    /**
+     * Get supported lnf list
+     */
+    public static String[] getSupportedLnf() {
+        return _supportedLAF;
     }
 
-    public static Boolean changeLookAndFeel(String newLookAndFeelName, String newThemeName){
-        if(!currLookAndFeelName.equals(newLookAndFeelName) ||
-                !currThemeName.equals(newThemeName)){
+    /**
+     * Change look and feel
+     */
+    public static void changeLookAndFeel(String lafName, Component comp) throws Exception {
+        if(lafName.equals("Metal")) {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+            SwingUtilities.updateComponentTreeUI(comp);
 
-            if (newLookAndFeelName.equals("Metal")) {
-                currLookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
-                currLookAndFeelName = "Metal";
-            }
+        } else if(lafName.equals("System")) {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            SwingUtilities.updateComponentTreeUI(comp);
 
-            else if (newLookAndFeelName.equals("System")) {
-                currLookAndFeel = UIManager.getSystemLookAndFeelClassName();
-                currLookAndFeelName = "System";
-            }
+        } else if(lafName.equals("Nimbus")) {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+            SwingUtilities.updateComponentTreeUI(comp);
+            
+        } else if(lafName.equals("Motif")) {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+            SwingUtilities.updateComponentTreeUI(comp);
+            
+        } else if(lafName.equals("Napkin")) {
+            UIManager.setLookAndFeel(NapkinLookAndFeel.class.getName());
+            SwingUtilities.updateComponentTreeUI(comp);
 
-            else if (newLookAndFeelName.equals("Motif")) {
-                currLookAndFeel = "com.sun.java.swing.plaf.motif.MotifLookAndFeel";
-                currLookAndFeelName = "Motif";
-            }
+        } else if(lafName.equals("Liquid")) {
+            UIManager.setLookAndFeel(LiquidLookAndFeel.class.getName());
+            SwingUtilities.updateComponentTreeUI(comp);
 
-            else if (newLookAndFeelName.equals("GTK")) {
-                currLookAndFeel = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
-                currLookAndFeelName = "GTK";
-            }
+        } else if(lafName.equals("InfoNode")) {
+            UIManager.setLookAndFeel(InfoNodeLookAndFeel.class.getName());
+            SwingUtilities.updateComponentTreeUI(comp);
 
-            else if (newLookAndFeelName.equals("Windows")) {
-                currLookAndFeel = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
-                currLookAndFeelName = "Windows";
-            }
+        } else if(lafName.equals("FH")) {
+            UIManager.setLookAndFeel(FhLookAndFeel.class.getName());
+            SwingUtilities.updateComponentTreeUI(comp);
 
-            else if (newLookAndFeelName.equals("Nimbus")){
-                currLookAndFeel = "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel";
-                currLookAndFeelName = "Nimbus";
-            }
+        } else if(lafName.equals("Nimrod")) {
+            UIManager.setLookAndFeel(NimRODLookAndFeel.class.getName());
+            SwingUtilities.updateComponentTreeUI(comp);
 
-            else {
-                currLookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
-                currLookAndFeelName = "Metal";
-            }
-
-            try {
-
-                UIManager.setLookAndFeel(currLookAndFeel);
-
-                // If L&F = "Metal", set the theme
-
-                if (currLookAndFeel.equals("Metal")) {
-                  if (newThemeName.equals("Ocean")){
-                     MetalLookAndFeel.setCurrentTheme(new OceanTheme());
-                  }
-                  else {
-                     MetalLookAndFeel.setCurrentTheme(new DefaultMetalTheme());
-                  }
-
-                  currThemeName = newThemeName;
-                  UIManager.setLookAndFeel(new MetalLookAndFeel());
-                }
-
-            }
-
-            catch (ClassNotFoundException e) {
-                System.err.println("Couldn't find class for specified look and feel:"
-                                   + currLookAndFeel);
-                System.err.println("Did you include the L&F library in the class path?");
-                System.err.println("Using the default look and feel.");
-            }
-
-            catch (UnsupportedLookAndFeelException e) {
-                System.err.println("Can't use the specified look and feel ("
-                                   + currLookAndFeel
-                                   + ") on this platform.");
-                System.err.println("Using the default look and feel.");
-            }
-
-            catch (Exception e) {
-                System.err.println("Couldn't get specified look and feel ("
-                                   + currLookAndFeel
-                                   + "), for some reason.");
-                System.err.println("Using the default look and feel.");
-                e.printStackTrace();
-            }
-
-            return true;
+        } else if(lafName.equals("Substance")) {
+            UIManager.setLookAndFeel(SubstanceMagmaLookAndFeel.class.getName());
+            SwingUtilities.updateComponentTreeUI(comp);
         }
 
-        return false;
     }
 
 
