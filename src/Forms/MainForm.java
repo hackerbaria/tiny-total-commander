@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -801,6 +802,63 @@ public class MainForm extends JFrame implements ActionListener{
         btnFTPDiscnn.setEnabled(false);
     }
 
+    private Boolean compareFiles(String Path1, String Path2){
+
+        FileInputStream in1 = null;
+        FileInputStream in2 = null;
+
+        try {
+            in1 = new FileInputStream(Path1);
+            in2 = new FileInputStream(Path2);
+            int b1, b2;
+
+            int c = (b1 = in1.read());
+            int d = (b2 = in2.read());
+            while (c != -1 || d != -1) {
+                if(b1 != b2) {
+                    // co byte ko giong
+                    in1.close();
+                    in2.close();
+                    return false;
+                }
+
+                c = (b1 = in1.read());
+                d = (b2 = in2.read());
+            }
+
+            if(c == d){
+                //  file co kich thuoc giong nhau
+                in1.close();
+                in2.close();
+                return true;
+            }
+            else {
+                //  file co kich thuoc khac nhau
+                in1.close();
+                in2.close();
+                return false;
+            }
+
+        } catch(Exception ex) {
+            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            try {
+                if (in1 != null) {
+                    in1.close();
+                }
+                if (in2 != null) {
+                    in2.close();
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
+        return false;
+
+    }
     private void changeLanguage(){
 
         // Thay doi text tren nut
