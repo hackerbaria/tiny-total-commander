@@ -46,44 +46,37 @@ public class ThemeManager {
     public static void changeLookAndFeel(String lafName, Component comp) throws Exception {
         if(lafName.equals("Metal")) {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-            SwingUtilities.updateComponentTreeUI(comp);
 
         } else if(lafName.equals("System")) {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            SwingUtilities.updateComponentTreeUI(comp);
 
         } else if(lafName.equals("Nimbus")) {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-            SwingUtilities.updateComponentTreeUI(comp);
             
         } else if(lafName.equals("Motif")) {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
-            SwingUtilities.updateComponentTreeUI(comp);
             
         } else if(lafName.equals("Napkin")) {
             UIManager.setLookAndFeel(NapkinLookAndFeel.class.getName());
-            SwingUtilities.updateComponentTreeUI(comp);
 
         } else if(lafName.equals("Liquid")) {
             UIManager.setLookAndFeel(LiquidLookAndFeel.class.getName());
-            SwingUtilities.updateComponentTreeUI(comp);
 
         } else if(lafName.equals("InfoNode")) {
             UIManager.setLookAndFeel(InfoNodeLookAndFeel.class.getName());
-            SwingUtilities.updateComponentTreeUI(comp);
 
         } else if(lafName.equals("FH")) {
             UIManager.setLookAndFeel(FhLookAndFeel.class.getName());
-            SwingUtilities.updateComponentTreeUI(comp);
 
         } else if(lafName.equals("Office")) {
             UIManager.setLookAndFeel(Office2003LookAndFeel.class.getName());
-            SwingUtilities.updateComponentTreeUI(comp);
 
         } else if(lafName.equals("Substance")) {
             UIManager.setLookAndFeel(SubstanceMagmaLookAndFeel.class.getName());
-            SwingUtilities.updateComponentTreeUI(comp);
         }
+
+        // update the component
+        SwingUtilities.updateComponentTreeUI(comp);
 
     }
 

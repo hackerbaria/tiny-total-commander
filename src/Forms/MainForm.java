@@ -397,68 +397,65 @@ public class MainForm extends JFrame implements ActionListener{
     }
     
     // <editor-fold defaultstate="collapsed" desc="Create footpanel">
-    private JPanel createFootPanel()
-    {
+    private JPanel createFootPanel() {
        JPanel panel = new JPanel(new GridBagLayout());
        GridBagConstraints c = new GridBagConstraints();
        c.fill = GridBagConstraints.HORIZONTAL;
-       c.gridx = 0;
        c.gridy = 0;
        c.weightx = 0.5;
 
-       //JButton btn1 = createButton("F3 View",KeyEvent.VK_F3);
-       JButton btn1 = createButton(LangManager.TranslateLang("btn1_MainForm"),KeyEvent.VK_F3);
-
-       panel.add(btn1,c);
+       c.gridx = 0;
+       JButton btnView = createButton(LangManager.TranslateLang("btn1_MainForm"));
+       btnView.setActionCommand("ViewFile");
+       btnView.addActionListener(this);
+       panel.add(btnView,c);
 
        c.gridx = 1;
-       //JButton btn2 = createButton("F4 Edit", KeyEvent.VK_F4);
-       JButton btn2 = createButton(LangManager.TranslateLang("btn2_MainForm"), KeyEvent.VK_F4);
-       panel.add(btn2,c);
+       JButton btnEdit = createButton(LangManager.TranslateLang("btn2_MainForm"));
+       btnEdit.setActionCommand("EditFile");
+       btnEdit.addActionListener(this);
+       panel.add(btnEdit,c);
 
        c.gridx = 2;
-       //JButton btn3 = createButton("F5 Copy", KeyEvent.VK_F5);
-       JButton btn3 = createButton(LangManager.TranslateLang("btn3_MainForm"), KeyEvent.VK_F5);
-       panel.add(btn3,c);
+       JButton btnCopy = createButton(LangManager.TranslateLang("btn3_MainForm"));
+       btnCopy.setActionCommand("Copy");
+       btnCopy.addActionListener(this);
+       panel.add(btnCopy,c);
 
        c.gridx = 3;
-       //JButton btn4 = createButton("F6 Move",KeyEvent.VK_F6);
-       JButton btn4 = createButton(LangManager.TranslateLang("btn4_MainForm"),KeyEvent.VK_F6);
-       panel.add(btn4,c);
+       JButton btnMove = createButton(LangManager.TranslateLang("btn4_MainForm"));
+       btnMove.setActionCommand("Move");
+       btnMove.addActionListener(this);
+       panel.add(btnMove,c);
 
-        c.gridx = 4;
-       //JButton btn5 = createButton("F7 New Folder",KeyEvent.VK_F7);
-       JButton btn5 = createButton(LangManager.TranslateLang("btn5_MainForm"),KeyEvent.VK_F7);
-       btn5.setActionCommand("New_Folder");
-       panel.add(btn5,c);
+       c.gridx = 4;
+       JButton btn5 = createButton(LangManager.TranslateLang("btn5_MainForm"));
+       btn5.setActionCommand("NewFolder");
        btn5.addActionListener(this);
+       panel.add(btn5,c);
 
-        c.gridx = 5;
-       //JButton btn6 = createButton("F8 Delete",KeyEvent.VK_F8);
-        JButton btn6 = createButton(LangManager.TranslateLang("btn6_MainForm"),KeyEvent.VK_F8);
-       panel.add(btn6,c);
+       c.gridx = 5;
+       JButton btnDelete = createButton(LangManager.TranslateLang("btn6_MainForm"));
+       btnDelete.setActionCommand("Delete");
+       btnDelete.addActionListener(this);
+       panel.add(btnDelete,c);
 
-        c.gridx = 6;
-       //JButton btn7 = createButton("Alt+F4 Exit",KeyEvent.VK_F9 );
-        JButton btn7 = createButton(LangManager.TranslateLang("btn7_MainForm"),KeyEvent.VK_F9 );
-       panel.add(btn7,c);
+       c.gridx = 6;
+       JButton btnExit = createButton(LangManager.TranslateLang("btn7_MainForm"));
+       btnExit.setActionCommand("Exit");
+       btnExit.addActionListener(this);
+       panel.add(btnExit,c);
 
        return panel;
     }
 
-    private JButton createButton(String text, int hotKey)
-    {
+    private JButton createButton(String text) {
         JButton btn = new JButton(text);
-        btn.setMnemonic(hotKey);
         btn.setBorderPainted(true);
         btn.setFocusPainted(true);
-
         return btn;
     }
     // </editor-fold>
-
-    // TODO: Các phím tắt có Alt không hoạt động
-    // Alt+F4, Alt+F5, Alt+F9
 
     //<editor-fold defaultstate="collapsed" desc="Event Processing">
     public void actionPerformed(ActionEvent event) {

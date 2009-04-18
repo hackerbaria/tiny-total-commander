@@ -125,6 +125,7 @@ public class XTab extends JPanel implements FocusListener {
         _dirTable.setShowGrid(false);
         _dirTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         _dirTable.addFocusListener(this);
+        
         _dirTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e){
@@ -133,6 +134,17 @@ public class XTab extends JPanel implements FocusListener {
                 setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             }
         });
+
+        /*
+        InputMap inputMap = getInputMap(this.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        InputMap parentInputMap = inputMap.getParent();
+        KeyStroke ks[] = inputMap.allKeys();
+        if(ks != null) {
+            for(int i=0; i<ks.length; i++) {
+                parentInputMap.remove(ks[i]);
+            }
+        }
+        */
 
         setColumnWidth(0, 200);
        _scrollpane.setViewportView(_dirTable);
