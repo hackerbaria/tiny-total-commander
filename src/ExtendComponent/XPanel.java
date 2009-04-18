@@ -37,18 +37,15 @@ public class XPanel extends JPanel implements FocusListener {
     
  // <editor-fold defaultstate="collapsed" desc="Properties">
     
-    public XTab getTab(int index)
-    {
+    public XTab getTab(int index) {
         return (XTab)_tabPane.getComponentAt(index);
     }
 
-    public XTab getActiveTab()
-    {
+    public XTab getActiveTab() {
         return getTab(getCurrentIndex());
     }
 
-    public int getCurrentIndex()
-    {
+    public int getCurrentIndex() {
         return _tabPane.getSelectedIndex();
     }
     // </editor-fold>
@@ -65,8 +62,8 @@ public class XPanel extends JPanel implements FocusListener {
      */
     public void focusGained(FocusEvent e) {
         addGlobalFocusEvent(new XComponentEvent(this, true));
-        
     }
+    
     private void addGlobalFocusEvent(XComponentEvent pe) {
         Object[] listeners = this.listenerList.getListenerList();
         for(int i = 0; i < listeners.length; i+= 2)

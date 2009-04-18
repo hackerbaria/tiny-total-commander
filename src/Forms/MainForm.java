@@ -148,12 +148,13 @@ public class MainForm extends JFrame implements ActionListener{
         fileMenu.add(createMenuItem(LangManager.TranslateLang("Move"), "Move",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0)));
         fileMenu.add(new JSeparator());
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("SplitFile"), "SplitFile"));
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("MergeFiles"), "MergeFiles"));
+        fileMenu.add(new JSeparator());
         fileMenu.add(createMenuItem(LangManager.TranslateLang("Zip"),"Zip",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F5, ActionEvent.ALT_MASK)));
-        fileMenu.add(createMenuItem(LangManager.TranslateLang("AppendZip"),"AppendZip",
-                KeyStroke.getKeyStroke(KeyEvent.VK_F6, ActionEvent.ALT_MASK)));
-        fileMenu.add(createMenuItem(LangManager.TranslateLang("ExploreZip"),"ExploreZip",
-                KeyStroke.getKeyStroke(KeyEvent.VK_F8, ActionEvent.ALT_MASK)));
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("AppendZip"),"AppendZip"));
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("ExploreZip"),"ExploreZip"));
         fileMenu.add(createMenuItem(LangManager.TranslateLang("Unzip"),"Unzip",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F9, ActionEvent.ALT_MASK)));
         fileMenu.add(new JSeparator());
@@ -192,33 +193,31 @@ public class MainForm extends JFrame implements ActionListener{
         // ~show menu
 
         // config menu
-        configMenu = new JMenu(LangManager.TranslateLang("menuConf"));
+        configMenu = new JMenu(LangManager.TranslateLang("Config"));
         menuBar.add(configMenu);
-        configMenu.add(createMenuItem(LangManager.TranslateLang("menuConf_Opt"), "option"));
+        configMenu.add(createMenuItem(LangManager.TranslateLang("Option"), "Option"));
 
 
         // ~config menu
 
         // help menu
-        helpMenu = new JMenu(LangManager.TranslateLang("menuHelp"));
+        helpMenu = new JMenu(LangManager.TranslateLang("Help"));
         menuBar.add(helpMenu);
 
-        helpMenu.add(createMenuItem(LangManager.TranslateLang("menuHelp_Index"), "index", KeyEvent.VK_F1));
-        helpMenu.add(createMenuItem(LangManager.TranslateLang("menuHelp_Keybard"), "keyboard"));
-        helpMenu.add(new JSeparator());
-        helpMenu.add(createMenuItem(LangManager.TranslateLang("menuHelp_About"), "about"));
+        helpMenu.add(createMenuItem(LangManager.TranslateLang("Index"), "Index"));
+        helpMenu.add(createMenuItem(LangManager.TranslateLang("About"), "About"));
         // ~help menu
 
         // language menu
-        languageMenu = new JMenu(LangManager.TranslateLang("menuLang"));
+        languageMenu = new JMenu(LangManager.TranslateLang("Language"));
         menuBar.add(languageMenu);
 
-        languageMenu.add(createMenuItem(LangManager.TranslateLang("menuLang_En"), "Change_English"));
-        languageMenu.add(createMenuItem(LangManager.TranslateLang("menuLang_VN"), "Change_VietNamese"));
+        languageMenu.add(createMenuItem(LangManager.TranslateLang("English"), "English"));
+        languageMenu.add(createMenuItem(LangManager.TranslateLang("Vietnamese"), "Vietnamese"));
         // ~language menu
 
         //theme
-        themeMenu = new JMenu(LangManager.TranslateLang("menuTheme"));
+        themeMenu = new JMenu(LangManager.TranslateLang("Themes"));
         menuBar.add(themeMenu);
 
         String[] supportedLnf = ThemeManager.getSupportedLnFs();
@@ -226,27 +225,6 @@ public class MainForm extends JFrame implements ActionListener{
             themeMenu.add(createMenuItem(lnfName, lnfName));
         }
         //~theme
-
-        // temporary menu
-        temporaryMenu = new JMenu(LangManager.TranslateLang("memuTemp"));
-        menuBar.add(temporaryMenu);
-
-        
-        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_RenameFile"), "Rename_File"));
-        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_Delete"), "Delete_File"));
-        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_Copy"), "Copy_File"));
-        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_Move"), "Move_File"));
-        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_Edit"), "Edit_File"));
-        temporaryMenu.add(new JSeparator());
-        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_NewFolder"), "New_Folder"));
-        temporaryMenu.add(new JSeparator());
-        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_Zip"), "Zip_File"));
-        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_UnZip"), "Unzip_File"));
-        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_AppendZip"), "Append_Zip"));
-        temporaryMenu.add(new JSeparator());
-        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_SplitFile"), "Split_File"));
-        temporaryMenu.add(createMenuItem(LangManager.TranslateLang("menuTemp_MergeFile"), "Merge_File"));
-        //~temporary menu
 
         return menuBar;
     }
@@ -469,10 +447,10 @@ public class MainForm extends JFrame implements ActionListener{
             appendZip();
         } else if(command.equals("ExploreZip")) {
             exploreZip();
-        } else if(command.equals("Split_File")) {
+        } else if(command.equals("SplitFile")) {
             splitFile();
-        } else if(command.equals("Merge_File")){
-            mergeFile();
+        } else if(command.equals("MergeFiles")){
+            mergeFiles();
         } else if(command.equals("Exit")) {
             System.exit(0);
         } else if(command.equals("ftp")) { 
@@ -483,11 +461,11 @@ public class MainForm extends JFrame implements ActionListener{
             } catch (Exception ex) {
                 Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else if (command.equals("Change_English")){
+        } else if (command.equals("English")){
             if(LangManager.ChangeLanguage("english")) {
                 changeLanguage();
             }
-        } else if (command.equals("Change_VietNamese")){
+        } else if (command.equals("Vietnamese")){
             if(LangManager.ChangeLanguage("vietnam")) {
                 changeLanguage();
             }
@@ -540,7 +518,7 @@ public class MainForm extends JFrame implements ActionListener{
                 try {
                     XFile.create(fullPath); // create file
                 } catch (IOException ex) {
-                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                    MsgboxHelper.showError(ex.getMessage());
                 }
                 refresh();
             }
@@ -559,7 +537,7 @@ public class MainForm extends JFrame implements ActionListener{
                 try {
                     XFolder.create(fullPath);
                 } catch (IOException ex) {
-                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                    MsgboxHelper.showError(ex.getMessage());
                 }
                 refresh();
             }
@@ -679,7 +657,7 @@ public class MainForm extends JFrame implements ActionListener{
         try {
             XFile.execute(getSelectedItemPath());
         } catch (IOException ex) {
-            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+            MsgboxHelper.showError(ex.getMessage());
         }
     }
 
@@ -697,7 +675,7 @@ public class MainForm extends JFrame implements ActionListener{
                 try {
                     XZipper.zip(getSelectedItemPath(), fullPath);
                 } catch (Exception ex) {
-                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                    MsgboxHelper.showError(ex.getMessage());
                 }
                
                 refresh();
@@ -719,7 +697,7 @@ public class MainForm extends JFrame implements ActionListener{
                 try {
                     XZipper.appendZip(getSelectedItemPath(), fullPath);
                 } catch (Exception ex) {
-                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                    MsgboxHelper.showError(ex.getMessage());
                 }
 
                 refresh();
@@ -741,7 +719,7 @@ public class MainForm extends JFrame implements ActionListener{
                 try {
                     XZipper.unzip(getSelectedItemPath(), fullPath);
                 } catch (Exception ex) {
-                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                    MsgboxHelper.showError(ex.getMessage());
                 }
 
                 refresh();
@@ -756,7 +734,7 @@ public class MainForm extends JFrame implements ActionListener{
             focusPanel.setCurrentPath(tempDir);
             focusPanel.refresh(tempDir);
         } catch (Exception ex) {
-            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+            MsgboxHelper.showError(ex.getMessage());
         }
     }
 
@@ -764,17 +742,17 @@ public class MainForm extends JFrame implements ActionListener{
         try {
             XSplitter.split(getSelectedItemPath(), getLostFocusPath());
         } catch (IOException ex) {
-            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+            MsgboxHelper.showError(ex.getMessage());
         }
 
         refresh();
     }
 
-    private void mergeFile() {
+    private void mergeFiles() {
         try {
             XSplitter.merge(focusPanel.getSelectedItems(), getLostFocusPath());
         } catch (IOException ex) {
-            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+            MsgboxHelper.showError(ex.getMessage());
         }
 
         refresh();
@@ -806,8 +784,7 @@ public class MainForm extends JFrame implements ActionListener{
                         btnFTPDiscnn.setEnabled(true);
                     }
                 } catch (Exception ex) {
-                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-                    utils.MsgboxHelper.showError(ex.getMessage());
+                    MsgboxHelper.showError(ex.getMessage());
                 }
             }
         });
