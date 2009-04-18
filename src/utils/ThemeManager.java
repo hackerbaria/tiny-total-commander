@@ -6,14 +6,13 @@
 package utils;
 
 import com.birosoft.liquid.LiquidLookAndFeel;
-import com.nilo.plaf.nimrod.NimRODLookAndFeel;
 import com.shfarr.ui.plaf.fh.FhLookAndFeel;
-import de.muntjak.tinylookandfeel.TinyLookAndFeel;
 import java.awt.Component;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import net.infonode.gui.laf.InfoNodeLookAndFeel;
 import net.sourceforge.napkinlaf.NapkinLookAndFeel;
+import org.fife.plaf.Office2003.Office2003LookAndFeel;
 import org.jvnet.substance.skin.SubstanceMagmaLookAndFeel;
 
 /**
@@ -21,7 +20,7 @@ import org.jvnet.substance.skin.SubstanceMagmaLookAndFeel;
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public class ThemeManager {
-    private static String[] _supportedLAF = new String[] {
+    private static String[] _supportedLnFs = new String[] {
        "Metal",
        "System",
        "Nimbus",
@@ -30,15 +29,15 @@ public class ThemeManager {
        "Liquid",
        "InfoNode",
        "FH",
-       "Nimrod",
+       "Office",
        "Substance"
     };
 
     /**
      * Get supported lnf list
      */
-    public static String[] getSupportedLnf() {
-        return _supportedLAF;
+    public static String[] getSupportedLnFs() {
+        return _supportedLnFs;
     }
 
     /**
@@ -77,8 +76,8 @@ public class ThemeManager {
             UIManager.setLookAndFeel(FhLookAndFeel.class.getName());
             SwingUtilities.updateComponentTreeUI(comp);
 
-        } else if(lafName.equals("Nimrod")) {
-            UIManager.setLookAndFeel(NimRODLookAndFeel.class.getName());
+        } else if(lafName.equals("Office")) {
+            UIManager.setLookAndFeel(Office2003LookAndFeel.class.getName());
             SwingUtilities.updateComponentTreeUI(comp);
 
         } else if(lafName.equals("Substance")) {

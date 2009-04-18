@@ -228,7 +228,7 @@ public class MainForm extends JFrame implements ActionListener{
         themeMenu = new JMenu(LangManager.TranslateLang("menuTheme"));
         menuBar.add(themeMenu);
 
-        String[] supportedLnf = ThemeManager.getSupportedLnf();
+        String[] supportedLnf = ThemeManager.getSupportedLnFs();
         for(String lnfName : supportedLnf) {
             themeMenu.add(createMenuItem(lnfName, lnfName));
         }
@@ -511,20 +511,10 @@ public class MainForm extends JFrame implements ActionListener{
             if(LangManager.ChangeLanguage("english")) {
                 changeLanguage();
             }
-        } else if (command.equals("Change_Spanish")){
-            if(LangManager.ChangeLanguage("spain")) {
-                changeLanguage();
-            }
-        } else if (command.equals("Change_French")){
-            if(LangManager.ChangeLanguage("french")) {
-                changeLanguage();
-            }
         } else if (command.equals("Change_VietNamese")){
             if(LangManager.ChangeLanguage("vietnam")) {
                 changeLanguage();
             }
-        } else if (command.equals("Theme_MetalOcean")){
-            
         } else if (command.equals("brief")){
             focusPanel.setBriefView();
         } else if (command.equals("full")){
@@ -541,8 +531,6 @@ public class MainForm extends JFrame implements ActionListener{
                 Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
-
     }
     
     //</editor-fold>
