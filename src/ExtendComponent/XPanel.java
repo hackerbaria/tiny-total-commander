@@ -139,20 +139,6 @@ public class XPanel extends JPanel implements FocusListener {
         getActiveTab().setFtpResource(_ftpResource);
      }
 
-     /**
-      * Select all rows
-      */
-     public void selectAllRow() {
-         getActiveTab().selectAllRow();
-     }
-     
-     /**
-      * Unselect
-      */
-     public void deSelectAll() {
-         getActiveTab().deSelectAll();
-     }
-
     /**
      * Initialize component
      */
@@ -315,23 +301,37 @@ public class XPanel extends JPanel implements FocusListener {
         _activeTab.refresh(path);
     }
 
+    //<editor-fold defaultstate="collapsed" desc="Set view type">
+
    /**
-     * set list file item to brief view
+     * Set brief view
      */
     public void setBriefView(){
         getActiveTab().setBriefView();
     }
 
     /**
-     * set list file item to full view
+     * Set full view
      */
     public void setFullView(){
         getActiveTab().setFullView();
     }
 
+    /**
+     * Set thumbnail view
+     */
     public void setThumbnailView(){
         getActiveTab().setThumbnailView();
     }
+
+    /**
+     * Set tree view
+     */
+    public void setTreeView() {
+        getActiveTab().setTreeView();
+    }
+
+    //</editor-fold>
 
     /**
      * disconnect form ftp

@@ -228,21 +228,7 @@ public class XTab extends JPanel implements FocusListener {
            _model.delRow(0);
         }
     }
-    
-    /**
-     * select all row
-     */
-    public void selectAllRow() {
-        _dirTable.selectAll();
-    }
-
-    /**
-     * unselect any row in table
-     */
-    public void deSelectAll() {
-        _dirTable.clearSelection();
-    }
-
+   
     /**
      *  xu ly double click tren row o che do binh thuong ( khong phai ftp)
      */
@@ -382,6 +368,14 @@ public class XTab extends JPanel implements FocusListener {
         _view = View.Thumbnail;
         changeView();
     }
+
+    /**
+     * set list file items to tree view
+     */
+    public void setTreeView() {
+
+    }
+
     /**
      * change view
      */
@@ -393,8 +387,7 @@ public class XTab extends JPanel implements FocusListener {
       else if (_view == View.Full){
            //_scrollpane.setViewportView(_dirTable);
           _dirTable.showAll();
-      }
-        
+      }   
     }
 
     /**

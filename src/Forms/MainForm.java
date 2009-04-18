@@ -77,7 +77,6 @@ public class MainForm extends JFrame implements ActionListener{
     // <editor-fold defaultstate="collapsed" desc="Create headpanel">
     private JMenuBar menuBar;
     private JMenu fileMenu;
-    private JMenu markMenu;
     private JMenu commandMenu;
     private JMenu showMenu;
     private JMenu configMenu;
@@ -157,44 +156,34 @@ public class MainForm extends JFrame implements ActionListener{
         fileMenu.add(createMenuItem(LangManager.TranslateLang("Exit"), "Exit",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK)));
 
-       // menuItem = new JMenuItem("change attributes...");
-
         // ~menu file
 
-        // menu mark
-        markMenu = new JMenu(LangManager.TranslateLang("memuMark"));
-        markMenu.setMnemonic(KeyEvent.VK_M);
-        menuBar.add(markMenu);
-
-        markMenu.add(createMenuItem(LangManager.TranslateLang("SelectAll"), "SelectAll",
-                KeyStroke.getKeyStroke(KeyEvent.VK_ADD, ActionEvent.CTRL_MASK)));
-        markMenu.add(createMenuItem(LangManager.TranslateLang("UnselectAll"), "UnselectAll",
-                KeyStroke.getKeyStroke(KeyEvent.VK_SUBTRACT, ActionEvent.CTRL_MASK)));
-        // ~menu mark
-
         // command menu
-        commandMenu = new JMenu(LangManager.TranslateLang("menuCommands"));
+        commandMenu = new JMenu(LangManager.TranslateLang("Commands"));
         menuBar.add(commandMenu);
 
-        commandMenu.add(createMenuItem(LangManager.TranslateLang("menuCommands_Search"), "search",
+        commandMenu.add(createMenuItem(LangManager.TranslateLang("Search"), "Search",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F7, ActionEvent.ALT_MASK)));
-        commandMenu.add(createMenuItem(LangManager.TranslateLang("menuCommands_SysInfo"),"systeminfo"));
+        //commandMenu.add(createMenuItem(LangManager.TranslateLang("SysInfo"),"SysInfo"));
         commandMenu.add(new JSeparator());
-        commandMenu.add(createMenuItem(LangManager.TranslateLang("menuCommands_Desktop"), "opendesktop"));
+        commandMenu.add(createMenuItem(LangManager.TranslateLang("OpenDesktop"), "OpenDesktop"));
 
         // ~command menu
 
         // show menu
-        showMenu = new JMenu(LangManager.TranslateLang("menuShow"));
+        showMenu = new JMenu(LangManager.TranslateLang("Show"));
         menuBar.add(showMenu);
 
-        showMenu.add(createMenuItem(LangManager.TranslateLang("menuShow_Brief"), "brief",
+        showMenu.add(createMenuItem(LangManager.TranslateLang("Brief"), "Brief",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F1, ActionEvent.CTRL_MASK)));
-        showMenu.add(createMenuItem(LangManager.TranslateLang("menuShow_Full"), "full",
+        showMenu.add(createMenuItem(LangManager.TranslateLang("Full"), "Full",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F2, ActionEvent.CTRL_MASK)));
-        showMenu.add(createMenuItem(LangManager.TranslateLang("menuShow_Thumbnail"), "thumbnail",
+        showMenu.add(createMenuItem(LangManager.TranslateLang("Thumbnail"), "Thumbnail",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F3, ActionEvent.CTRL_MASK)));
-        showMenu.add(createMenuItem(LangManager.TranslateLang("menuShow_NewTab"), "newtab",
+        showMenu.add(createMenuItem(LangManager.TranslateLang("Tree"), "Tree",
+                KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.CTRL_MASK)));
+        showMenu.add(new JSeparator());
+        showMenu.add(createMenuItem(LangManager.TranslateLang("NewTab"), "NewTab",
                 KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK)));
         // ~show menu
 
@@ -232,14 +221,6 @@ public class MainForm extends JFrame implements ActionListener{
         for(String lnfName : supportedLnf) {
             themeMenu.add(createMenuItem(lnfName, lnfName));
         }
-
-       /* themeMenu.add(createMenuItem(LangManager.TranslateLang("menuTheme_MetalOcean"), "Theme_MetalOcean"));
-        themeMenu.add(createMenuItem(LangManager.TranslateLang("menuTheme_MetalDefault"), "Theme_MetalDefault"));
-        themeMenu.add(createMenuItem(LangManager.TranslateLang("menuTheme_Motif"), "Theme_Motif"));
-        themeMenu.add(createMenuItem(LangManager.TranslateLang("menuTheme_System"), "Theme_System"));
-        themeMenu.add(createMenuItem(LangManager.TranslateLang("menuTheme_GTK"), "Theme_GTK"));
-        themeMenu.add(createMenuItem(LangManager.TranslateLang("menuTheme_Windows"), "Theme_Windows"));
-        themeMenu.add(createMenuItem(LangManager.TranslateLang("menuTheme_Nimbus"), "Theme_Nimbus")); */
         //~theme
 
         // temporary menu
@@ -498,12 +479,6 @@ public class MainForm extends JFrame implements ActionListener{
             } catch (Exception ex) {
                 Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else if (command.equals("selectall")){
-            focusPanel.selectAllRow();
-        } else if (command.equals("unselectall")){            
-            focusPanel.deSelectAll();
-        } else if (command.equals("newtab")){
-            focusPanel.createNewTab();
         } else if (command.equals("Change_English")){
             if(LangManager.ChangeLanguage("english")) {
                 changeLanguage();
@@ -512,14 +487,28 @@ public class MainForm extends JFrame implements ActionListener{
             if(LangManager.ChangeLanguage("vietnam")) {
                 changeLanguage();
             }
-        } else if (command.equals("brief")){
+        }
+
+        // View
+        
+        else if (command.equals("Brief")){
             focusPanel.setBriefView();
-        } else if (command.equals("full")){
+        } else if (command.equals("Full")){
             focusPanel.setFullView();
-        } else if (command.equals("opendesktop")){
-            focusPanel.openDeskTop();
-        } else if (command.equals("thumbnail")){
+        } else if (command.equals("Thumbnail")){
             focusPanel.setThumbnailView();
+        } else if (command.equals("Tree")){
+            focusPanel.setTreeView();
+        } else if (command.equals("NewTab")){
+            focusPanel.createNewTab();
+        }
+
+        // Commands
+
+        else if(command.equals("Search")) {
+            search();
+        } else if (command.equals("OpenDesktop")){
+            focusPanel.openDeskTop();
         } else {
             try {
                 // themes
@@ -785,6 +774,10 @@ public class MainForm extends JFrame implements ActionListener{
         }
 
         refresh();
+    }
+
+    private void search() {
+        MsgboxHelper.inform(LangManager.TranslateLang("alert_notsupport"));
     }
 
     private void ftp()
