@@ -148,9 +148,13 @@ public class MainForm extends JFrame implements ActionListener{
         fileMenu.add(createMenuItem(LangManager.TranslateLang("Move"), "Move",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0)));
         fileMenu.add(new JSeparator());
-        fileMenu.add(createMenuItem(LangManager.TranslateLang("Pack"),"Pack",
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("Zip"),"Zip",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F5, ActionEvent.ALT_MASK)));
-        fileMenu.add(createMenuItem(LangManager.TranslateLang("Unpack"),"Unpack",
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("AppendZip"),"AppendZip",
+                KeyStroke.getKeyStroke(KeyEvent.VK_F6, ActionEvent.ALT_MASK)));
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("ExploreZip"),"ExploreZip",
+                KeyStroke.getKeyStroke(KeyEvent.VK_F8, ActionEvent.ALT_MASK)));
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("Unzip"),"Unzip",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F9, ActionEvent.ALT_MASK)));
         fileMenu.add(new JSeparator());
         fileMenu.add(createMenuItem(LangManager.TranslateLang("Exit"), "Exit",
@@ -457,13 +461,13 @@ public class MainForm extends JFrame implements ActionListener{
             move();
         } else if(command.equals("EditFile")) {
             editFile();
-        } else if(command.equals("Pack")) {
+        } else if(command.equals("Zip")) {
             zip();
-        } else if(command.equals("Unpack")) {
+        } else if(command.equals("Unzip")) {
             unzipFile();
-        } else if(command.equals("Append_Zip")) {
+        } else if(command.equals("AppendZip")) {
             appendZip();
-        } else if(command.equals("Explore_Zip")) {
+        } else if(command.equals("ExploreZip")) {
             exploreZip();
         } else if(command.equals("Split_File")) {
             splitFile();
@@ -704,7 +708,7 @@ public class MainForm extends JFrame implements ActionListener{
     private void appendZip() {
         MiniForm frm = new MiniForm();
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frm.setTextboxText("Pack file(s) to the archive");
+        frm.setLabelText(LangManager.TranslateLang("label1_frmAppendZip"));
         frm.setTextboxText(getLostFocusPath() + PathHelper.getFileNameWithoutExt(getSelectedItemPath()) + ".zip");
         frm.setVisible(true);
 
@@ -726,7 +730,7 @@ public class MainForm extends JFrame implements ActionListener{
     private void unzipFile() {
         MiniForm frm = new MiniForm(LangManager);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frm.setTextboxText(LangManager.TranslateLang("label1_frmUnzip"));
+        frm.setLabelText(LangManager.TranslateLang("label1_frmUnzip"));
         frm.setTextboxText(getLostFocusPath());
         frm.setVisible(true);
 
