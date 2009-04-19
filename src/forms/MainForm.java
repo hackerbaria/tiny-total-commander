@@ -754,7 +754,15 @@ public class MainForm extends JFrame implements ActionListener{
     }
 
     private void search() {
-        MsgboxHelper.inform(LangManager.TranslateLang("alert_notsupport"));
+        String path = "";
+        try {
+            path = getCurrentPath();
+        } catch(Exception ex) {
+            path = "";
+        }
+        SearchForm frm = new SearchForm(path);
+        frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frm.setVisible(true);
     }
 
     private void compareFiles() {
