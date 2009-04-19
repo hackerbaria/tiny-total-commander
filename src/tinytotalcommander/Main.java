@@ -4,7 +4,7 @@
  */
 
 package tinytotalcommander;
-import Forms.*;
+import forms.*;
 import javax.swing.*;
 /**
  *
@@ -20,10 +20,6 @@ public class Main {
        form.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        form.setExtendedState(JFrame.MAXIMIZED_BOTH);
        form.setVisible(true);
-
-       // TODO: Hiếu - Compare File
-
-       // TODO: Chánh - Network
     }
 
 }

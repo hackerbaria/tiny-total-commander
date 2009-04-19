@@ -3,9 +3,9 @@
  * and open the template in the editor.
  */
 
-package ExtendComponent;
+package components;
 
-import core.XFile;
+import core.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -260,7 +260,7 @@ public class XTab extends JPanel implements FocusListener {
                } else {
                     try {
                         // double click on file => lauch file
-                        XFile.execute(fullpath);
+                        XItem.executeFile(fullpath);
                     } catch (IOException ex) {
                         Logger.getLogger(XPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }

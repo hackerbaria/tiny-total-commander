@@ -3,8 +3,7 @@
  * and open the template in the editor.
  */
 
-package ExtendComponent;
-
+package components;
 
 import java.awt.Color;
 import javax.swing.*;

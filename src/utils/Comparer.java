@@ -5,7 +5,7 @@
 
 package utils;
 
-import ExtendComponent.TextImageObj;
+import components.TextImageObj;
 import java.util.Comparator;
 
 /**

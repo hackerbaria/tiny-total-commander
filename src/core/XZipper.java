@@ -14,7 +14,7 @@ import utils.FileResource;
 /**
  * Ziper
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
- * @see http://www.java2s.com/Code/Java/File-Input-Output/UseJavacodetozipafolder.htm
+ * ref http://www.java2s.com/Code/Java/File-Input-Output/UseJavacodetozipafolder.htm
  */
 public class XZipper {
 
@@ -84,8 +84,6 @@ public class XZipper {
      */
     public static void appendZip(String srcItem, String destZipFile) throws Exception {        
 
-        // TODO: bug - Append to zip
-
         File zip = new File(destZipFile);
         File fileAppend = new File(srcItem);
 
@@ -135,7 +133,7 @@ public class XZipper {
 
         // delete the temp zip file then copy to the right location
         zip.delete();
-        XFile.copy(tempPath, destZipFile);
+        XItem.copy(tempPath, destZipFile);
     }
     
     private static void listFiles(ArrayList<File> files, File folder) {

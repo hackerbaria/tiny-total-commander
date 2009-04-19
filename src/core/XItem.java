@@ -8,37 +8,47 @@ package core;
 import java.io.*;
 
 /**
- * Folder
+ * Item (file + folder)
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
-public class XFolder {
+public class XItem {
     // buffer size
     private static final int BUFFER = 1024;
 
     /**
-     * Create a new item
+     * Create a new file
      */
-    public static void create(String path) throws IOException {
-        File folder = new File(path);
+    public static void createFile(String filePath) throws IOException {
+        new File(filePath).createNewFile();
+    }
+
+    /**
+     * Create a new folder
+     */
+    public static void createFolder(String folderPath) throws IOException {
+        File folder = new File(folderPath);
 
         // create item
-        if(path.contains("\\")) {   // item and sub folders
+        if(folderPath.contains("\\")) {   // item and sub folders
             folder.mkdirs();
         } else {                    // single item
             folder.mkdir();
         }
     }
 
-     /**
-     * Rename a item
+    /**
+     * Rename an item
      */
     public static void rename(String oldPath, String newPath) throws IOException {
-        XFile.rename(oldPath, newPath);
+        File oldFile = new File(oldPath);
+        File newFile = new File(newPath);
+        if(!oldFile.renameTo(newFile)) {
+            throw new IOException("Cannot rename the item.");
+        }
     }
 
     /**
-     * Delete a item
-     * @param itemPath
+     * Delete an item
      */
     public static void delete(String itemPath) throws IOException {
         java.io.File item = new java.io.File(itemPath);
@@ -64,14 +74,14 @@ public class XFolder {
     }
 
     /**
-     * Copy a item
+     * Copy an item
      */
     public static void copy(String srcItemPath, String destItemPath) throws IOException {
         File srcItem = new File(srcItemPath);
         File destItem = new File(destItemPath);
         
         if(srcItem.isFile()) {
-            // copy folder
+            // copy file
             copyFile(srcItem, destItem);
         } else {
             // copy folder
@@ -115,11 +125,37 @@ public class XFolder {
     }
 
     /**
-     * Move a item
+     * Move an item
      */
     public static void move(String oldPath, String newPath) throws IOException{
         // make a copy then delete the old item
         copy(oldPath, newPath);
         delete(oldPath);
+    }
+
+        /**
+     * Execute a file
+     * ref: http://frank.neatstep.com/node/84
+     */
+    public static void executeFile(String filePath) throws IOException {
+        // sample: cmd /c "start c:\My" "Documents\Some" "File.txt"
+        filePath = filePath.replace(" ", "\" \"");
+        Runtime.getRuntime().exec("cmd /c \"start " + filePath + "\"");
+    }
+
+    /**
+     * Get file's content (for viewing file)
+     */
+    public static String getFileContent(String filePath) throws IOException{
+        StringBuilder builder = new StringBuilder();
+        BufferedReader reader = new BufferedReader(new FileReader(filePath));
+
+        String line = null;
+        while((line = reader.readLine()) != null) {
+            builder.append(line);
+            builder.append(System.getProperty("line.separator"));
+        }
+
+        return builder.toString();
     }
 }

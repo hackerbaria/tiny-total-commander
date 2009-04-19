@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package ExtendComponent;
+package components;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -40,7 +40,7 @@ public class TextImageObj {
     }
 
     public static TextImageObj createEmptyObj() {
-        Icon icon = new ImageIcon("Resource/up.gif");
+        Icon icon = new ImageIcon("");
         return new TextImageObj("[...]",icon,"");
     }
 }

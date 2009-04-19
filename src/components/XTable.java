@@ -3,11 +3,10 @@
  * and open the template in the editor.
  */
 
-package ExtendComponent;
+package components;
 
 import java.awt.Component;
 import java.util.ArrayList;
-import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -19,7 +18,7 @@ import javax.swing.table.TableColumn;
 public class XTable extends  JTable{
 
     private ArrayList removedColumn;
-    public XTable (ExtendComponent.XTableModel model)
+    public XTable (components.XTableModel model)
     {
         super(model);
         removedColumn = new ArrayList();

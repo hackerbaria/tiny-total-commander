@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package ExtendComponent;
+package components;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
