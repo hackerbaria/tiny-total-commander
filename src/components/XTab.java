@@ -25,13 +25,17 @@ import utils.FileResource;
 import utils.FtpResource;
 
 /**
- *
+ * Tab
  * @author pmchanh
  */
 
 public class XTab extends JPanel implements FocusListener {
-    
+
+    /**
+     * View types
+     */
     public enum View {Full, Brief, Thumbnail};
+    
     private JPanel _currentPathPanel;
     private JLabel _currentPathLabel;    
     private XTable _dirTable;

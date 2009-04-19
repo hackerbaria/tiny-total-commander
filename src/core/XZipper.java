@@ -12,7 +12,7 @@ import java.util.zip.*;
 import utils.FileResource;
 
 /**
- * Ziper
+ * Zipper - zip, unzip file
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  * ref http://www.java2s.com/Code/Java/File-Input-Output/UseJavacodetozipafolder.htm
  */

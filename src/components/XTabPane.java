@@ -10,7 +10,7 @@ import javax.swing.*;
 import utils.PathHelper;
 
 /**
- *
+ * Tab pane
  * @author pmchanh
  */
 public class XTabPane extends JTabbedPane {

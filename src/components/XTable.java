@@ -12,7 +12,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 /**
- *
+ * Table
  * @author pmchanh
  */
 public class XTable extends  JTable{

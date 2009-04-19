@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import utils.PathHelper;
 
 /**
- *
+ * Splitter - split and merge big file
  * @author Hung Cuong <nhc.hcmuns at gmail.com>
  */
 public class XSplitter {

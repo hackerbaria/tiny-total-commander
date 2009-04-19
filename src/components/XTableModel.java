@@ -9,7 +9,7 @@ import java.util.Vector;
 import javax.swing.table.AbstractTableModel;
 
 /**
- *
+ * Table model
  * @author pmchanh
  * ref: http://www.coderanch.com/t/333947/Swing-AWT-SWT-JFace/java/Add-Row-with-AbstractTableModel
  */

@@ -8,7 +8,7 @@ package components;
 import java.util.EventListener;
 
 /**
- *
+ * Component event listener
  * @author pmchanh
  */
 public interface XComponentEventListener extends EventListener {

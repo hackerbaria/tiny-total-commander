@@ -8,7 +8,7 @@ package components;
 import javax.swing.JLabel;
 
 /**
- *
+ * Label
  * @author pmchanh
  */
 public class XLabel extends JLabel{

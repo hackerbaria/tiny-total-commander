@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 /**
- *
+ * Panel
  * @author pmchanh
  */
 public class XPanel extends JPanel implements FocusListener {
