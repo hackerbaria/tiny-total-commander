@@ -61,15 +61,7 @@ public class MainForm extends JFrame implements ActionListener{
        container.add(mainPanel, BorderLayout.CENTER);
 
        footPanel = createFootPanel();
-       container.add(footPanel, BorderLayout.SOUTH);
-
-     /*  addWindowListener(new WindowAdapter() {
-            @Override
-           public void windowOpened(WindowEvent e)
-           {
-                leftPanel.requestFocus();
-           }
-       });*/        
+       container.add(footPanel, BorderLayout.SOUTH);     
     }
 
     //</editor-fold>
@@ -82,7 +74,6 @@ public class MainForm extends JFrame implements ActionListener{
     private JMenu configMenu;
     private JMenu helpMenu;
     private JMenu languageMenu;
-    private JMenu temporaryMenu;
     private JMenu themeMenu;
     private JToolBar mainToolbar;
     private XButton btnFTP;
@@ -147,6 +138,8 @@ public class MainForm extends JFrame implements ActionListener{
                 KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0)));
         fileMenu.add(createMenuItem(LangManager.TranslateLang("Move"), "Move",
                 KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0)));
+        fileMenu.add(new JSeparator());
+        fileMenu.add(createMenuItem(LangManager.TranslateLang("CompareFiles"), "CompareFiles"));
         fileMenu.add(new JSeparator());
         fileMenu.add(createMenuItem(LangManager.TranslateLang("SplitFile"), "SplitFile"));
         fileMenu.add(createMenuItem(LangManager.TranslateLang("MergeFiles"), "MergeFiles"));
@@ -451,6 +444,8 @@ public class MainForm extends JFrame implements ActionListener{
             splitFile();
         } else if(command.equals("MergeFiles")){
             mergeFiles();
+        } else if(command.equals("CompareFiles")) {
+            compareFiles();
         } else if(command.equals("Exit")) {
             System.exit(0);
         } else if(command.equals("ftp")) { 
@@ -760,6 +755,16 @@ public class MainForm extends JFrame implements ActionListener{
 
     private void search() {
         MsgboxHelper.inform(LangManager.TranslateLang("alert_notsupport"));
+    }
+
+    private void compareFiles() {
+        CompareFilesForm frm = new CompareFilesForm(
+                                        focusPanel.getSelectedItems().get(0),
+                                        focusPanel.getSelectedItems().get(1));
+
+        frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frm.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frm.setVisible(true);
     }
 
     private void ftp() {

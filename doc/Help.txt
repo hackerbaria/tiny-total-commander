@@ -1,0 +1,66 @@
+﻿1. File
+1.1. New File
+- Click vào cửa sổ muốn tạo file mới
+- Chọn New File trong menu File (hoặc Shift-F4)
+
+1.2. View File
+- Click chọn vào một file muốn view
+- Chọn View File trong menu File (hoặc F3)
+
+1.3. Rename File
+- Click vào file muốn rename
+- Chọn Rename trong menu File (hoặc Shift-F6)
+
+1.4. Delete File
+- Click chọn vào file muốn delete, có thể chọn nhiều file bằng cách giữ phím Ctrl khi click
+- Chọn Delete trong menu File (hoặc Delete)
+
+1.5. Copy File
+- Chọn vào file cần copy, có thể chọn nhiều file bằng cách giữ phím Ctrl khi click
+- Chọn Copy trong menu File (hoặc F5)
+
+1.6. Move File
+- Chọn vào file cần move, có thể chọn nhiều file bằng cách giữ phím Ctrl khi click
+- Chọn Move trong menu File (hoặc F6)
+
+1.7. Edit File
+- Chọn vào file cần edit
+- Chọn Edit trong menu File (hoặc F4)
+
+1.8. New Folder
+- Click vào cửa sổ muốn tạo folder mới, nếu muốn tạo thư mục có thư mục con thì gõ vào dạng ParentFolder\\ChildFolder\\AnotherChild
+- Chọn New Folder trong menu File (hoặc F7)
+
+1.9. Rename Folder
+Tương tự Rename File
+
+1.10. Delete Folder
+Tương tự Delete File
+
+1.11. Copy Folder
+Tương tự Copy File
+
+1.12. Move Folder
+Tương tự Move File
+
+1.13. Zip File
+- Chọn file cần zip
+- Chọn Zip trong menu File (hoặc Alt-F5)
+
+1.14. Zip Folder
+Tương tự Zip File
+
+1.15. Explorer Zip File
+- Click vào file zip muốn xem
+- Chọn Explorer File trong menu File (hoặc Alt-F8)
+
+1.16. Append Zip File
+- Click vào file chuẩn bị append vào file zip
+- Chọn
+
+
+
+
+
+
+
